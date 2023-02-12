@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "EpitechIntranetStatistics",
+    "version": "1.0.0",
+    "description": "Graphical interface for Epitech intranet to have more statistics",
+    "permissions": [
+        "tabs",
+        "cookies",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "https://intra.epitech.eu/*",
+        "https://*.microsoftonline.com/*",
+        "https://*.live.com/*"
+    ],
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "action": {
+        "default_popup": "src/popup/popup.html",
+        "default_title": "EpitechIntranetStatistics"
+    },
+    "content_scripts": [{
+        "js": [
+            "src/button/button.js"
+            ],
+        "css": [ "src/button/button.css" ],
+        "matches": ["https://intra.epitech.eu/*"]
+        }]
+}
