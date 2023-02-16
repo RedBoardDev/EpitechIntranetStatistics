@@ -8,13 +8,11 @@ function getCookiesForEpitech() {
     });
 };
 
-chrome.runtime.onMessage.addListener((obj, sender, response) => {
-    const { type } = obj;
-
-    if (type === "GET_COOKIES") {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.type === "OPEN_NEW_TAB") {
+        chrome.tabs.create({ url: chrome.runtime.getURL("src/pages/index.html") });
         getCookiesForEpitech().then((data) => {
-            response({ response: data });
+            chrome.storage.local.set({ 'user_token': data[0]['value'] });
         });
-        return true;
     }
-});
+  });
