@@ -22,17 +22,19 @@ function getElementByXpath(path) {
 }
 
 window.addEventListener('load', async () => {
+    chrome.runtime.sendMessage({command: "LOAD_TOKEN"});
     const neartag = getElementByXpath('//*[@id="header"]/div[2]/div/div[6]/table/tbody/tr/td[4]');
-    let newButton = createButton(document, "a", "button", "E-test");
-    newButton.title = "E-tet";
+    let newButton = createButton(document, "a", "button", " Statistics");
+    newButton.title = " Statistics";
     var td = document.createElement("td");
     td.className = "button-stats";
 
-    td.classList.add("e-test");
+    td.classList.add("Statistics");
     td.appendChild(newButton);
     insertAfter(td, neartag);
 
     newButton.addEventListener('click', () => {
-        chrome.runtime.sendMessage({ type: "OPEN_NEW_TAB" });
-      });
+        chrome.runtime.sendMessage({command: "OPEN_NEW_TAB" });
+    });
+
 });
