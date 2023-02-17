@@ -22,7 +22,6 @@ function getElementByXpath(path) {
 }
 
 window.addEventListener('load', async () => {
-    chrome.runtime.sendMessage({command: "LOAD_TOKEN"});
     const neartag = getElementByXpath('//*[@id="header"]/div[2]/div/div[6]/table/tbody/tr/td[4]');
     let newButton = createButton(document, "a", "button", " Statistics");
     newButton.title = " Statistics";

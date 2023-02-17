@@ -25,18 +25,18 @@ const waitForVar = () => {
 };
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.command === "LOAD_TOKEN") {
+    if (request.command === "OPEN_NEW_TAB") {
         getCookiesForEpitech().then((data) => {
             userData.refresh_token = data[0]['value'];
             userData.user_email = null;
         });
-    }
-    if (request.command === "OPEN_NEW_TAB") {
         waitForVar().then(() => {
             chrome.tabs.create({url: chrome.runtime.getURL("src/pages/index.html")});
         });
     }
     if (request.command === "GET_TOKEN") {
         sendResponse({refresh_token: userData.refresh_token});
+        userData.refresh_token = null;
+        userData.user_email = null;
     }
 });
