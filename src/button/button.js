@@ -31,9 +31,7 @@ window.addEventListener('load', async () => {
     td.classList.add("Statistics");
     td.appendChild(newButton);
     insertAfter(td, neartag);
-
     newButton.addEventListener('click', () => {
         chrome.runtime.sendMessage({command: "OPEN_NEW_TAB" });
     });
-
 });

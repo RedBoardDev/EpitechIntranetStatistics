@@ -1,4 +1,8 @@
+import {ApiCall} from "../scripts/ApiCall.js"
+
 function parseJwtToken(token) {
+    if (token === undefined || token === null)
+        return undefined;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -7,10 +11,16 @@ function parseJwtToken(token) {
     return JSON.parse(jsonPayload);
 }
 
+
 window.addEventListener('load', async () => {
-    chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, (response) => {
-        const refresh_token = response.refresh_token;
-        localStorage.setItem("refresh_token", refresh_token);
-        localStorage.setItem("email", parseJwtToken(refresh_token)['login']);
-      });
+    const api = new ApiCall();
+    const rsp = await new Promise(resolve => {
+        chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, resolve);
+    });
+    const refreshToken = rsp.refresh_token;
+    const userEmail = parseJwtToken(refreshToken)['login'];
+    api.setUserToken(refreshToken);
+    api.setUserEmail(userEmail);
+    console.log(api.getUserToken());
+    console.log(api.getUserEmail());
 });
