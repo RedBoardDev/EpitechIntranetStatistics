@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             userData.refresh_token = data[0]['value'];
         });
         waitForVar().then(() => {
-            chrome.tabs.create({url: chrome.runtime.getURL("src/pages/index.html")});
+            chrome.tabs.update({url: chrome.runtime.getURL("src/pages/index.html")});
         });
     }
     if (request.command === "GET_TOKEN") {
