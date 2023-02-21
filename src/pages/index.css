@@ -1,0 +1,60 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #0b2438;
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    overflow-y: hidden;
+    grid-template-columns: 0.1fr repeat(2, 0.6fr) 0.01fr 0.06fr repeat(3, 1fr) 0.06fr 0.1fr;
+    grid-template-rows: 0.33fr repeat(2, 0.1fr) 0.4fr 0fr repeat(2, 1fr) 0.01fr 1fr repeat(2, 0.1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.c_menu {
+    grid-area: 1 / 1 / 2 / 11;
+    background-color: #0061ac;
+}
+
+.c_gllobal {
+    grid-area: 2 / 1 / 12 / 11;
+    height: 100%;
+}
+
+.g_info {
+    grid-area: 3 / 5 / 11 / 10;
+    background-color: #203748;
+}
+
+.g_profil {
+    grid-area: 3 / 2 / 8 / 4;
+    background-color: #203748;
+}
+
+.g_timelog {
+    grid-area: 9 / 2 / 11 / 4;
+    background-color: #203748;
+}
+
+.m_logo {
+    grid-area: 1 / 2 / 2 / 3;
+    background-color: #203748;
+}
+
+.m_menu {
+    grid-area: 1 / 5 / 2 / 8;
+    background-color: #203748;
+}
+
+.i_menu {
+    grid-area: 4 / 6 / 5 / 9;
+    background-color: #163a53;
+}
+
+.i_all {
+    grid-area: 6 / 6 / 10 / 9;
+    background-color: #163a53;
+}
