@@ -1,5 +1,6 @@
 const userData = {
     refresh_token: null,
+    language: null
 }
 
 function getCookiesForEpitech() {
@@ -27,6 +28,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.command === "OPEN_NEW_TAB") {
         getCookiesForEpitech().then((data) => {
             userData.refresh_token = data[0]['value'];
+            // userData.language = localStorage.getItem('language');
+            console.log("language:", request.window.getItem('language'));
         });
         waitForVar().then(() => {
             chrome.tabs.update({url: chrome.runtime.getURL("src/pages/index.html")});

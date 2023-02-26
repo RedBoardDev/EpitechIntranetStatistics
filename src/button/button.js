@@ -32,6 +32,7 @@ window.addEventListener('load', async () => {
     td.appendChild(newButton);
     insertAfter(td, neartag);
     newButton.addEventListener('click', () => {
-        chrome.runtime.sendMessage({command: "OPEN_NEW_TAB" });
+        console.log(localStorage.getItem(''))
+        chrome.runtime.sendMessage({command: "OPEN_NEW_TAB", window: localStorage });
     });
 });

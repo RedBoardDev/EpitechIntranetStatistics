@@ -58,3 +58,11 @@ html, body {
     grid-area: 6 / 6 / 10 / 9;
     background-color: #163a53;
 }
+
+.m_logo_menu {
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center left;
+    cursor: pointer;
+    text-decoration: underline;
+}
