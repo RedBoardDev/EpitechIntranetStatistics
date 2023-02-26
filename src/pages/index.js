@@ -32,9 +32,26 @@ const appendElement = (document, element, targetName, targetType) => {
     return 0;
 }
 
-function addUserInformation(document, generalUserData, api) {
+function addNotesInformation(document, api, generalNotesData, scolarYear) {
     var elem;
-    var target;
+
+    console.log(generalNotesData);
+    const highestTEpitech = api.getHighestTEpitech(generalNotesData, scolarYear);
+    console.log(highestTEpitech);
+    elem = createElement(document, "p", highestTEpitech);
+    appendElement(document, elem, "g_profil", "class");
+
+    const {bestSoloStumper, bestDuoStumper} = api.getBestStumpers(generalNotesData);
+    console.log(bestSoloStumper);
+    elem = createElement(document, "p", bestSoloStumper);
+    appendElement(document, elem, "g_profil", "class");
+    console.log(bestDuoStumper);
+    elem = createElement(document, "p", bestDuoStumper);
+    appendElement(document, elem, "g_profil", "class");
+}
+
+function addUserInformation(document, api, generalUserData) {
+    var elem;
 
     //email
     console.log(api.getUserEmail());
@@ -95,6 +112,8 @@ window.addEventListener('load', async () => {
     api.setUserEmail(userEmail);
 
     const generalUserData = await api.getPreLoadData("general_user");
+    const generalNotesData = await api.getPreLoadData("general_notes");
     console.log(generalUserData);
-    addUserInformation(document, generalUserData, api);
+    addUserInformation(document, api, generalUserData);
+    addNotesInformation(document, api, generalNotesData, generalUserData['scolaryear']);
 });
