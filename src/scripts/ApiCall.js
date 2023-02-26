@@ -1,11 +1,11 @@
 class ApiCall {
-    #loadData;
+    #preLoadData;
     constructor() {
         window.localStorage.setItem("refresh_token", null);
         window.localStorage.setItem("user_email", null);
-        this.#loadData = new Map();
-        this.#loadData.set("general_user", this.#getApiData('user/thomas.ott@epitech.eu?format=json'));
-        this.#loadData.set("general_notes", this.#getApiData('user/thomas.ott@epitech.eu/notes?format=json'));
+        this.#preLoadData = new Map();
+        this.#preLoadData.set("general_user", this.#getApiData('user/thomas.ott@epitech.eu?format=json'));
+        this.#preLoadData.set("general_notes", this.#getApiData('user/thomas.ott@epitech.eu/notes?format=json'));
     }
 
     getUserToken() {
@@ -44,8 +44,8 @@ class ApiCall {
         });
     }
 
-    getloadData(key) {
-        return this.#loadData.get(key);
+    getPreLoadData(key) {
+        return this.#preLoadData.get(key);
     }
 }
 

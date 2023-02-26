@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         getCookiesForEpitech().then((data) => {
             userData.refresh_token = data[0]['value'];
             // userData.language = localStorage.getItem('language');
-            console.log("language:", request.window.getItem('language'));
+            // console.log("language:", request.window.getItem('language'));
         });
         waitForVar().then(() => {
             chrome.tabs.update({url: chrome.runtime.getURL("src/pages/index.html")});
