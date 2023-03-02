@@ -1,5 +1,6 @@
 class ApiCall {
     #preLoadData;
+    #scolarYear
     constructor() {
         window.localStorage.setItem("refresh_token", null);
         window.localStorage.setItem("user_email", null);
@@ -7,6 +8,8 @@ class ApiCall {
         this.#preLoadData.set("general_user", this.#getDataFromAPI('user/thomas.ott@epitech.eu?format=json'));
         this.#preLoadData.set("general_notes", this.#getDataFromAPI('user/thomas.ott@epitech.eu/notes?format=json'));
     }
+
+    // getter / setter function
 
     getUserToken() {
         return window.localStorage.getItem("refresh_token");
@@ -20,14 +23,24 @@ class ApiCall {
         return window.localStorage.getItem("user_email");
     }
 
+    setScolarYear(scolarYear) {
+        this.#scolarYear = scolarYear;
+    }
+
+    getScolarYear() {
+        return this.#scolarYear.toString();
+    }
+
     setUserEmail(userEmail) {
         window.localStorage.setItem("user_email", userEmail);
     }
 
-    getHighestTEpitech(generalNotesData, year) {
+    // general API function
+
+    getHighestTEpitech(generalNotesData) {
         var highestTEpitech = 0;
         generalNotesData['notes'].forEach(element => {
-            if (element.title == "Self-assessment TEPitech" && element.scolaryear == year.toString()) {
+            if (element.title == "Self-assessment TEPitech" && element.scolaryear == this.getScolarYear()) {
                 if (element.final_note > highestTEpitech) {
                     highestTEpitech = element.final_note;
                 }
@@ -49,6 +62,19 @@ class ApiCall {
         });
         return {bestSoloStumper, bestDuoStumper};
     }
+
+    getRoadBlocksCode(generalNotesData) {
+        var roadBlockCode = [];
+        if (this.#preLoadData.has("roadblock_code")) return this.#preLoadData.get("roadblock_code");
+        generalNotesData['modules'].forEach(element => {
+            (element.scolaryear == this.getScolarYear()
+            && element.barrage == 200) ? roadBlockCode.push(element.codemodule) : 0;
+        });
+        this.#preLoadData.set("roadblock_code", roadBlockCode);
+        return roadBlockCode;
+    }
+
+    // preload data function
 
     async #getDataFromAPI(endpoint) {
         if (endpoint === undefined || endpoint === null)

@@ -32,11 +32,11 @@ const appendElement = (document, element, targetName, targetType) => {
     return 0;
 }
 
-function addNotesInformation(document, api, generalNotesData, scolarYear) {
+function addNotesInformation(document, api, generalNotesData) {
     var elem;
 
     console.log(generalNotesData);
-    const highestTEpitech = api.getHighestTEpitech(generalNotesData, scolarYear);
+    const highestTEpitech = api.getHighestTEpitech(generalNotesData);
     console.log(highestTEpitech);
     elem = createElement(document, "p", highestTEpitech);
     appendElement(document, elem, "g_profil", "class");
@@ -102,6 +102,11 @@ function addUserInformation(document, api, generalUserData) {
     appendElement(document, elem, "g_profil", "class");
 }
 
+function addRoadBlocksInformation(api, generalNotesData) {
+    const roadBlockCode = api.getRoadBlocksCode(generalNotesData);
+    console.log("roadBlockCode:", roadBlockCode);
+}
+
 window.addEventListener('load', async () => {
     const api = new ApiCall();
     const rsp = await new Promise(resolve => {
@@ -113,7 +118,9 @@ window.addEventListener('load', async () => {
 
     const generalUserData = await api.getPreLoadData("general_user");
     const generalNotesData = await api.getPreLoadData("general_notes");
+    api.setScolarYear(generalUserData['scolaryear'])
     console.log(generalUserData);
     addUserInformation(document, api, generalUserData);
-    addNotesInformation(document, api, generalNotesData, generalUserData['scolaryear']);
+    addNotesInformation(document, api, generalNotesData);
+    addRoadBlocksInformation(api, generalNotesData);
 });
