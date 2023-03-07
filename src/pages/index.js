@@ -103,8 +103,11 @@ function addUserInformation(document, api, generalUserData) {
 }
 
 function addRoadBlocksInformation(api, generalNotesData) {
-    const roadBlockCode = api.getRoadBlocksCode(generalNotesData);
-    console.log("roadBlockCode:", roadBlockCode);
+    const roadBlockCodes = api.getRoadBlocksCode(generalNotesData);
+    roadBlockCodes.forEach(async ([codeinstance, codemodule]) => {
+        let rsp = await api.getRoadBlockData(codemodule, codeinstance);
+        console.log("Roadblock ", codeinstance, codemodule, rsp['title'], (rsp['description']).match('[0-9]+')[0]);
+    });
 }
 
 window.addEventListener('load', async () => {

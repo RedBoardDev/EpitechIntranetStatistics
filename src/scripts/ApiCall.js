@@ -5,8 +5,8 @@ class ApiCall {
         window.localStorage.setItem("refresh_token", null);
         window.localStorage.setItem("user_email", null);
         this.#preLoadData = new Map();
-        this.#preLoadData.set("general_user", this.#getDataFromAPI('user/thomas.ott@epitech.eu?format=json'));
-        this.#preLoadData.set("general_notes", this.#getDataFromAPI('user/thomas.ott@epitech.eu/notes?format=json'));
+        this.#preLoadData.set("general_user", this.getDataFromAPI('user/thomas.ott@epitech.eu?format=json'));
+        this.#preLoadData.set("general_notes", this.getDataFromAPI('user/thomas.ott@epitech.eu/notes?format=json'));
     }
 
     // getter / setter function
@@ -63,20 +63,28 @@ class ApiCall {
         return {bestSoloStumper, bestDuoStumper};
     }
 
-    getRoadBlocksCode(generalNotesData) {
-        var roadBlockCode = [];
+    getRoadBlocksCode(generalNotesData) { // get codemodule and codeInstance
+        var roadBlockCodes = [];
         if (this.#preLoadData.has("roadblock_code")) return this.#preLoadData.get("roadblock_code");
         generalNotesData['modules'].forEach(element => {
-            (element.scolaryear == this.getScolarYear()
-            && element.barrage == 200) ? roadBlockCode.push(element.codemodule) : 0;
+            if (element.scolaryear == this.getScolarYear() && element.barrage == 200) {
+                const codeinstance = (element.codeinstance).toString();
+                const codemodule = (element.codemodule).toString();
+                roadBlockCodes.push([codeinstance, codemodule]);
+            }
         });
-        this.#preLoadData.set("roadblock_code", roadBlockCode);
-        return roadBlockCode;
+        this.#preLoadData.set("roadblock_code", roadBlockCodes);
+        return roadBlockCodes;
+    }
+
+    async getRoadBlockData(codemodule, codeinstance) {
+        const rsp = await this.getDataFromAPI(`module/${this.getScolarYear()}/${codemodule}/${codeinstance}/?format=json`);
+        return rsp;
     }
 
     // preload data function
 
-    async #getDataFromAPI(endpoint) {
+    async getDataFromAPI(endpoint) {
         if (endpoint === undefined || endpoint === null)
             return null;
         var config = {
