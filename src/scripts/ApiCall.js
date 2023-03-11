@@ -1,6 +1,6 @@
 class ApiCall {
     #preLoadData;
-    #scolarYear
+    #scolarYear;
     constructor() {
         window.localStorage.setItem("refresh_token", null);
         window.localStorage.setItem("user_email", null);

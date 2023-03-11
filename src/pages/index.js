@@ -1,4 +1,5 @@
 import {ApiCall} from "../scripts/ApiCall.js"
+import {XPHub} from "../scripts/XPHub.js"
 
 function parseJwtToken(token) {
     if (token === undefined || token === null)
@@ -110,8 +111,37 @@ function addRoadBlocksInformation(api, generalNotesData) {
     });
 }
 
+async function addXPHub(XPHubApi, api, generalNotesData) {
+    let pays = 'FR'; //TODO get this information with the API
+    let region = 'MLH'; //TODO get this information with the API
+    let login = "thomas.ott@epitech.eu"; //TODO get this information with the API
+    const activitiesPublic = (await api.getDataFromAPI(`/module/${api.getScolarYear()}/B-INN-000/${pays}-0-1/?format=json`)).activites;
+    const activitiesCampus = (await api.getDataFromAPI(`/module/${api.getScolarYear()}/B-INN-000/${region}-0-1/?format=json`)).activites;
+    const everyActivities = activitiesPublic.concat(activitiesCampus);
+
+    everyActivities.map((activite) => {
+        if (activite.type_title) {
+            if (activite.type_title === "Project") {
+                XPHubApi.addProject(generalNotesData, activite.codeacti, activite.begin, activite.end);
+            } else {
+                activite.events.map((event) => {
+                    if (event.user_status) XPHubApi.addActivite(activite.title, activite.type_title, event.user_status, event.begin);
+                    else if (event.assistants.find((assistant) => assistant.login === login))
+                    XPHubApi.addActivite(activite.title, activite.type_title, 'organisateur', event.begin);
+                    else if (event.already_register) XPHubApi.addActivite(activite.title, activite.type_title, 'soon', event.begin);
+                });
+            }
+        }
+    });
+    XPHubApi.countXpSoon();
+    XPHubApi.countXPValidated();
+    console.log("XPHub participation:", XPHubApi.getParticipationVariable());
+    console.log("XPHub me:", XPHubApi.getMeVariable());
+}
+
 window.addEventListener('load', async () => {
     const api = new ApiCall();
+    const XPHubApi = new XPHub();
     const rsp = await new Promise(resolve => {
         chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, resolve);
     });
@@ -126,4 +156,5 @@ window.addEventListener('load', async () => {
     addUserInformation(document, api, generalUserData);
     addNotesInformation(document, api, generalNotesData);
     addRoadBlocksInformation(api, generalNotesData);
+    addXPHub(XPHubApi, api, generalNotesData['notes']);
 });
