@@ -7,16 +7,25 @@
 
 > Graphical interface for Epitech intranet to have more statistics
 
+</br>
+<h3>This project is a more advanced new version of the project 'EpitechRoadBlock-XPHub'.</br>
+The project is currently under development and is not yet usable.</br>
+The todo list below will be updated as regularly as possible.</br>
+The project will be considered finished when the todo list is completed, and the extension is uploaded to the Chrome store.</br>
+Thank you for your patience, and feel free to follow the project to stay informed !</h3>
+</br>
+
 <h2>Features</h2>
 
-- [ ] general user informations (name, promotion, picture, ...)
-- [ ] more user informations (credit, GPA, best tepitech, ...)
+- [X] general user informations (name, promotion, picture, ...)
+- [X] more user informations (credit, GPA, best tepitech, ...)
 - [ ] time log statistics
 - [ ] roadblock and modules informations
 - [ ] tepitech statistics
 - [ ] automatic test results
-- [ ] XP and information about hub module
-- [ ] partner projet graphic
+- [X] XP and information about hub module
+- [ ] partner graphic
+- [ ] project timeline
 - [ ] alert for projet or other
 <!-- ## Install
 
