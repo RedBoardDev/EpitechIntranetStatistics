@@ -39,7 +39,7 @@ function Dashboard() {
   };
 
   const GradientBox = ({ text, secondText, colors }) => {
-    const gradient = `linear-gradient(to right, ${colors.join(', ')})`;
+    const gradient = `linear-gradient(to bottom, ${colors.join(', ')})`;
     return (
       <Box
         component="span"
@@ -82,6 +82,12 @@ function Dashboard() {
     navigate('/timeline'); // Navigate to Timeline.js
   };
 
+  var prenom = "bah";
+  var nom = "OUAIS";
+  var email = "bah.oauis@gmail.com";
+  var city = "Paris";
+  var promotion = "2026";
+
   return (
     <div className='DashBoard'>
       <div className="TopBar">
@@ -97,11 +103,15 @@ function Dashboard() {
         <GradientBox text="Box 4" secondText="oui" colors={['#007bff', '#87ceeb']} />
       </div>
       <div className='MainDiv'>
+        <div className='MainUserInfo'>
+          <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" className="avatar"/>
+          <p>{prenom} {nom}</p>
+          <p>{email}</p>
+          <p>{city}</p>
+          <p>{promotion}</p>
+        </div>
         <div className='TimelogBox'>
           Ca se time le log
-        </div>
-        <div className='MainUserInfo'>
-          Hello
         </div>
       </div>
 

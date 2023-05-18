@@ -37,13 +37,14 @@
     margin: 2%;
 }
 
-
 .MainDiv {
     background-color: aliceblue;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .TimelogBox {
@@ -51,17 +52,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 2%;
     width: 55%;
     height: 90%;
+    border-radius: 10px;
 }
 
 .MainUserInfo {
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 40%;
+  height: 90%;
+  margin-right: 4%;
+  border-radius: 10px;
+  background-color: darkblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.avatar {
     margin: 2%;
     width: 30%;
-    height: 90%;
+    height: 40%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
