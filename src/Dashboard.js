@@ -38,23 +38,34 @@ function Dashboard() {
     );
   };
 
-  const GradientBox = ({ text, colors }) => {
+  const GradientBox = ({ text, secondText, colors }) => {
     const gradient = `linear-gradient(to right, ${colors.join(', ')})`;
     return (
       <Box
         component="span"
         sx={{
           p: 2,
-          border: '1px dashed grey',
           background: gradient,
-          width: '80%',
+          width: 'calc(45% - 20px)', // Ajustez la largeur selon votre préférence
           margin: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          borderRadius: '10px', // Ajoutez cette ligne pour des coins arrondis
+          fontSize: '1.0rem',
+          fontWeight: 'bolder',
         }}
       >
         {text}
+        <Box sx={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+          {secondText}
+        </Box>
       </Box>
     );
   };
+  
 
   const Dashboard = () => {
     navigate('/');
@@ -81,17 +92,12 @@ function Dashboard() {
         <ButtonSideNav text="Timeline" onClick={Timeline} />
       </div>
       <div className="BodyPanel">
-        {/* <div className="centeredContent"> */}
-          {/* <div style={{ display: 'flex' }}> */}
-            <GradientBox text="zerty" colors={['#007bff', '#87ceeb']} />
-            <GradientBox text="Hello" colors={['#007bff', '#87ceeb']} />
-            <GradientBox text="Box 3" colors={['#007bff', '#87ceeb']} />
-            <GradientBox text="Box 4" colors={['#007bff', '#87ceeb']} />
-          {/* </div> */}
-        {/* </div> */}
+        <GradientBox text="zerty" secondText="oui" colors={['#007bff', '#87ceeb']} />
+        <GradientBox text="Hello" secondText="oui" colors={['#007bff', '#87ceeb']} />
+        <GradientBox text="Box 3" secondText="oui" colors={['#007bff', '#87ceeb']} />
+        <GradientBox text="Box 4" secondText="oui" colors={['#007bff', '#87ceeb']} />
       </div>
     </div>
-
   );
 }
 
