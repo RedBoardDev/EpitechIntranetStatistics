@@ -3,78 +3,59 @@
     flex-direction: column;
     height: 100vh;
     width: 100vw;
-    background-color: aliceblue;
+    background-color: #03224c;
 }
 
-.TopBar {
-    background-color: aliceblue;
-    width: 100%;
+.Main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    border-bottom: 2px solid black;
-}
-
-.centeredContent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
     height: 100%;
+    padding: 1%;
 }
 
-.buttonContainer {
+.MainUserInfo1 {
+    width: 25%;
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(to top, #007bff, #87ceeb);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.BodyPanel {
-    background-color: aliceblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2%;
-}
-
-.MainDiv {
-    background-color: aliceblue;
-    display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
-    margin-left: 2%;
-    margin-right: 2%;
 }
 
-.TimelogBox {
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 55%;
-    height: 90%;
+.MainUserInfo2 {
+    width: 72%;
+    height: 100%;
     border-radius: 10px;
+    background: linear-gradient(to top, #007bff, #87ceeb);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.MainUserInfo {
-  width: 40%;
-  height: 90%;
-  margin-right: 4%;
-  border-radius: 10px;
-  background-color: darkblue;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+.infoUser {
+    width: 100%;
 }
 
 .avatar {
-    margin: 2%;
-    width: 30%;
-    height: 40%;
+    width: 45%;
+    height: 25%;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.TopBar1 {
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    background-color: #03224c;
+    border: 1px solid #87ceeb;
 }
