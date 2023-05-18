@@ -90,3 +90,34 @@
     border: 1px solid #87ceeb;
     color: aliceblue;
 }
+
+.RoadblockContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.RoadblockBox {
+    width: 100%;
+    height: auto;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.RoadblockBox h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.RoadblockBox ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.RoadblockBox li {
+    margin-bottom: 5px;
+}

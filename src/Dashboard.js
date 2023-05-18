@@ -96,6 +96,12 @@ function Dashboard() {
   var credits = "42";
   var gpa = "3.5";
   var tepitech = "700";
+  const data = [
+    { roadblock: 'Roadblock1', modules: ['module1', 'module2'] },
+    { roadblock: 'Roadblock2', modules: ['module1', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock3', modules: ['module1', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock4', modules: ['module1', 'module2'] },
+  ];
 
   return (
     <div className='DashBoard'>
@@ -118,7 +124,7 @@ function Dashboard() {
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
           </div>
-          <div style={{ display: 'flex', width: '100%', height: '100%'}}>
+          <div style={{ display: 'flex', width: '100%', height: '100%', overflow: 'auto'}}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={credits} text2="Credits" />
@@ -134,8 +140,19 @@ function Dashboard() {
                 </div>
               </div>
             </div>}
-            {roadblocks && <div>
-              road
+            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+            <div className="RoadblockContainer">
+              {data.map((item, index) => (
+                <div key={index} className="RoadblockBox">
+                  <h3>{item.roadblock}</h3>
+                  <ul>
+                    {item.modules.map((module, moduleIndex) => (
+                      <li key={moduleIndex}>{module}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
             </div>}
             {hub && <div>
               hub
