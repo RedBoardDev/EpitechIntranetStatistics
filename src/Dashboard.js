@@ -97,10 +97,10 @@ function Dashboard() {
   var gpa = "3.5";
   var tepitech = "700";
   const data = [
-    { roadblock: 'Roadblock1', modules: ['module1', 'module2'] },
-    { roadblock: 'Roadblock2', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { roadblock: 'Roadblock3', modules: ['module1', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4'] },
-    { roadblock: 'Roadblock4', modules: ['module1', 'module2'] },
+    { roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
+    { roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
   ];
 
   return (
@@ -144,7 +144,7 @@ function Dashboard() {
             <div className="RoadblockContainer">
               {data.map((item, index) => (
                 <div key={index} className="RoadblockBox">
-                  <h3>{item.roadblock}</h3>
+                  <h3>{item.roadblock} {item.userCredits}/ {item.mandatoryCredits} ({item.nbCredits})</h3>
                   <ul>
                     {item.modules.map((module, moduleIndex) => (
                       <li key={moduleIndex}>{module}</li>
