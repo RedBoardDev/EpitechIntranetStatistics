@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "extension test",
+  "name": "EpitechIntranetStatistics",
   "version": "1.0.0",
-  "description": "Graphical interface for Epitech intranet to have more statistics",
+  "description": "Graphical interface for Epitech intranet with more statistics",
   "permissions": [
       "tabs",
       "cookies",
