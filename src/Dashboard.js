@@ -93,6 +93,9 @@ function Dashboard() {
   var cursus = "Bachelor";
   var semester = "B4";
   var promotion = "2026";
+  var credits = "42";
+  var gpa = "3.5";
+  var tepitech = "700";
 
   return (
     <div className='DashBoard'>
@@ -115,15 +118,20 @@ function Dashboard() {
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
           </div>
-          <div style={{ display: 'flex', width: '100%', }}>
+          <div style={{ display: 'flex', width: '100%', height: '100%'}}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
-                <StyledBox text1="Titre 1" text2="Credits" />
-                <StyledBox text1="Titre 2" text2="G.P.A" />
-                <StyledBox text1="Titre 3" text2="TEPitech" />
+                <StyledBox text1={credits} text2="Credits" />
+                <StyledBox text1={gpa} text2="G.P.A" />
+                <StyledBox text1={tepitech} text2="TEPitech" />
               </div>
-              <div style={{margin: '10px'}}>
-                Timelog
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
+                <div className='TimelogBox'>
+                  Timelog
+                </div>
+                <div className='TimelogBox1'>
+                  Oui
+                </div>
               </div>
             </div>}
             {roadblocks && <div>
