@@ -16,7 +16,7 @@ function Dashboard() {
     };
 
     return (
-      <Button variant="contained" size="large" style={{ backgroundColor: '#03224c', color: 'aliceblue', width: '10%', padding: '15px', margin: '20px 20px', borderRadius: '10px', fontSize: '1.0rem', fontWeight: 'bolder', display: 'flex', alignItems: 'center', textTransform: 'none',}} onClick={handleClick}>
+      <Button variant="contained" size="large" style={{ backgroundColor: '#212b37', color: 'aliceblue', width: '10%', padding: '15px', margin: '20px 20px', borderRadius: '10px', fontSize: '1.0rem', fontWeight: 'bolder', display: 'flex', alignItems: 'center', textTransform: 'none',}} onClick={handleClick}>
         {text}
       </Button>
     );
@@ -40,6 +40,16 @@ function Dashboard() {
         <span style={{ marginLeft: '3%', marginRight: '1rem' }}>{data1}</span>
         <span style={{ marginRight: '1rem', fontWeight: 'bold' }}>{data2} {data3}</span>
       </p>
+    );
+  };
+
+  const StyledBox = ({ text1, text2 }) => {
+    return (
+      <Box
+        sx={{ background: '#181c25', color: '#fff', width: '100%', padding: '10px', textAlign: 'center', marginBottom: '20px', margin: '10px', borderRadius: '10px', border: '1px solid #87ceeb'}}>
+        <h2>{text1}</h2>
+        <p>{text2}</p>
+      </Box>
     );
   };
 
@@ -105,9 +115,16 @@ function Dashboard() {
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
           </div>
-          <div>
-            {dashboard && <div>
-              dash
+          <div style={{ display: 'flex', width: '100%', }}>
+            {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+              <div style={{ display: 'flex', width: '100%', }}>
+                <StyledBox text1="Titre 1" text2="Credits" />
+                <StyledBox text1="Titre 2" text2="G.P.A" />
+                <StyledBox text1="Titre 3" text2="TEPitech" />
+              </div>
+              <div style={{margin: '10px'}}>
+                Timelog
+              </div>
             </div>}
             {roadblocks && <div>
               road
