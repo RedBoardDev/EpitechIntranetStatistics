@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -86,16 +87,16 @@ function Dashboard() {
     setTimeline(true);
   };
 
-  var prenom = "bah";
-  var nom = "OUAIS";
-  var email = "bah.oauis@gmail.com";
-  var city = "Mulhouse";
-  var cursus = "Bachelor";
-  var semester = "B4";
-  var promotion = "2026";
-  var credits = "42";
-  var gpa = "3.5";
-  var tepitech = "700";
+  // var prenom = "bah";
+  // var nom = "OUAIS";
+  // var email = "bah.oauis@gmail.com";
+  // var city = "Mulhouse";
+  // var cursus = "Bachelor";
+  // var semester = "B4";
+  // var promo = "2026";
+  // var credits = "42";
+  // var gpa = "3.5";
+  // var tepitech = "700";
   const data = [
     { roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
     { roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
@@ -103,18 +104,57 @@ function Dashboard() {
     { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
   ];
 
+  const [userInformation, setUserInformation] = useState({
+    _prenom: '-',
+    _email: '-',
+    _cursus: '-',
+    _semester: '-',
+    _promo: '-',
+    _profilPicture: '-',
+    _city: '-'
+  });
+
+  const [importantDataCard, setImportantDataCard] = useState({
+    _credits: '-',
+    _GPA: '-',
+    _highestTEpitech: '-'
+  });
+
+  useEffect(() => {
+    const handleSidebarUpdate = (event) => {
+      const { detail } = event;
+      setUserInformation(detail);
+    };
+
+    const handleimportantDataCardUpdate = (event) => {
+      const { detail } = event;
+      setImportantDataCard(detail);
+    };
+
+    window.addEventListener('sidebar-update', handleSidebarUpdate);
+    window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
+
+    return () => {
+      window.removeEventListener('sidebar-update', handleSidebarUpdate);
+      window.removeEventListener('importantDataCard-update', handleimportantDataCardUpdate);
+    };
+  }, []);
+
+  const { _prenom, _email, _cursus, _semester, _promo, _profilPicture, _city } = userInformation;
+  const { _credits, _GPA, _highestTEpitech } = importantDataCard;
+
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className='MainUserInfo1'>
-          <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" className="avatar" />
+          <img src={_profilPicture} alt="Avatar" className="avatar" />
           <div className='infoUser' style={{ display: 'flex', flexDirection: 'column' }}>
-            <WriteSideDate data1="Name: " data2={nom} data3={prenom}/>
-            <WriteSideDate data1="E-mail: " data2={email} />
-            <WriteSideDate data1="Cursus: " data2={cursus} />
-            <WriteSideDate data1="Semester: " data2={semester} />
-            <WriteSideDate data1="City: " data2={city} />
-            <WriteSideDate data1="Promotion: " data2={promotion} />
+            <WriteSideDate data1="Name: " data2={_prenom}/>
+            <WriteSideDate data1="E-mail: " data2={_email} />
+            <WriteSideDate data1="Cursus: " data2={_cursus} />
+            <WriteSideDate data1="Semester: " data2={_semester} />
+            <WriteSideDate data1="City: " data2={_city} />
+            <WriteSideDate data1="Promotion: " data2={_promo} />
           </div>
         </div>
         <div className='MainUserInfo2'>
@@ -127,9 +167,9 @@ function Dashboard() {
           <div style={{ display: 'flex', width: '100%', height: '100%', overflow: 'auto'}}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
-                <StyledBox text1={credits} text2="Credits" />
-                <StyledBox text1={gpa} text2="G.P.A" />
-                <StyledBox text1={tepitech} text2="TEPitech" />
+                <StyledBox text1={_credits} text2="Credits" />
+                <StyledBox text1={_GPA} text2="G.P.A" />
+                <StyledBox text1={_highestTEpitech} text2="best TEPitech" />
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
                 <div className='TimelogBox'>
