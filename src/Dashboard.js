@@ -1,7 +1,7 @@
 import './Dashboard.css';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
@@ -20,6 +20,7 @@ function Dashboard() {
         size="large"
         style={{
           backgroundColor: 'aliceblue',
+          color: 'black',
           width: '10%',
           padding: '15px',
           margin: '10px 10px',
@@ -34,6 +35,24 @@ function Dashboard() {
       >
         {text}
       </Button>
+    );
+  };
+
+  const GradientBox = ({ text, colors }) => {
+    const gradient = `linear-gradient(to right, ${colors.join(', ')})`;
+    return (
+      <Box
+        component="span"
+        sx={{
+          p: 2,
+          border: '1px dashed grey',
+          background: gradient,
+          width: '80%',
+          margin: '10px',
+        }}
+      >
+        {text}
+      </Box>
     );
   };
 
@@ -54,13 +73,25 @@ function Dashboard() {
   };
 
   return (
-    <div className="SidePanel">
-      <ButtonSideNav text="Dashboard" onClick={Dashboard} />
-      <ButtonSideNav text="Roadblocks" onClick={Roadblocks} />
-      <ButtonSideNav text="Hub" onClick={Hub} />
-      <ButtonSideNav text="Timeline" onClick={Timeline} />
-      DAAAAAAAAAAAAAAAAAAAAAAshboard
+    <div className='DashBoard'>
+      <div className="SidePanel">
+        <ButtonSideNav text="Dashboard" onClick={Dashboard} />
+        <ButtonSideNav text="Roadblocks" onClick={Roadblocks} />
+        <ButtonSideNav text="Hub" onClick={Hub} />
+        <ButtonSideNav text="Timeline" onClick={Timeline} />
+      </div>
+      <div className="BodyPanel">
+        {/* <div className="centeredContent"> */}
+          {/* <div style={{ display: 'flex' }}> */}
+            <GradientBox text="zerty" colors={['#007bff', '#87ceeb']} />
+            <GradientBox text="Hello" colors={['#007bff', '#87ceeb']} />
+            <GradientBox text="Box 3" colors={['#007bff', '#87ceeb']} />
+            <GradientBox text="Box 4" colors={['#007bff', '#87ceeb']} />
+          {/* </div> */}
+        {/* </div> */}
+      </div>
     </div>
+
   );
 }
 

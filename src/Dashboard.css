@@ -1,3 +1,10 @@
+.DashBoard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
 .SidePanel {
     position: fixed;
     top: 0;
@@ -8,7 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
+    border-bottom: 2px solid black; /* Add this line for the border */
+  }
 
 .centeredContent {
     display: flex;
@@ -22,4 +30,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.BodyPanel {
+    background-color: aliceblue;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
