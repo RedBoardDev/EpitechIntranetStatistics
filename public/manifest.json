@@ -1,25 +1,27 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
+  "manifest_version": 3,
+  "name": "extension test",
+  "version": "1.0.0",
+  "description": "Graphical interface for Epitech intranet to have more statistics",
+  "permissions": [
+      "tabs",
+      "cookies",
+      "activeTab",
+      "storage"
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "host_permissions": [
+      "https://intra.epitech.eu/*",
+      "https://*.microsoftonline.com/*",
+      "https://*.live.com/*"
+  ],
+  "background": {
+      "service_worker": "scripts/background.js"
+  },
+  "content_scripts": [{
+      "js": [
+          "scripts/button/button.js"
+      ],
+      "css": [ "scripts/button/button.css" ],
+      "matches": ["https://intra.epitech.eu/*"]
+  }]
 }
