@@ -23,7 +23,7 @@ function Dashboard() {
           color: 'black',
           width: '10%',
           padding: '15px',
-          margin: '10px 10px',
+          margin: '20px 20px',
           borderRadius: '10px',
           fontSize: '1.0rem',
           fontWeight: 'bolder',
@@ -46,26 +46,25 @@ function Dashboard() {
         sx={{
           p: 2,
           background: gradient,
-          width: 'calc(45% - 20px)', // Ajustez la largeur selon votre préférence
+          width: '20%',
           margin: '10px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          borderRadius: '10px', // Ajoutez cette ligne pour des coins arrondis
-          fontSize: '1.0rem',
+          borderRadius: '10px',
+          fontSize: '1.5rem',
           fontWeight: 'bolder',
         }}
       >
         {text}
-        <Box sx={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+        <Box sx={{ fontSize: '1.0rem', fontWeight: 'normal' }}>
           {secondText}
         </Box>
       </Box>
     );
   };
-  
 
   const Dashboard = () => {
     navigate('/');
@@ -85,7 +84,7 @@ function Dashboard() {
 
   return (
     <div className='DashBoard'>
-      <div className="SidePanel">
+      <div className="TopBar">
         <ButtonSideNav text="Dashboard" onClick={Dashboard} />
         <ButtonSideNav text="Roadblocks" onClick={Roadblocks} />
         <ButtonSideNav text="Hub" onClick={Hub} />
@@ -97,6 +96,15 @@ function Dashboard() {
         <GradientBox text="Box 3" secondText="oui" colors={['#007bff', '#87ceeb']} />
         <GradientBox text="Box 4" secondText="oui" colors={['#007bff', '#87ceeb']} />
       </div>
+      <div className='MainDiv'>
+        <div className='TimelogBox'>
+          Ca se time le log
+        </div>
+        <div className='MainUserInfo'>
+          Hello
+        </div>
+      </div>
+
     </div>
   );
 }
