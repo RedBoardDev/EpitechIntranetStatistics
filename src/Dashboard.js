@@ -97,13 +97,13 @@ function Dashboard() {
   // var credits = "42";
   // var gpa = "3.5";
   // var tepitech = "700";
+  var xpacquired = "20";
+  var xpremaining = "2";
   const data = [
-    { roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
-    { roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
-    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
-    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
+    { status: 'true', roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
+    { status: 'false', roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
+    { status: 'true', roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
+    { status: 'true', roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
   ];
 
   const [userInformation, setUserInformation] = useState({
@@ -121,6 +121,16 @@ function Dashboard() {
     _GPA: '-',
     _highestTEpitech: '-'
   });
+
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const handleToggle = (index) => {
+    if (expandedIndex === index) {
+      setExpandedIndex(null);
+    } else {
+      setExpandedIndex(index);
+    }
+  };
 
   useEffect(() => {
     const handleSidebarUpdate = (event) => {
@@ -198,11 +208,59 @@ function Dashboard() {
               ))}
             </div>
             </div>}
-            {hub && <div>
-              hub
-            </div>}
-            {timeline && <div>
-              time
+            {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+              <div style={{ display: 'flex', width: '100%', }}>
+                <StyledBox text1={xpacquired + " XP"} text2="Acquired" />
+                <StyledBox text1={xpremaining + " XP"} text2="Remaining" />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
+                <div className='HubBox'>
+                  <h3>Activity</h3>
+                  {data.map((item, index) => (
+                    <div key={index} className="ActivityBox">
+                      <span
+                        style={{ fontSize: '1.5rem'}}
+                        onClick={() => handleToggle(index)}
+                      >
+                        {item.roadblock}
+                      </span>
+                      <ul>
+                        {item.modules.map((module, moduleIndex) => (
+                          <p
+                            key={moduleIndex}
+                            className={item.status === "true" ? 'module-green' : 'module-red'} // Applique une classe différente en fonction de item.status
+                          >
+                            {module}
+                          </p>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className='HubBox'>
+                  <h3>Projects</h3>
+                  {data.map((item, index) => (
+                    <div key={index} className="ActivityBox">
+                      <span
+                        style={{ fontSize: '1.5rem'}}
+                        onClick={() => handleToggle(index)}
+                      >
+                        {item.roadblock}
+                      </span>
+                      <ul>
+                        {item.modules.map((module, moduleIndex) => (
+                          <p
+                            key={moduleIndex}
+                            className={item.status === "true" ? 'module-green' : 'module-red'} // Applique une classe différente en fonction de item.status
+                          >
+                            {module}
+                          </p>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>}
           </div>
         </div>
