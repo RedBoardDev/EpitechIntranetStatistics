@@ -184,7 +184,9 @@ function Dashboard() {
             <div className="RoadblockContainer">
               {data.map((item, index) => (
                 <div key={index} className="RoadblockBox">
-                  <h3>{item.roadblock} {item.userCredits}/ {item.mandatoryCredits} ({item.nbCredits})</h3>
+                  <h3 style={{ fontSize: '1.5rem' }}>
+                    <span>{item.roadblock}</span> {item.userCredits}/ {item.mandatoryCredits} ({item.nbCredits})
+                  </h3>
                   <ul>
                     {item.modules.map((module, moduleIndex) => (
                       <li key={moduleIndex}>{module}</li>

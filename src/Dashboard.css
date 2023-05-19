@@ -109,9 +109,13 @@
 }
 
 .RoadblockBox h3 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.RoadblockBox h3 span:first-child {
+    margin-right: auto;
 }
 
 .RoadblockBox ul {
