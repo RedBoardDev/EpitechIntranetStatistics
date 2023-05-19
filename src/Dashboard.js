@@ -215,7 +215,6 @@ function Dashboard() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
                 <div className='HubBox'>
-                  <h3>Activity</h3>
                   {data.map((item, index) => (
                     <div key={index} className="ActivityBox">
                       <span
@@ -238,7 +237,6 @@ function Dashboard() {
                   ))}
                 </div>
                 <div className='HubBox'>
-                  <h3>Projects</h3>
                   {data.map((item, index) => (
                     <div key={index} className="ActivityBox">
                       <span
