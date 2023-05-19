@@ -4,6 +4,7 @@
     height: 100vh;
     width: 100vw;
     background-color: #181c25;
+    overflow: hidden;
 }
 
 .Main {
@@ -12,6 +13,7 @@
     align-items: flex-start;
     height: 100%;
     padding: 1%;
+    overflow: hidden;
 }
 
 .MainUserInfo1 {
@@ -37,6 +39,8 @@
     justify-content: flex-start;
     align-items: center;
     border: 1px solid #87ceeb;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .infoUser {
@@ -94,18 +98,19 @@
 .RoadblockContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 10px;
+  margin: 10px;
+  overflow-x: hidden;
 }
 
 .RoadblockBox {
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   box-sizing: border-box;
-  overflow: auto;
 }
 
 .RoadblockBox h3 {
@@ -114,15 +119,11 @@
     align-items: center;
 }
 
-.RoadblockBox h3 span:first-child {
-    margin-right: auto;
-}
-
 .RoadblockBox ul {
     list-style-type: disc;
-    margin-left: 20px;
+    text-align: left;
 }
 
-.RoadblockBox li {
-    margin-bottom: 5px;
+.RoadblockBox p {
+    text-align: left;
 }

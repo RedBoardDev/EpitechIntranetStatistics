@@ -100,7 +100,9 @@ function Dashboard() {
   const data = [
     { roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
     { roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
+    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
+    { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
     { roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
   ];
 
@@ -164,7 +166,7 @@ function Dashboard() {
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
           </div>
-          <div style={{ display: 'flex', width: '100%', height: '100%', overflow: 'auto'}}>
+          <div style={{ display: 'flex', width: '100%', height: '100%'}}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={_credits} text2="Credits" />
@@ -180,16 +182,16 @@ function Dashboard() {
                 </div>
               </div>
             </div>}
-            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
             <div className="RoadblockContainer">
               {data.map((item, index) => (
                 <div key={index} className="RoadblockBox">
-                  <h3 style={{ fontSize: '1.5rem' }}>
+                  <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
                     <span>{item.roadblock}</span> {item.userCredits}/ {item.mandatoryCredits} ({item.nbCredits})
                   </h3>
                   <ul>
                     {item.modules.map((module, moduleIndex) => (
-                      <li key={moduleIndex}>{module}</li>
+                      <p key={moduleIndex}>{module}</p>
                     ))}
                   </ul>
                 </div>
