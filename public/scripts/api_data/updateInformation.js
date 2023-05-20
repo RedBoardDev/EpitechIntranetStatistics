@@ -5,8 +5,9 @@ const sendUpdate = async (eventName, data) => {
 
 export const updateActiveTimeChart = async (api) => {
     const ActiveTimeData = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`)).slice(-7);
-    sendUpdate('activeTime-update', {
-        _ActiveTimeData: ActiveTimeData,
+    console.log("1", ActiveTimeData);
+    sendUpdate('activeTimeChart-update', {
+        _timeLogChart: ActiveTimeData,
     });
 }
 

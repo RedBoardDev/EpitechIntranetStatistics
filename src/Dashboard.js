@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import ActiveTimeChart from './ActiveTimeChart';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -87,16 +88,6 @@ function Dashboard() {
     setTimeline(true);
   };
 
-  // var prenom = "bah";
-  // var nom = "OUAIS";
-  // var email = "bah.oauis@gmail.com";
-  // var city = "Mulhouse";
-  // var cursus = "Bachelor";
-  // var semester = "B4";
-  // var promo = "2026";
-  // var credits = "42";
-  // var gpa = "3.5";
-  // var tepitech = "700";
   var xpacquired = "20";
   var xpremaining = "2";
   const data = [
@@ -122,6 +113,10 @@ function Dashboard() {
     _highestTEpitech: '-'
   });
 
+  const [timeChartData, setTimeChartData] = useState({
+    _timeLogChart: undefined
+  });
+
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const handleToggle = (index) => {
@@ -143,17 +138,25 @@ function Dashboard() {
       setImportantDataCard(detail);
     };
 
+    const handleTimeChartData = (event) => {
+      const { detail } = event;
+      setTimeChartData(detail);
+    };
+
     window.addEventListener('sidebar-update', handleSidebarUpdate);
     window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
+    window.addEventListener('activeTimeChart-update', handleTimeChartData);
 
     return () => {
       window.removeEventListener('sidebar-update', handleSidebarUpdate);
       window.removeEventListener('importantDataCard-update', handleimportantDataCardUpdate);
+      window.removeEventListener('activeTimeChart-update', handleTimeChartData);
     };
   }, []);
 
   const { _prenom, _email, _cursus, _semester, _promo, _profilPicture, _city } = userInformation;
   const { _credits, _GPA, _highestTEpitech } = importantDataCard;
+  const { _timeLogChart } = timeChartData;
 
   return (
     <div className='DashBoard'>
@@ -183,14 +186,16 @@ function Dashboard() {
                 <StyledBox text1={_GPA} text2="G.P.A" />
                 <StyledBox text1={_highestTEpitech} text2="best TEPitech" />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
+              {<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
                 <div className='TimelogBox'>
-                  Timelog
+                  {<div className="charte-container">
+                    {<ActiveTimeChart data={_timeLogChart} />}
+                  </div>}
                 </div>
                 <div className='TimelogBox1'>
                   Oui
                 </div>
-              </div>
+              </div>}
             </div>}
             {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
             <div className="RoadblockContainer">

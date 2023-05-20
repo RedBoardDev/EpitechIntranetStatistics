@@ -12,6 +12,7 @@ class ApiCall {
         const email = this.getUserEmail();
         this.#preLoadData.set("general_user", this.getDataFromAPI(`user/${email}?format=json`));
         this.#preLoadData.set("general_notes", this.getDataFromAPI(`user/${email}/notes?format=json`));
+        this.#preLoadData.set("general_course", this.getDataFromAPI(`course/filter?format=json`));
     }
 
     // getter / setter function
