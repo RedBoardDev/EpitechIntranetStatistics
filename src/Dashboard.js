@@ -265,6 +265,11 @@ function Dashboard() {
                 </div>
               </div>
             </div>}
+            {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+              <div className='timelineBox'>
+                oui
+              </div>
+            </div>}
           </div>
         </div>
       </div>
