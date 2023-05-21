@@ -1,5 +1,6 @@
-import { ApiCall } from "./ApiCall.js"
-import { XPHub } from "./XPHubApi.js"
+import { ApiCall } from "./ApiCall.js";
+import { XPHub } from "./XPHubApi.js";
+import { updateAllCursusData } from "./updateCursus.js";
 import { updateActiveTimeChart, updateUserInformation, updateImportantDataCard } from "./updateInformation.js";
 
 function parseJwtToken(token) {
@@ -26,10 +27,7 @@ async function initApiCall() {
     }
     api.setUserToken(refreshToken);
     api.setUserEmail(jwtToken['login']);
-    api.preLoadBaseData();
-    const generalUserData = await api.getPreLoadData("general_user");
-    api.setScolarYear(generalUserData['scolaryear'])
-    api.setUserLocation(generalUserData['location']);
+    await api.preLoadDataFct();
     return (api);
 }
 
@@ -42,4 +40,5 @@ window.addEventListener('load', async () => {
     updateActiveTimeChart(api);
     updateUserInformation(api, generalUserData);
     updateImportantDataCard(api, generalUserData, generalNotesData);
+    updateAllCursusData(api, XPHubApi, generalNotesData);
 });

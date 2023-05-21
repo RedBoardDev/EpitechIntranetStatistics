@@ -8,11 +8,42 @@ class ApiCall {
         this.#preLoadData = new Map();
     }
 
-    preLoadBaseData() {
+    async preLoadDataFct() {
         const email = this.getUserEmail();
-        this.#preLoadData.set("general_user", this.getDataFromAPI(`user/${email}?format=json`));
-        this.#preLoadData.set("general_notes", this.getDataFromAPI(`user/${email}/notes?format=json`));
-        this.#preLoadData.set("general_course", this.getDataFromAPI(`course/filter?format=json`));
+        const userData = await this.getDataFromAPI(`user/${email}?format=json`)
+        this.setScolarYear(userData['scolaryear'])
+        this.setUserLocation(userData['location']);
+        this.#preLoadData.set("general_user", userData);
+
+        const notesData = await this.getDataFromAPI(`user/${email}/notes?format=json`);
+        this.#preLoadData.set("general_notes", notesData);
+
+        const dataCursus = await this.getDataFromAPI(`course/filter?format=json`);
+        const filteredDataCursus = dataCursus
+        .filter(item => item.id && Number(item.scolaryear) === Number(this.getScolarYear()))
+        .map(item => {
+            return {
+                id: item.id,
+                semester: item.semester,
+                num: item.num,
+                begin: item.begin,
+                end: item.end,
+                end_register: item.end_register,
+                scolaryear: item.scolaryear,
+                code: item.code,
+                codeinstance: item.codeinstance,
+                location_title: item.location_title,
+                instance_location: item.instance_location,
+                flags: item.flags,
+                credits: item.credits,
+                status: item.status,
+                active_promo: item.active_promo,
+                open: item.open,
+                title: item.title,
+                complete_data: undefined
+            };
+        });
+        this.#preLoadData.set("general_course", filteredDataCursus);
     }
 
     // getter / setter function
@@ -49,12 +80,44 @@ class ApiCall {
         this.#location = location;
     }
 
+    // general_course - getter / setter function
+    getGeneralCourseData() {
+        return this.#preLoadData.get("general_course");
+    }
+
+    setGeneralCourseData(newData) {
+        this.#preLoadData.set("general_course", newData);
+    }
+
+    getNodeOnCourseData(criteria) {
+        const courseData = this.#preLoadData.get("general_course");
+        if (!courseData) return null;
+
+        return courseData.filter(item => {
+            return Object.keys(criteria).every(key => {
+                return item[key] === criteria[key];
+            });
+        });
+    }
+
+    setNodeCourseCompleteData(criteria, newCompleteData) {
+        const courseData = this.#preLoadData.get("general_course");
+        if (!courseData) return;
+
+        for (let item of courseData) {
+            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
+                item.complete_data = newCompleteData;
+            }
+        }
+        this.#preLoadData.set("general_course", courseData);
+    }
+
     // general API function
 
     getHighestTEpitech(generalNotesData) {
         var highestTEpitech = 0;
         generalNotesData['notes'].forEach(element => {
-            if (element.title == "Self-assessment TEPitech" && element.scolaryear == this.getScolarYear()) {
+            if (element.title === "Self-assessment TEPitech" && element.scolaryear === this.getScolarYear()) {
                 if (element.final_note > highestTEpitech) {
                     highestTEpitech = element.final_note;
                 }

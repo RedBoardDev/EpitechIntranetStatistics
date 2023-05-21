@@ -42,3 +42,9 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
         _highestTEpitech: highestTEpitech
     });
 }
+
+export const updateXPHubInformation = async (meXPHubVar) => {
+    sendUpdate('xpHub-update', {
+        _meXPHubVar: meXPHubVar,
+    });
+}

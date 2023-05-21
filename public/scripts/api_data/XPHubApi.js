@@ -81,19 +81,19 @@ class XPHub {
     };
 
     getProfil = async () => {
-        return await requestGet(`${baseUrl}/user/?format=json`);
+        return await this.requestGet(`${this.baseUrl}/user/?format=json`);
     };
 
     getActivitiesHub = async (scolaryear, region) => {
-        return await requestGet(`${baseUrl}/module/${scolaryear}/B-INN-000/${region}-0-1/?format=json`);
+        return await this.requestGet(`${this.baseUrl}/module/${scolaryear}/B-INN-000/${region}-0-1/?format=json`);
     };
 
     getEveryNotes = async () => {
-        return await requestGet(`${baseUrl}/user/thomas.ott@epitech.eu/notes/?format=json`);
+        return await this.requestGet(`${this.baseUrl}/user/thomas.ott@epitech.eu/notes/?format=json`);
     };
 
     getAllExperiences = async (scolaryear, activities, region, login) => {
-        const url = `${baseUrl}/module/${scolaryear}/B-INN-000/${region.split('/')[ 1 ]}-0-1`;
+        const url = `${this.baseUrl}/module/${scolaryear}/B-INN-000/${region.split('/')[ 1 ]}-0-1`;
         try {
             let res = await Promise.all(
                 activities.map((act) => {
@@ -109,9 +109,9 @@ class XPHub {
                 }),
             );
             res?.map((result) => {
-                if (Object.keys(result).length === 0 && result.constructor === Object) return;
+                if (Object.keys(result).length === 0 && result.constructor === Object) return undefined;
                 const act = result?.find((user) => user.login === login);
-                if (act?.note === 100) addActivite('Experience', 'Experience', 'present', act?.date);
+                if (act?.note === 100) this.addActivite('Experience', 'Experience', 'present', act?.date);
             });
         } catch (e) {
             console.log(e);
@@ -169,9 +169,8 @@ class XPHub {
     countXpSoon = () => {
         this.#me.activList.map((act) => {
             if (act.status !== 'inscrit')
-                return;
+                return undefined;
             const findAct = this.#xpAct.find((elem) => elem.name === act.type || elem.alias.includes(act.type));
-            console.log(findAct);
             const { xpWinPart, limitPart, nbPart } = findAct;
             nbPart < limitPart && (this.#me.nbXpsSoon += xpWinPart) && findAct.nbPart++;
         });
