@@ -40,5 +40,5 @@ window.addEventListener('load', async () => {
     updateActiveTimeChart(api);
     updateUserInformation(api, generalUserData);
     updateImportantDataCard(api, generalUserData, generalNotesData);
-    updateAllCursusData(api, XPHubApi, generalNotesData);
+    updateAllCursusData(api, XPHubApi, generalNotesData); // await here ?
 });

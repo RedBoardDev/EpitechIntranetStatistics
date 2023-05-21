@@ -48,3 +48,9 @@ export const updateXPHubInformation = async (meXPHubVar) => {
         _meXPHubVar: meXPHubVar,
     });
 }
+
+export const updateRoadBlockInformation = async (roadBlocksList) => {
+    sendUpdate('roadBlock-update', {
+        _roadBlocksList: roadBlocksList,
+    });
+}
