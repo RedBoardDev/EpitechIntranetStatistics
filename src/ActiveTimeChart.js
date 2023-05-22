@@ -10,7 +10,6 @@ const ActiveTimeChart = ({ data }) => {
     activeTime: (item[1] / 3600).toFixed(1),
     averageTime: (item[5] / 3600).toFixed(1)
   }));
-  console.log("here1", formattedData);
   return (
     <ResponsiveContainer width="100%" height={300} paddingBottom={20}>
       <ComposedChart

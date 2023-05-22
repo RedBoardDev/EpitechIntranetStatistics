@@ -5,9 +5,18 @@ const sendUpdate = async (eventName, data) => {
 
 export const updateActiveTimeChart = async (api) => {
     const ActiveTimeData = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`)).slice(-7);
-    console.log("1", ActiveTimeData);
+    let myTotalWeekHour = 0;
+    let averageTotalWeekHour = 0;
+
+    for (const item of ActiveTimeData) {
+        myTotalWeekHour += item[1] / 3600;
+        averageTotalWeekHour += item[5] / 3600;
+    }
+    console.log("ActiveTimeData", ActiveTimeData, myTotalWeekHour, averageTotalWeekHour);
     sendUpdate('activeTimeChart-update', {
         _timeLogChart: ActiveTimeData,
+        _myTotalWeekHour: myTotalWeekHour,
+        _averageTotalWeekHour: averageTotalWeekHour
     });
 }
 
@@ -44,13 +53,32 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
 }
 
 export const updateXPHubInformation = async (meXPHubVar) => {
+    console.log("meXPHubVar",meXPHubVar);
     sendUpdate('xpHub-update', {
         _meXPHubVar: meXPHubVar,
     });
 }
 
 export const updateRoadBlockInformation = async (roadBlocksList) => {
+    console.log("roadBlocksList", roadBlocksList);
     sendUpdate('roadBlock-update', {
         _roadBlocksList: roadBlocksList,
+    });
+}
+
+export const updateTimeLineData = async (timeLineData) => {
+    console.log("timeLineData", timeLineData);
+    sendUpdate('timeLine-update', {
+        _timeLineData: timeLineData,
+    });
+}
+
+export const updateMessageAndAlert = async (api) => {
+    const alert = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/alert?format=json`);
+    const message = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/message?format=json`);
+    console.log("messageAndAlert", alert, message);
+    sendUpdate('messageAndAlert-update', {
+        _message: message,
+        _alert: alert
     });
 }

@@ -1,7 +1,7 @@
 import { ApiCall } from "./ApiCall.js";
 import { XPHub } from "./XPHubApi.js";
 import { updateAllCursusData } from "./updateCursus.js";
-import { updateActiveTimeChart, updateUserInformation, updateImportantDataCard } from "./updateInformation.js";
+import { updateActiveTimeChart, updateUserInformation, updateImportantDataCard, updateMessageAndAlert } from "./updateInformation.js";
 
 function parseJwtToken(token) {
     if (token === undefined || token === null)
@@ -38,7 +38,8 @@ window.addEventListener('load', async () => {
     const generalNotesData = await api.getPreLoadData("general_notes");
 
     updateActiveTimeChart(api);
+    updateMessageAndAlert(api);
     updateUserInformation(api, generalUserData);
     updateImportantDataCard(api, generalUserData, generalNotesData);
-    updateAllCursusData(api, XPHubApi, generalNotesData); // await here ?
+    updateAllCursusData(api, XPHubApi, generalNotesData);
 });

@@ -20,6 +20,7 @@ class ApiCall {
 
         const dataCursus = await this.getDataFromAPI(`course/filter?format=json`);
         const filteredDataCursus = dataCursus
+        // voir si c'est pas active_promo qu'il faut garder au lieu de check scolarYear
         .filter(item => item.id && Number(item.scolaryear) === Number(this.getScolarYear()))
         .map(item => {
             return {
@@ -40,7 +41,8 @@ class ApiCall {
                 active_promo: item.active_promo,
                 open: item.open,
                 title: item.title,
-                complete_data: undefined
+                complete_data: undefined,
+                for_timeline: 0
             };
         });
         this.#preLoadData.set("general_course", filteredDataCursus);

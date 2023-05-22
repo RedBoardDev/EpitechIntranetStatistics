@@ -1,4 +1,4 @@
-import { updateXPHubInformation, updateRoadBlockInformation } from './updateInformation.js';
+import { updateXPHubInformation, updateRoadBlockInformation, updateTimeLineData } from './updateInformation.js';
 
 const getXPHubData = async (api, XPHubApi, generalNotesData) => {
     const location = api.getUserLocation();
@@ -35,9 +35,7 @@ const getXPHubData = async (api, XPHubApi, generalNotesData) => {
     });
     XPHubApi.countXpSoon();
     XPHubApi.countXPValidated();
-    console.log("XPHub participation:", XPHubApi.getParticipationVariable());
     const meXPHubVar = await XPHubApi.getMeVariable();
-    console.log("XPHub me:", meXPHubVar);
     updateXPHubInformation(meXPHubVar);
 }
 
@@ -200,7 +198,7 @@ const roadBlockData = `
 async function getModuleInformation(api, codeInstance, codeSemester) { //check si on bien inscrit au module + roadblock + projet sinon mettre en gris dans le front
     try {
         let nodeCompleteData = await api.getNodeOnCourseCompleteData({ code: `${codeInstance}`, semester: Number(codeSemester) });
-        if (nodeCompleteData === null) {// inconnu donc module a ne pas check car n'existe pas / plus
+        if (nodeCompleteData === null) {
             return null;
         }
         if (nodeCompleteData === undefined) {
@@ -250,12 +248,43 @@ const getRoadBlockInformation = async (api) => {
 }
 
 const updateTimelineProjet = async (api) => {
-    
-}
+    let timeLineData = {};
+    const generalCourse = await api.getGeneralCourseData();
+    const regexSkip = /^(B0|[A-Z]0)|.*Hub.*|.*Roadblock.*|.*Administrative.*|.*Internship.*|.*Communication.*|.*Hackathon.*/;
+
+    for (let node of generalCourse) {
+        if (node.status === "notregistered") {
+            continue;
+        }
+        if (regexSkip.test(node.title)) {
+            continue;
+        }
+        let nodeCompleteData;
+        if (node.complete_data === undefined) {
+            nodeCompleteData = await api.getDataFromAPI(`module/${api.getScolarYear()}/${node.code}/${node.codeinstance}/?format=json`);
+            node.complete_data = nodeCompleteData;
+        } else {
+            nodeCompleteData = node.complete_data;
+        }
+        for (let activite of nodeCompleteData.activites) {
+            if (activite.is_projet === true && activite.type_code === "proj" && (activite.type_title === "Mini-project" || activite.type_title === "Project")) {
+                if (!timeLineData[node.title]) {
+                    timeLineData[node.title] = [];
+                }
+                timeLineData[node.title].push({
+                    title: activite.title,
+                    begin: activite.begin,
+                    end: activite.end,
+                    end_register: activite.end_register
+                });
+            }
+        }
+    }
+    updateTimeLineData(timeLineData);
+};
 
 export const updateAllCursusData = async (api, XPHubApi, generalNotesData) => {
-   getXPHubData(api, XPHubApi, generalNotesData); // await here ?
-   console.log("test", api.getGeneralCourseData());
-   getRoadBlockInformation(api); // await here ?
-   updateTimelineProjet(); // await here ?
+    getXPHubData(api, XPHubApi, generalNotesData); // await here ?
+    getRoadBlockInformation(api); // await here ?
+    updateTimelineProjet(api); // await here ?
 }

@@ -16,7 +16,7 @@ class XPHub {
             {
                 key: 1,
                 name: 'Talk',
-                alias: ['Conference', 'Meetup'],
+                alias: ['Meetup'],
                 xpWinPart: 1,
                 xpWinOrg: 4,
                 xpLostPart: 1,
