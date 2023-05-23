@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ActiveTimeChart from './ActiveTimeChart';
+import ActivityList from './ActiveList';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -117,6 +118,14 @@ function Dashboard() {
     _timeLogChart: undefined
   });
 
+  const [roadBlockData, setRoadBlockData] = useState({
+    _roadBlocksList: undefined
+  });
+
+  const [meXPHubVar, setHubData] = useState({
+    _meXPHubVar: undefined
+  });
+
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const handleToggle = (index) => {
@@ -143,20 +152,36 @@ function Dashboard() {
       setTimeChartData(detail);
     };
 
+    const handleRoadBlockData = (event) => {
+      const { detail } = event;
+      setRoadBlockData(detail);
+    };
+
+    const handleHubData = (event) => {
+      const { detail } = event;
+      setHubData(detail);
+    };
+
     window.addEventListener('sidebar-update', handleSidebarUpdate);
     window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
     window.addEventListener('activeTimeChart-update', handleTimeChartData);
-
+    window.addEventListener('roadBlock-update', handleRoadBlockData);
+    window.addEventListener('xpHub-update', handleHubData);
+    
     return () => {
       window.removeEventListener('sidebar-update', handleSidebarUpdate);
       window.removeEventListener('importantDataCard-update', handleimportantDataCardUpdate);
       window.removeEventListener('activeTimeChart-update', handleTimeChartData);
+      window.removeEventListener('roadBlock-update', handleRoadBlockData);
+      window.removeEventListener('xpHub-update', handleHubData);
     };
   }, []);
 
   const { _prenom, _email, _cursus, _semester, _promo, _profilPicture, _city } = userInformation;
   const { _credits, _GPA, _highestTEpitech } = importantDataCard;
   const { _timeLogChart } = timeChartData;
+  const { _roadBlocksList } = roadBlockData;
+  const { _meXPHubVar } = meXPHubVar;
 
   return (
     <div className='DashBoard'>
@@ -199,14 +224,14 @@ function Dashboard() {
             </div>}
             {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
             <div className="RoadblockContainer">
-              {data.map((item, index) => (
+              {_roadBlocksList && _roadBlocksList.map((item, index) => (
                 <div key={index} className="RoadblockBox">
                   <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
-                    <span>{item.roadblock}</span> {item.userCredits}/ {item.mandatoryCredits} ({item.nbCredits})
+                    <span>{item.type}</span> 9/ oui (non)
                   </h3>
                   <ul>
                     {item.modules.map((module, moduleIndex) => (
-                      <p key={moduleIndex}>{module}</p>
+                      <p key={moduleIndex}>{module.name}</p>
                     ))}
                   </ul>
                 </div>
@@ -215,12 +240,13 @@ function Dashboard() {
             </div>}
             {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
-                <StyledBox text1={xpacquired + " XP"} text2="Acquired" />
-                <StyledBox text1={xpremaining + " XP"} text2="Remaining" />
+                <StyledBox text1={_meXPHubVar?.nbXps ?? '-' + " XP"} text2="Acquired" />
+                <StyledBox text1={_meXPHubVar?.nbXpsSoon ?? '-' + " XP"} text2="Remaining" />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
+              <ActivityList activList={_meXPHubVar.activList}/>
+              {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
                 <div className='HubBox'>
-                  {data.map((item, index) => (
+                  {_meXPHubVar && _meXPHubVar.map((item, index) => (
                     <div key={index} className="ActivityBox">
                       <span
                         style={{ fontSize: '1.5rem'}}
@@ -263,7 +289,7 @@ function Dashboard() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>}
             {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div className='timelineBox'>
