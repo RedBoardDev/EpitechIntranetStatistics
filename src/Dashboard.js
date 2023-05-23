@@ -222,7 +222,7 @@ function Dashboard() {
                 </div>
               </div>}
             </div>}
-            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '89%' }}>
             <div className="RoadblockContainer">
               {_roadBlocksList && _roadBlocksList.map((item, index) => (
                 <div key={index} className="RoadblockBox">

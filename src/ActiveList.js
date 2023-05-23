@@ -17,8 +17,8 @@ const ActivityList = ({ activList }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
       {activityTypes.map((type, index) => (
-        <div key={index} className='HubBox'>
-          <div className="ActivityBox">
+        <div key={index} className='HubBox' style={{padding:'10px'}}>
+          <div className="ActivityBox" style={{ height:'auto'}}>
             <span style={{ fontSize: '1.5rem'}}>
               {type}
             </span>
