@@ -112,6 +112,7 @@ class XPHub {
                 if (Object.keys(result).length === 0 && result.constructor === Object) return undefined;
                 const act = result?.find((user) => user.login === login);
                 if (act?.note === 100) this.addActivite('Experience', 'Experience', 'present', act?.date);
+                return 1;
             });
         } catch (e) {
             console.log(e);
@@ -124,16 +125,18 @@ class XPHub {
     };
 
     addProject = (everyNotes, codeacti, date_begin, date_end) => {
-        let date1 = new Date(date_begin);
-        let date2 = new Date(date_end);
-        let dayDifference = ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) + 1);
         everyNotes.forEach(element => {
             if (element.codeacti === codeacti) {
+                let date1 = new Date(date_begin);
+                let date2 = new Date(date_end);
+                let dayDifference = ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) + 1);
                 if (this.dateIsPassed(date2)) {
                     this.#me.nbXps += (dayDifference * 2) * element.final_note / 100;
                     this.#participation.project += 1;
-                } else
+                } else {
                     this.#me.nbXpsSoon += (dayDifference * 2);
+                }
+                this.#me.activList.push({ title: element.title, type: "Projet", status: 'present', date: date_begin });
             }
         });
     };
@@ -205,6 +208,10 @@ class XPHub {
 
     getMeVariable = () => {
         return this.#me;
+    }
+
+    getnbXps = () => {
+        return this.#me.nbXps;
     }
 }
 

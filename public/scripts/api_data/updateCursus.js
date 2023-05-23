@@ -119,7 +119,6 @@ const roadBlockData = `
     "HUB - Innovation": {
       "modules": [
         "G-JAM-001",
-        "B-INN-000",
         "B-INN-010",
         "B-INN-200",
         "B-INN-400",
@@ -200,7 +199,7 @@ async function getModuleInformation(api, codeInstance, codeSemester) { //check s
     return false;
 }
 
-const getRoadBlockInformation = async (api) => {
+const getRoadBlockInformation = async (api, XPHubApi) => {
     let roadBlocksList = [];
     const data = JSON.parse(roadBlockData);
     const types = Object.keys(data);
@@ -212,7 +211,14 @@ const getRoadBlockInformation = async (api) => {
             if (semesterCodeMatch) {
                 const semesterCode = semesterCodeMatch[1];
                 if (semestersCodeForActualYear.indexOf(Number(semesterCode)) !== -1) {
-                    const moduleInfo = await getModuleInformation(api, codeInstance, semesterCode);
+                    let moduleInfo = await getModuleInformation(api, codeInstance, semesterCode);
+                    if (codeInstance === 'B-INN-400') {
+                        moduleInfo.credits =  8;
+                        moduleInfo.user_credits = 8;
+                        moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10) % 10); // voir si l'on peut aller au dessus de 99
+                        if (moduleInfo.student_credits >= moduleInfo.credits)
+                            moduleInfo.color = 'green';
+                    }
                     if (moduleInfo !== null && moduleInfo !== undefined) {
                         return moduleInfo;
                     }
@@ -263,7 +269,7 @@ const updateTimelineProjet = async (api) => {
 };
 
 export const updateAllCursusData = async (api, XPHubApi, generalNotesData) => {
-    getXPHubData(api, XPHubApi, generalNotesData); // await here ?
-    getRoadBlockInformation(api); // await here ?
+    await getXPHubData(api, XPHubApi, generalNotesData); // await here ?
+    getRoadBlockInformation(api, XPHubApi); // await here ?
     updateTimelineProjet(api); // await here ?
 }

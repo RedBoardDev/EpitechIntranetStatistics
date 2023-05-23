@@ -132,7 +132,7 @@ class ApiCall {
     getHighestTEpitech(generalNotesData) {
         var highestTEpitech = 0;
         generalNotesData['notes'].forEach(element => {
-            if (element.title === "Self-assessment TEPitech" && element.scolaryear === this.getScolarYear()) {
+            if (element.title === "TEPitech" && (element.scolaryear).toString() === this.getScolarYear()) {
                 if (element.final_note > highestTEpitech) {
                     highestTEpitech = element.final_note;
                 }

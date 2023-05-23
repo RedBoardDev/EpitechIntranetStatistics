@@ -120,7 +120,7 @@ function Dashboard() {
   });
 
   const [timeChartData, setTimeChartData] = useState({
-    _timeLogChart: undefined
+    _last7DayActiveTime: undefined
   });
 
   const [roadBlockData, setRoadBlockData] = useState({
@@ -174,7 +174,6 @@ function Dashboard() {
 
     const handleMsgAlertData = (event) => {
       const { detail } = event;
-      console.log("ouais", detail);
       setMsgAlertData(detail);
     };
 
@@ -197,7 +196,7 @@ function Dashboard() {
 
   const { _prenom, _email, _cursus, _semester, _promo, _profilPicture, _city } = userInformation;
   const { _credits, _GPA, _highestTEpitech } = importantDataCard;
-  const { _timeLogChart } = timeChartData;
+  const { _last7DayActiveTime } = timeChartData;
   const { _roadBlocksList } = roadBlockData;
   const { _meXPHubVar } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
@@ -377,7 +376,7 @@ function Dashboard() {
                   ouais
                 </div>
                 <div className='infoTimeBox2'>
-                  {<ActiveTimeChart data={_timeLogChart} />}
+                  {<ActiveTimeChart data={_last7DayActiveTime} />}
                 </div>
               </div>
             )}

@@ -4,19 +4,36 @@ const sendUpdate = async (eventName, data) => {
 }
 
 export const updateActiveTimeChart = async (api) => {
-    const ActiveTimeData = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`)).slice(-7);
-    let myTotalWeekHour = 0;
-    let averageTotalWeekHour = 0;
+    const totalDayActiveTime = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`));
+    const last14DayActiveTime = (totalDayActiveTime.slice(-14)).slice(7);
+    const last7DayActiveTime = totalDayActiveTime.slice(-7);
+    let mytotalYearHour = 0;
+    let averageTotalYearHour = 0;
+    let myTotalActualWeekHour = 0;
+    let averageTotalActualWeekHour = 0;
+    let myTotalLastWeekHour = 0;
+    let averageTotalLastWeekHour = 0;
 
-    for (const item of ActiveTimeData) {
-        myTotalWeekHour += item[1] / 3600;
-        averageTotalWeekHour += item[5] / 3600;
+    for (const item of totalDayActiveTime) {
+        mytotalYearHour += item[1] / 3600;
+        averageTotalYearHour += item[5] / 3600;
     }
-    console.log("ActiveTimeData", ActiveTimeData, myTotalWeekHour, averageTotalWeekHour);
+    for (const item of last14DayActiveTime) {
+        myTotalLastWeekHour += item[1] / 3600;
+        averageTotalLastWeekHour += item[5] / 3600;
+    }
+    for (const item of last7DayActiveTime) {
+        myTotalActualWeekHour += item[1] / 3600;
+        averageTotalActualWeekHour += item[5] / 3600;
+    }
     sendUpdate('activeTimeChart-update', {
-        _timeLogChart: ActiveTimeData,
-        _myTotalWeekHour: myTotalWeekHour,
-        _averageTotalWeekHour: averageTotalWeekHour
+        _last7DayActiveTime: last7DayActiveTime,
+        _myTotalActualWeekHour: myTotalActualWeekHour,
+        _averageTotalActualWeekHour: averageTotalActualWeekHour,
+        _mytotalYearHour: mytotalYearHour,
+        _averageTotalYearHour: averageTotalYearHour,
+        _myTotalLastWeekHour: myTotalLastWeekHour,
+        _averageTotalLastWeekHour: averageTotalLastWeekHour
     });
 }
 
@@ -43,6 +60,7 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
     const credits = generalUserData['credits'];
     const GPA = generalUserData['gpa'][0]['gpa'];
     const highestTEpitech = await api.getHighestTEpitech(generalNotesData);
+    console.log("highestTEpitech", highestTEpitech);
 
     sendUpdate('importantDataCard-update', {
         _credits: credits,
