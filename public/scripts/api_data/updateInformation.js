@@ -27,8 +27,7 @@ export const updateUserInformation = async (api, generalUserData) => {
     const semester = generalUserData['semester_code'];
     const promo = 'Promotion ' + generalUserData['promo'];
     const profilPicture = ("https://intra.epitech.eu" + generalUserData['picture']);
-    const city = "FeurLand";
-
+    const city = generalUserData['groups'][0]['title'];
     sendUpdate('sidebar-update', {
         _prenom: prenom,
         _email: email,
@@ -76,7 +75,8 @@ export const updateTimeLineData = async (timeLineData) => {
 export const updateMessageAndAlert = async (api) => {
     const alert = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/alert?format=json`);
     const message = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/message?format=json`);
-    console.log("messageAndAlert", alert, message);
+    console.log("messageAndAlert", alert);
+    console.log("messageAndAlert", message);
     sendUpdate('messageAndAlert-update', {
         _message: message,
         _alert: alert

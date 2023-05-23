@@ -126,7 +126,7 @@ class XPHub {
     addProject = (everyNotes, codeacti, date_begin, date_end) => {
         let date1 = new Date(date_begin);
         let date2 = new Date(date_end);
-        let dayDifference = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24);
+        let dayDifference = ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) + 1);
         everyNotes.forEach(element => {
             if (element.codeacti === codeacti) {
                 if (this.dateIsPassed(date2)) {

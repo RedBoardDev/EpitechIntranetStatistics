@@ -170,27 +170,6 @@ const roadBlockData = `
       "goal_tech1": 3,
       "goal_tech2": 3,
       "goal_tech3": 3
-    },
-    "Professional competencies": {
-      "modules": [
-        "B-FRE-100",
-        "B-FRE-200",
-        "B-FRE-400",
-        "B-FRE-501",
-        "B-FLE-100",
-        "B-FLE-200",
-        "B-FLE-400",
-        "B-FLE-500",
-        "B-SPA-100",
-        "B-PRO-120",
-        "B-PRO-220",
-        "B-PRO-420",
-        "B-GER-001",
-        "B-FRE-010"
-      ],
-      "goal_tech1": 2,
-      "goal_tech2": 2,
-      "goal_tech3": 2
     }
   }
 `;

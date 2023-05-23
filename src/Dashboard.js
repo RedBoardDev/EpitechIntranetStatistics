@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import ActiveTimeChart from './ActiveTimeChart';
 import ActivityList from './ActiveList';
+import parse from 'html-react-parser';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -60,12 +61,14 @@ function Dashboard() {
   const [roadblocks, setRoadblocks] = useState(false);
   const [hub, setHub] = useState(false);
   const [timeline, setTimeline] = useState(false);
+  const [timelog, setTimelog] = useState(false);
 
   const DashboardFunc = () => {
     setDashboard(true);
     setRoadblocks(false);
     setHub(false);
     setTimeline(false);
+    setTimelog(false);
   };
 
   const RoadblocksFunc = () => {
@@ -73,6 +76,7 @@ function Dashboard() {
     setRoadblocks(true);
     setHub(false);
     setTimeline(false);
+    setTimelog(false);
   };
 
   const HubFunc = () => {
@@ -80,6 +84,7 @@ function Dashboard() {
     setRoadblocks(false);
     setHub(true);
     setTimeline(false);
+    setTimelog(false);
   };
 
   const TimelineFunc = () => {
@@ -87,16 +92,16 @@ function Dashboard() {
     setRoadblocks(false);
     setHub(false);
     setTimeline(true);
+    setTimelog(false);
   };
 
-  var xpacquired = "20";
-  var xpremaining = "2";
-  const data = [
-    { status: 'true', roadblock: 'Roadblock1', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
-    { status: 'false', roadblock: 'Roadblock2', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { status: 'true', roadblock: 'Roadblock3', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2', 'module3', 'module4'] },
-    { status: 'true', roadblock: 'Roadblock4', userCredits: "4", mandatoryCredits: "8", nbCredits: '10', modules: ['module1', 'module2'] },
-  ];
+  const TimeLogFunc = () => {
+    setDashboard(false);
+    setRoadblocks(false);
+    setHub(false);
+    setTimeline(false);
+    setTimelog(true);
+  };
 
   const [userInformation, setUserInformation] = useState({
     _prenom: '-',
@@ -124,6 +129,11 @@ function Dashboard() {
 
   const [meXPHubVar, setHubData] = useState({
     _meXPHubVar: undefined
+  });
+
+  const [msgAlertData, setMsgAlertData] = useState({
+    _message: undefined,
+    _alert: undefined
   });
 
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -162,18 +172,26 @@ function Dashboard() {
       setHubData(detail);
     };
 
+    const handleMsgAlertData = (event) => {
+      const { detail } = event;
+      console.log("ouais", detail);
+      setMsgAlertData(detail);
+    };
+
     window.addEventListener('sidebar-update', handleSidebarUpdate);
     window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
     window.addEventListener('activeTimeChart-update', handleTimeChartData);
     window.addEventListener('roadBlock-update', handleRoadBlockData);
     window.addEventListener('xpHub-update', handleHubData);
-    
+    window.addEventListener('messageAndAlert-update', handleMsgAlertData);
+
     return () => {
       window.removeEventListener('sidebar-update', handleSidebarUpdate);
       window.removeEventListener('importantDataCard-update', handleimportantDataCardUpdate);
       window.removeEventListener('activeTimeChart-update', handleTimeChartData);
       window.removeEventListener('roadBlock-update', handleRoadBlockData);
       window.removeEventListener('xpHub-update', handleHubData);
+      window.removeEventListener('messageAndAlert-update', handleMsgAlertData);
     };
   }, []);
 
@@ -182,6 +200,7 @@ function Dashboard() {
   const { _timeLogChart } = timeChartData;
   const { _roadBlocksList } = roadBlockData;
   const { _meXPHubVar } = meXPHubVar;
+  const { _message, _alert } = msgAlertData;
 
   return (
     <div className='DashBoard'>
@@ -203,6 +222,7 @@ function Dashboard() {
             <ButtonSideNav text="Roadblocks" onClick={RoadblocksFunc} />
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
+            <ButtonSideNav text="Timelog" onClick={TimeLogFunc} />
           </div>
           <div style={{ display: 'flex', width: '100%', height: '100%'}}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
@@ -213,35 +233,126 @@ function Dashboard() {
               </div>
               {<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
                 <div className='TimelogBox'>
-                  {<div className="charte-container">
-                    {<ActiveTimeChart data={_timeLogChart} />}
-                  </div>}
+                  oui
                 </div>
                 <div className='TimelogBox1'>
-                  Oui
+                  <h1>INFO:</h1>
+                  {_message &&
+                    _message.map((item, index) => (
+                      <h2 style={{ margin: '10px' }} key={index}>
+                        {parse(item.title, {
+                          replace: (domNode) => {
+                            if (domNode.type === 'text') {
+                              return <span style={{ fontWeight: 'light', color: 'lightgrey' }}>{domNode.data}</span>;
+                            } else if (domNode.type === 'tag' && domNode.name === 'a') {
+                              const url = domNode.attribs.href;
+                              const updatedUrl = url
+                                .split('/')
+                                .slice(3)
+                                .join('/');
+                              return (
+                                <a
+                                  href={`https://intra.epitech.eu/${updatedUrl}`}
+                                  style={{ fontWeight: 'bold', color: 'lightgrey' }}
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  {domNode.children[0].data}
+                                </a>
+                              );
+                            }
+                            return null;
+                          }
+                        })}
+                      </h2>
+                    ))}
+                  <h1>ALERTE:</h1>
+                  {_alert &&
+                    _alert.map((item, index) => (
+                      <h2 style={{ margin: '10px' }} key={index}>
+                        {parse(item.title, {
+                          replace: (domNode) => {
+                            if (domNode.type === 'text') {
+                              return <span style={{ fontWeight: 'light', color: 'lightgrey' }}>{domNode.data}</span>;
+                            } else if (domNode.type === 'tag' && domNode.name === 'a') {
+                              const url = domNode.attribs.href;
+                              const updatedUrl = url
+                                .split('/')
+                                .slice(3)
+                                .join('/');
+                              return (
+                                <a
+                                  href={`https://intra.epitech.eu/${updatedUrl}`}
+                                  style={{ fontWeight: 'bold', color: 'lightgrey' }}
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  {domNode.children[0].data}
+                                </a>
+                              );
+                            }
+                            return null;
+                          }
+                        })}
+                      </h2>
+                    ))}
                 </div>
               </div>}
             </div>}
-            {roadblocks && (
-              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+            {roadblocks && (<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
                 <div className="RoadblockContainer">
                   {_roadBlocksList &&
                     _roadBlocksList.map((item, index) => {
                       // Calculer le total des crédits des modules
                       const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
                       const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
+                      const availableCredits = item.modules.reduce((acc, module) => {
+                        if (module.user_credits !== null) {
+                          return acc + Number(module.user_credits);
+                        }
+                        return acc;
+                      }, 0);
 
                       return (
                         <div key={index} className="RoadblockBox">
                           <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
-                            <span>{item.type}</span> {totalUserCredits}/{totalCredits}
+                            <span>{item.type}</span> {totalUserCredits}/{availableCredits} ({totalCredits})
                           </h3>
-                          {item.modules.map((module, moduleIndex) => (
-                            <h4 style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                              <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>{module.name}</span>
-                              <span style={{ fontSize: '20px' }}>{module.student_credits}/{module.credits} credits</span>
-                            </h4>
-                          ))}
+                          {item.modules.map((module, moduleIndex) => {
+                            let textColor;
+
+                            switch (module.color) {
+                              case 'orange':
+                                textColor = 'white';
+                                break;
+                              case 'green':
+                                textColor = 'green';
+                                break;
+                              case 'red':
+                                textColor = 'red';
+                                break;
+                              default:
+                                textColor = 'gray';
+                                break;
+                            }
+
+                            return (
+                              <h4
+                                key={moduleIndex}
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  justifyContent: 'space-between',
+                                  color: textColor,
+                                }}
+                              >
+                                <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
+                                  {module.color === 'green' ? `${module.name} - Grade ${module.student_grade}` : module.name}
+                                </span>
+                                <span style={{ fontSize: '20px' }}>
+                                  {module.student_credits}/{module.credits} credits
+                                </span>
+                              </h4>
+                            );
+                          })}
                         </div>
                       );
                     })}
@@ -254,56 +365,15 @@ function Dashboard() {
                 <StyledBox text1={_meXPHubVar?.nbXpsSoon ?? '-' + " XP"} text2="Remaining" />
               </div>
               <ActivityList activList={_meXPHubVar.activList}/>
-              {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
-                <div className='HubBox'>
-                  {_meXPHubVar && _meXPHubVar.map((item, index) => (
-                    <div key={index} className="ActivityBox">
-                      <span
-                        style={{ fontSize: '1.5rem'}}
-                        onClick={() => handleToggle(index)}
-                      >
-                        {item.roadblock}
-                      </span>
-                      <ul>
-                        {item.modules.map((module, moduleIndex) => (
-                          <p
-                            key={moduleIndex}
-                            className={item.status === "true" ? 'module-green' : 'module-red'} // Applique une classe différente en fonction de item.status
-                          >
-                            {module}
-                          </p>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-                <div className='HubBox'>
-                  {data.map((item, index) => (
-                    <div key={index} className="ActivityBox">
-                      <span
-                        style={{ fontSize: '1.5rem'}}
-                        onClick={() => handleToggle(index)}
-                      >
-                        {item.roadblock}
-                      </span>
-                      <ul>
-                        {item.modules.map((module, moduleIndex) => (
-                          <p
-                            key={moduleIndex}
-                            className={item.status === "true" ? 'module-green' : 'module-red'} // Applique une classe différente en fonction de item.status
-                          >
-                            {module}
-                          </p>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div> */}
             </div>}
             {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div className='timelineBox'>
                 oui
+              </div>
+            </div>}
+            {timelog && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+              <div className='timelineBox'>
+                {<ActiveTimeChart data={_timeLogChart} />}
               </div>
             </div>}
           </div>
