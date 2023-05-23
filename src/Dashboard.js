@@ -222,22 +222,32 @@ function Dashboard() {
                 </div>
               </div>}
             </div>}
-            {roadblocks && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '89%' }}>
-            <div className="RoadblockContainer">
-              {_roadBlocksList && _roadBlocksList.map((item, index) => (
-                <div key={index} className="RoadblockBox">
-                  <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
-                    <span>{item.type}</span> 9/ oui (non)
-                  </h3>
-                  <ul>
-                    {item.modules.map((module, moduleIndex) => (
-                      <p key={moduleIndex}>{module.name}</p>
-                    ))}
-                  </ul>
+            {roadblocks && (
+              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+                <div className="RoadblockContainer">
+                  {_roadBlocksList &&
+                    _roadBlocksList.map((item, index) => {
+                      // Calculer le total des crédits des modules
+                      const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
+                      const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
+
+                      return (
+                        <div key={index} className="RoadblockBox">
+                          <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
+                            <span>{item.type}</span> {totalUserCredits}/{totalCredits}
+                          </h3>
+                          {item.modules.map((module, moduleIndex) => (
+                            <h4 style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                              <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>{module.name}</span>
+                              <span style={{ fontSize: '20px' }}>{module.student_credits}/{module.credits} credits</span>
+                            </h4>
+                          ))}
+                        </div>
+                      );
+                    })}
                 </div>
-              ))}
-            </div>
-            </div>}
+              </div>
+            )}
             {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={_meXPHubVar?.nbXps ?? '-' + " XP"} text2="Acquired" />
