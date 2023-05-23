@@ -237,7 +237,7 @@ function Dashboard() {
                 </div>
                 <div className='TimelogBox1'>
                   <h1>INFO:</h1>
-                  {_message &&
+                  {msgAlertData && _message &&
                     _message.map((item, index) => (
                       <h2 style={{ margin: '10px' }} key={index}>
                         {parse(item.title, {
@@ -266,7 +266,7 @@ function Dashboard() {
                       </h2>
                     ))}
                   <h1>ALERTE:</h1>
-                  {_alert &&
+                  {msgAlertData && _alert &&
                     _alert.map((item, index) => (
                       <h2 style={{ margin: '10px' }} key={index}>
                         {parse(item.title, {
@@ -371,11 +371,16 @@ function Dashboard() {
                 oui
               </div>
             </div>}
-            {timelog && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
-              <div className='timelineBox'>
-                {<ActiveTimeChart data={_timeLogChart} />}
+            {timelog && (
+              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+                <div className='infoTimeBox1'>
+                  ouais
+                </div>
+                <div className='infoTimeBox2'>
+                  {<ActiveTimeChart data={_timeLogChart} />}
+                </div>
               </div>
-            </div>}
+            )}
           </div>
         </div>
       </div>
