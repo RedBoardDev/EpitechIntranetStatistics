@@ -8,6 +8,9 @@ import { useEffect } from 'react';
 import ActiveTimeChart from './ActiveTimeChart';
 import ActivityList from './ActiveList';
 import parse from 'html-react-parser';
+import Fade from '@mui/material/Fade';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ function Dashboard() {
     };
 
     return (
-      <Button variant="contained" size="large" style={{ backgroundColor: '#212b37', color: 'aliceblue', width: '10%', padding: '15px', margin: '20px 20px', borderRadius: '10px', fontSize: '1.0rem', fontWeight: 'bolder', display: 'flex', alignItems: 'center', textTransform: 'none',}} onClick={handleClick}>
+      <Button variant="contained" size="large" style={{ backgroundColor: '#212b37', color: 'aliceblue', width: '10%', padding: '15px', margin: '20px 20px', borderRadius: '10px', fontSize: '1.0rem', fontWeight: 'bolder', display: 'flex', alignItems: 'center', textTransform: 'none' }} onClick={handleClick}>
         {text}
       </Button>
     );
@@ -29,7 +32,7 @@ function Dashboard() {
   const GradientBox = ({ text, secondText, colors }) => {
     const gradient = `linear-gradient(to bottom, ${colors.join(', ')})`;
     return (
-      <Box component="span" sx={{ p: 2, background: gradient, width: '20%', margin: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', borderRadius: '10px', fontSize: '1.5rem', fontWeight: 'bolder',}}>
+      <Box component="span" sx={{ p: 2, background: gradient, width: '20%', margin: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', borderRadius: '10px', fontSize: '1.5rem', fontWeight: 'bolder' }}>
         {text}
         <Box sx={{ fontSize: '1.0rem', fontWeight: 'normal' }}>
           {secondText}
@@ -50,7 +53,7 @@ function Dashboard() {
   const StyledBox = ({ text1, text2 }) => {
     return (
       <Box
-        sx={{ background: '#181c25', color: '#fff', width: '100%', padding: '10px', textAlign: 'center', marginBottom: '20px', margin: '10px', borderRadius: '10px', border: '1px solid #87ceeb'}}>
+        sx={{ background: '#181c25', color: '#fff', width: '100%', padding: '10px', textAlign: 'center', marginBottom: '20px', margin: '10px', borderRadius: '10px', border: '1px solid #87ceeb' }}>
         <h1>{text1}</h1>
         <h3>{text2}</h3>
       </Box>
@@ -207,13 +210,22 @@ function Dashboard() {
   const { _meXPHubVar } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className='MainUserInfo1'>
           <img src={_profilPicture} alt="Avatar" className="avatar" />
           <div className='infoUser' style={{ display: 'flex', flexDirection: 'column' }}>
-            <WriteSideDate data1="Name: " data2={_prenom}/>
+            <WriteSideDate data1="Name: " data2={_prenom} />
             <WriteSideDate data1="E-mail: " data2={_email} />
             <WriteSideDate data1="Cursus: " data2={_cursus} />
             <WriteSideDate data1="Semester: " data2={_semester} />
@@ -228,19 +240,67 @@ function Dashboard() {
             <ButtonSideNav text="Hub" onClick={HubFunc} />
             <ButtonSideNav text="Timeline" onClick={TimelineFunc} />
             <ButtonSideNav text="Timelog" onClick={TimeLogFunc} />
+            <div style={{ marginLeft: 'auto' }}>
+              <Button
+                id="fade-button"
+                aria-controls={open ? 'fade-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                Notifications
+              </Button>
+              <Menu
+                id="fade-menu"
+                MenuListProps={{
+                  'aria-labelledby': 'fade-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Fade}
+                PaperProps={{
+                  style: {
+                    backgroundColor: '#212b37',
+                    color: 'aliceblue',
+                  },
+                }}
+                ListProps={{
+                  style: {
+                    backgroundColor: '#212b37',
+                    color: 'aliceblue',
+                  },
+                }}
+              >
+              <MenuItem>Informations</MenuItem>
+              {msgAlertData && _message &&
+                _message.map((item, index) => (
+                  <MenuItem style={{ margin: '10px' }} key={index}>
+                    {item.title.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '').replace(/\s*by\s*/, '')}
+                  </MenuItem>
+                ))}
+              <MenuItem style={{ fontWeight: 'bold' }}>Alerts</MenuItem>
+              {msgAlertData && _alert &&
+                _alert.map((item, index) => (
+                  <MenuItem style={{ margin: '10px' }} key={index}>
+                    {item.title.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '').replace(/\s*by\s*/, '')}
+                  </MenuItem>
+                ))}
+            </Menu>
           </div>
-          <div style={{ display: 'flex', width: '100%', height: '100%'}}>
+          </div>
+          <div style={{ display: 'flex', width: '100%', height: '100%' }}>
             {dashboard && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={_credits} text2="Credits" />
                 <StyledBox text1={_GPA} text2="G.P.A" />
                 <StyledBox text1={_highestTEpitech} text2="best TEPitech" />
               </div>
-              {<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
+              {<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%' }}>
                 <div className='TimelogBox'>
                   oui
                 </div>
-                <div className='TimelogBox1'>
+                {/* <div className='TimelogBox1'>
                   <h1>INFO:</h1>
                   {msgAlertData && _message &&
                     _message.map((item, index) => (
@@ -299,70 +359,70 @@ function Dashboard() {
                         })}
                       </h2>
                     ))}
-                </div>
+                </div> */}
               </div>}
             </div>}
             {roadblocks && (<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-                <div className="RoadblockContainer">
-                  {_roadBlocksList &&
-                    _roadBlocksList.map((item, index) => {
-                      // Calculer le total des crédits des modules
-                      const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
-                      const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
-                      const availableCredits = item.modules.reduce((acc, module) => {
-                        if (module.user_credits !== null) {
-                          return acc + Number(module.user_credits);
-                        }
-                        return acc;
-                      }, 0);
+              <div className="RoadblockContainer">
+                {_roadBlocksList &&
+                  _roadBlocksList.map((item, index) => {
+                    // Calculer le total des crédits des modules
+                    const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
+                    const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
+                    const availableCredits = item.modules.reduce((acc, module) => {
+                      if (module.user_credits !== null) {
+                        return acc + Number(module.user_credits);
+                      }
+                      return acc;
+                    }, 0);
 
-                      return (
-                        <div key={index} className="RoadblockBox">
-                          <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
-                            <span>{item.type}</span> {totalUserCredits}/{availableCredits} ({totalCredits})
-                          </h3>
-                          {item.modules.map((module, moduleIndex) => {
-                            let textColor;
+                    return (
+                      <div key={index} className="RoadblockBox">
+                        <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
+                          <span>{item.type}</span> {totalUserCredits}/{availableCredits} ({totalCredits})
+                        </h3>
+                        {item.modules.map((module, moduleIndex) => {
+                          let textColor;
 
-                            switch (module.color) {
-                              case 'orange':
-                                textColor = 'white';
-                                break;
-                              case 'green':
-                                textColor = 'green';
-                                break;
-                              case 'red':
-                                textColor = 'red';
-                                break;
-                              default:
-                                textColor = 'gray';
-                                break;
-                            }
+                          switch (module.color) {
+                            case 'orange':
+                              textColor = 'white';
+                              break;
+                            case 'green':
+                              textColor = 'green';
+                              break;
+                            case 'red':
+                              textColor = 'red';
+                              break;
+                            default:
+                              textColor = 'gray';
+                              break;
+                          }
 
-                            return (
-                              <h4
-                                key={moduleIndex}
-                                style={{
-                                  display: 'flex',
-                                  flexDirection: 'row',
-                                  justifyContent: 'space-between',
-                                  color: textColor,
-                                }}
-                              >
-                                <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
-                                  {module.color === 'green' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade E` : module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, ''))}
-                                </span>
-                                <span style={{ fontSize: '20px' }}>
-                                  {module.student_credits}/{module.credits} credits
-                                </span>
-                              </h4>
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-                </div>
+                          return (
+                            <h4
+                              key={moduleIndex}
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                color: textColor,
+                              }}
+                            >
+                              <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
+                                {module.color === 'green' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade E` : module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, ''))}
+                              </span>
+                              <span style={{ fontSize: '20px' }}>
+                                {module.student_credits}/{module.credits} credits
+                              </span>
+                            </h4>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
               </div>
+            </div>
             )}
             {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
               <div style={{ display: 'flex', width: '100%', }}>
@@ -379,36 +439,36 @@ function Dashboard() {
             </div>}
             {timelog && (
               <div style={{ display: 'flex', width: '100%' }}>
-              <div className='infoTimeBox1' style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Time log (Last Week):</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_myTotalLastWeekHour.toFixed(2)} Hours</strong>
-                </span>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Promotion Time log (Last Week):</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalLastWeekHour.toFixed(2)} Hours</strong>
-                </span>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Time log (Current Week):</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_myTotalActualWeekHour.toFixed(2)} Hours</strong>
-                </span>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Promotion Time log (Current Week):</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalActualWeekHour.toFixed(2)} Hours</strong>
-                </span>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Your year log time:</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_mytotalYearHour.toFixed(2)} Hours</strong>
-                </span>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                  <span>Promotion year log time:</span>
-                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalYearHour.toFixed(2)} Hours</strong>
-                </span>
+                <div className='infoTimeBox1' style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Time log (Last Week):</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_myTotalLastWeekHour.toFixed(2)} Hours</strong>
+                  </span>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Promotion Time log (Last Week):</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalLastWeekHour.toFixed(2)} Hours</strong>
+                  </span>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Time log (Current Week):</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_myTotalActualWeekHour.toFixed(2)} Hours</strong>
+                  </span>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Promotion Time log (Current Week):</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalActualWeekHour.toFixed(2)} Hours</strong>
+                  </span>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Your year log time:</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_mytotalYearHour.toFixed(2)} Hours</strong>
+                  </span>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                    <span>Promotion year log time:</span>
+                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalYearHour.toFixed(2)} Hours</strong>
+                  </span>
+                </div>
+                <div className='infoTimeBox2'>
+                  {<ActiveTimeChart data={_last7DayActiveTime} />}
+                </div>
               </div>
-              <div className='infoTimeBox2'>
-                {<ActiveTimeChart data={_last7DayActiveTime} />}
-              </div>
-            </div>
             )}
           </div>
         </div>
