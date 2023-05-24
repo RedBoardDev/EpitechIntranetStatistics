@@ -300,66 +300,6 @@ function Dashboard() {
                 <div className='TimelogBox'>
                   oui
                 </div>
-                {/* <div className='TimelogBox1'>
-                  <h1>INFO:</h1>
-                  {msgAlertData && _message &&
-                    _message.map((item, index) => (
-                      <h2 style={{ margin: '10px' }} key={index}>
-                        {parse(item.title, {
-                          replace: (domNode) => {
-                            if (domNode.type === 'text') {
-                              return <span style={{ fontWeight: 'light', color: 'lightgrey' }}>{domNode.data}</span>;
-                            } else if (domNode.type === 'tag' && domNode.name === 'a') {
-                              const url = domNode.attribs.href;
-                              const updatedUrl = url
-                                .split('/')
-                                .slice(3)
-                                .join('/');
-                              return (
-                                <a
-                                  href={`https://intra.epitech.eu/${updatedUrl}`}
-                                  style={{ fontWeight: 'bold', color: 'lightgrey' }}
-                                  onClick={(e) => e.preventDefault()}
-                                >
-                                  {domNode.children[0].data}
-                                </a>
-                              );
-                            }
-                            return null;
-                          }
-                        })}
-                      </h2>
-                    ))}
-                  <h1>ALERTE:</h1>
-                  {msgAlertData && _alert &&
-                    _alert.map((item, index) => (
-                      <h2 style={{ margin: '10px' }} key={index}>
-                        {parse(item.title, {
-                          replace: (domNode) => {
-                            if (domNode.type === 'text') {
-                              return <span style={{ fontWeight: 'light', color: 'lightgrey' }}>{domNode.data}</span>;
-                            } else if (domNode.type === 'tag' && domNode.name === 'a') {
-                              const url = domNode.attribs.href;
-                              const updatedUrl = url
-                                .split('/')
-                                .slice(3)
-                                .join('/');
-                              return (
-                                <a
-                                  href={`https://intra.epitech.eu/${updatedUrl}`}
-                                  style={{ fontWeight: 'bold', color: 'lightgrey' }}
-                                  onClick={(e) => e.preventDefault()}
-                                >
-                                  {domNode.children[0].data}
-                                </a>
-                              );
-                            }
-                            return null;
-                          }
-                        })}
-                      </h2>
-                    ))}
-                </div> */}
               </div>}
             </div>}
             {roadblocks && (<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
