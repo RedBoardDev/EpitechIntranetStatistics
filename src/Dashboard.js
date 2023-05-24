@@ -344,7 +344,7 @@ function Dashboard() {
                                 }}
                               >
                                 <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
-                                  (module.color === 'green' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade E` : module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')))
+                                  {module.color === 'green' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade E` : module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, ''))}
                                 </span>
                                 <span style={{ fontSize: '20px' }}>
                                   {module.student_credits}/{module.credits} credits
