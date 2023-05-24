@@ -51,8 +51,8 @@ function Dashboard() {
     return (
       <Box
         sx={{ background: '#181c25', color: '#fff', width: '100%', padding: '10px', textAlign: 'center', marginBottom: '20px', margin: '10px', borderRadius: '10px', border: '1px solid #87ceeb'}}>
-        <h2>{text1}</h2>
-        <p>{text2}</p>
+        <h1>{text1}</h1>
+        <h3>{text2}</h3>
       </Box>
     );
   };
@@ -344,7 +344,7 @@ function Dashboard() {
                                 }}
                               >
                                 <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
-                                  {module.color === 'green' ? `${module.name} - Grade ${module.student_grade}` : module.name}
+                                  {module.color === 'green' ? `${module.name} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name} - Grade ${module.student_grade}` : module.name)}
                                 </span>
                                 <span style={{ fontSize: '20px' }}>
                                   {module.student_credits}/{module.credits} credits
@@ -358,12 +358,13 @@ function Dashboard() {
                 </div>
               </div>
             )}
-            {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+            {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
               <div style={{ display: 'flex', width: '100%', }}>
-                <StyledBox text1={_meXPHubVar?.nbXps ?? '-' + " XP"} text2="Acquired" />
-                <StyledBox text1={_meXPHubVar?.nbXpsSoon ?? '-' + " XP"} text2="Remaining" />
+                <StyledBox text1={(_meXPHubVar?.nbXps ?? '-') + " XP"} text2="Acquired" />
+                <StyledBox text1={(_meXPHubVar?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
               </div>
-              <ActivityList activList={_meXPHubVar.activList}/>
+              <ActivityList activList={_meXPHubVar.activList} totalXp={_meXPHubVar.nbXps} />
+              {/* <ActivityList activList={_meXPHubVar.activList, _meXPHubVar.nbXps}/> */}
             </div>}
             {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
               <div className='timelineBox'>

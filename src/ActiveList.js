@@ -1,6 +1,4 @@
-import React from 'react';
-
-const ActivityList = ({ activList }) => {
+const ActivityList = ({ activList, totalXp }) => {
   // Créer un objet pour grouper les activités par type
   const activitiesByType = activList.reduce((activities, activity) => {
     const { type } = activity;
@@ -15,25 +13,100 @@ const ActivityList = ({ activList }) => {
   const activityTypes = Object.keys(activitiesByType);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%'}}>
-      {activityTypes.map((type, index) => (
-        <div key={index} className='HubBox' style={{padding:'10px'}}>
-          <div className="ActivityBox" style={{ height:'auto'}}>
-            <span style={{ fontSize: '1.5rem'}}>
-              {type}
-            </span>
-            <ul>
-              {activitiesByType[type].map((activity, i) => (
-                <p key={i} className={activity.status === "present" ? 'module-green' : 'module-red'} style={{fontSize: '1.1rem'}}>
-                  {activity.title}
-                  <br />
-                  Date: {activity.date}
-                </p>
-              ))}
-            </ul>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {activityTypes.map((type, index) => {
+        // Calculer le total d'XP pour le type actuel
+        let xpActivity = activitiesByType[type].reduce((total, activity) => {
+          if (activity.status === 'present') {
+            if (type === 'Talk') {
+              return total + 1;
+            } else if (type === 'Workshop') {
+              return total + 2;
+            } else if (type === 'Hackathon') {
+              return total + 6;
+            } else if (type === 'Experience') {
+              return total + 3;
+            }
+          } else {
+            if (type === 'Talk') {
+              return total - 1;
+            } else if (type === 'Workshop') {
+              return total - 2;
+            } else if (type === 'Hackathon') {
+              return total - 6;
+            } else if (type === 'Experience') {
+              return total - 3;
+            }
+          }
+          return total;
+        }, 0);
+
+        let nbActi = 0;
+        let nbMaxActi = '∞';
+
+        if (type === 'Talk') {
+          nbActi = activitiesByType[type].length;
+          nbMaxActi = 15;
+        } else if (type === 'Workshop') {
+          nbActi = activitiesByType[type].length;
+          nbMaxActi = 10;
+        } else if (type === 'Experience') {
+          nbActi = activitiesByType[type].length;
+          nbMaxActi = 8;
+        } else if (type === 'Hackathon') {
+          nbActi = activitiesByType[type].length;
+        } else if (type === 'Projet') {
+          const talksXp = activitiesByType['Talk'] ? activitiesByType['Talk'].length : 0;
+          const workshopXp = activitiesByType['Workshop'] ? activitiesByType['Workshop'].length : 0;
+          const hackathonXp = activitiesByType['Hackathon'] ? activitiesByType['Hackathon'].length : 0;
+          const experiencesXp = activitiesByType['Experience'] ? activitiesByType['Experience'].length : 0;
+
+          nbActi = activitiesByType[type].length;
+          xpActivity = totalXp - (talksXp + workshopXp * 2 + hackathonXp * 6 + experiencesXp * 8);
+        }
+
+        let typeName = type.replace(/\[(.*?)\]/g, '');
+
+        return (
+          <div
+            key={index}
+            className='HubBox'
+            style={{
+              background: '#181c25',
+              color: '#fff',
+              width: '45%',
+              padding: '10px',
+              textAlign: 'center',
+              marginBottom: '20px',
+              margin: '10px',
+              borderRadius: '10px',
+              border: '1px solid #87ceeb',
+            }}
+          >
+            <div className="ActivityBox" style={{ height: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '1.5rem', margin: '10px' }}>
+                  {typeName} - {xpActivity} XP
+                </span>
+                <span style={{ fontSize: '1.2rem', margin: '10px' }}>
+                  ({nbActi}/{nbMaxActi})
+                </span>
+              </div>
+              <ul>
+                {activitiesByType[type].map((activity, i) => (
+                  <p
+                    key={i}
+                    className={activity.status === 'present' ? 'module-green' : 'module-red'}
+                    style={{ fontSize: '1.1rem' }}
+                  >
+                    {activity.title.replace(/\[(.*?)\]/g, '')} - {activity.date}
+                  </p>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
