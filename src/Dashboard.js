@@ -120,7 +120,13 @@ function Dashboard() {
   });
 
   const [timeChartData, setTimeChartData] = useState({
-    _last7DayActiveTime: undefined
+    _last7DayActiveTime: undefined,
+    _myTotalActualWeekHour: undefined,
+    _averageTotalActualWeekHour: undefined,
+    _mytotalYearHour: undefined,
+    _averageTotalYearHour: undefined,
+    _myTotalLastWeekHour: undefined,
+    _averageTotalLastWeekHour: undefined
   });
 
   const [roadBlockData, setRoadBlockData] = useState({
@@ -196,7 +202,7 @@ function Dashboard() {
 
   const { _prenom, _email, _cursus, _semester, _promo, _profilPicture, _city } = userInformation;
   const { _credits, _GPA, _highestTEpitech } = importantDataCard;
-  const { _last7DayActiveTime } = timeChartData;
+  const { _last7DayActiveTime, _myTotalActualWeekHour, _averageTotalActualWeekHour, _mytotalYearHour, _averageTotalYearHour, _myTotalLastWeekHour, _averageTotalLastWeekHour } = timeChartData;
   const { _roadBlocksList } = roadBlockData;
   const { _meXPHubVar } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
@@ -372,18 +378,37 @@ function Dashboard() {
               </div>
             </div>}
             {timelog && (
-              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-                <div className='infoTimeBox1' style={{ textAlign: 'left' }}>
-                  <h2 style={{margin:'10px'}}>Time log (Last Week): </h2>
-                  <h2 style={{margin:'10px'}}>Time log (Current Week): </h2>
-                  <h2 style={{margin:'10px'}}>Promotion Time log (Current Week): </h2>
-                  <h2 style={{margin:'10px'}}>Time log since the beginning of the year: </h2>
-                  <h2 style={{margin:'10px'}}>Promotion Time log since the beginning of the year: </h2>
-                </div>
-                <div className='infoTimeBox2'>
-                  {<ActiveTimeChart data={_last7DayActiveTime} />}
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+              <div className='infoTimeBox1' style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Time log (Last Week):</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_myTotalLastWeekHour.toFixed(2)} Hours</strong>
+                </span>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Promotion Time log (Last Week):</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalLastWeekHour.toFixed(2)} Hours</strong>
+                </span>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Time log (Current Week):</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_myTotalActualWeekHour.toFixed(2)} Hours</strong>
+                </span>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Promotion Time log (Current Week):</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalActualWeekHour.toFixed(2)} Hours</strong>
+                </span>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Your year log time:</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_mytotalYearHour.toFixed(2)} Hours</strong>
+                </span>
+                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
+                  <span>Promotion year log time:</span>
+                  <strong style={{ marginLeft: 'auto' }}>{_averageTotalYearHour.toFixed(2)} Hours</strong>
+                </span>
               </div>
+              <div className='infoTimeBox2'>
+                {<ActiveTimeChart data={_last7DayActiveTime} />}
+              </div>
+            </div>
             )}
           </div>
         </div>

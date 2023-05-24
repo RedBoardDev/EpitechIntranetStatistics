@@ -231,8 +231,8 @@
 }
 
 .infoTimeBox1 {
-    width: 95%;
-    height: 55%;
+    width: 35%;
+    height: 42%;
     border-radius: 10px;
     background: #212b37;
     display: flex;
@@ -246,7 +246,7 @@
 }
 
 .infoTimeBox2 {
-    width: 95%;
+    width: 60%;
     height: 42%;
     border-radius: 10px;
     background: #212b37;
