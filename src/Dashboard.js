@@ -11,6 +11,7 @@ import parse from 'html-react-parser';
 import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -248,7 +249,7 @@ function Dashboard() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               >
-                Notifications
+              <NotificationsIcon color="red" fontSize="large" />
               </Button>
               <Menu
                 id="fade-menu"
