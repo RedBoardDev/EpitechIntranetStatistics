@@ -344,7 +344,7 @@ function Dashboard() {
                                 }}
                               >
                                 <span style={{ alignSelf: 'flex-start', fontSize: '20px' }}>
-                                  {module.color === 'green' ? `${module.name} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name} - Grade ${module.student_grade}` : module.name)}
+                                  (module.color === 'green' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade ${module.student_grade}` : (module.color === 'red' ? `${module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')} - Grade E` : module.name.replace(/\b[A-Z0-9]{2}\s-\s/g, '')))
                                 </span>
                                 <span style={{ fontSize: '20px' }}>
                                   {module.student_credits}/{module.credits} credits
@@ -373,8 +373,12 @@ function Dashboard() {
             </div>}
             {timelog && (
               <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-                <div className='infoTimeBox1'>
-                  ouais
+                <div className='infoTimeBox1' style={{ textAlign: 'left' }}>
+                  <h2 style={{margin:'10px'}}>Time log (Last Week): </h2>
+                  <h2 style={{margin:'10px'}}>Time log (Current Week): </h2>
+                  <h2 style={{margin:'10px'}}>Promotion Time log (Current Week): </h2>
+                  <h2 style={{margin:'10px'}}>Time log since the beginning of the year: </h2>
+                  <h2 style={{margin:'10px'}}>Promotion Time log since the beginning of the year: </h2>
                 </div>
                 <div className='infoTimeBox2'>
                   {<ActiveTimeChart data={_last7DayActiveTime} />}
