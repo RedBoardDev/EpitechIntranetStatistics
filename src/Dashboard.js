@@ -11,7 +11,11 @@ import parse from 'html-react-parser';
 import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+<<<<<<< HEAD
 import TimelineComponent from './TimelineComponent';
+=======
+import NotificationsIcon from '@mui/icons-material/Notifications';
+>>>>>>> c14897d91f4b9c42d07b033a3e02232f9f51efb1
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -276,7 +280,7 @@ function Dashboard() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               >
-                Notifications
+              <NotificationsIcon color="red" fontSize="large" />
               </Button>
               <Menu
                 id="fade-menu"

@@ -49,13 +49,18 @@
 
 .avatar {
     width: 33%;
-    height: 21%;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     margin-top: 10%;
     margin-bottom: 10%;
+    border-radius: 10px;
+}
+
+.avatar img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .TopBar1 {
