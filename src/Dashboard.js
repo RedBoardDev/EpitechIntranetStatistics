@@ -147,6 +147,10 @@ function Dashboard() {
     _alert: undefined
   });
 
+  const [timeLineData, setTimeLineData] = useState({
+    _timeLineData: undefined
+  });
+
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const handleToggle = (index) => {
@@ -188,12 +192,18 @@ function Dashboard() {
       setMsgAlertData(detail);
     };
 
+    const handleTimeLineData = (event) => {
+      const { detail } = event;
+      setTimeLineData(detail);
+    };
+
     window.addEventListener('sidebar-update', handleSidebarUpdate);
     window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
     window.addEventListener('activeTimeChart-update', handleTimeChartData);
     window.addEventListener('roadBlock-update', handleRoadBlockData);
     window.addEventListener('xpHub-update', handleHubData);
     window.addEventListener('messageAndAlert-update', handleMsgAlertData);
+    window.addEventListener('timeLine-update', handleTimeLineData);
 
     return () => {
       window.removeEventListener('sidebar-update', handleSidebarUpdate);
@@ -202,6 +212,7 @@ function Dashboard() {
       window.removeEventListener('roadBlock-update', handleRoadBlockData);
       window.removeEventListener('xpHub-update', handleHubData);
       window.removeEventListener('messageAndAlert-update', handleMsgAlertData);
+      window.removeEventListener('timeLine-update', handleTimeLineData);
     };
   }, []);
 
@@ -211,6 +222,7 @@ function Dashboard() {
   const { _roadBlocksList } = roadBlockData;
   const { _meXPHubVar } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
+  const { _timeLineData } = timeLineData;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -220,34 +232,7 @@ function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const data = {
-    project1: {
-      name: 'Project 1',
-      start: new Date(2022, 9, 5),
-      end: new Date(2022, 10, 2),
-      module: "module1",
-    },
-    project2: {
-      name: 'Project 2',
-      start: new Date(2022, 10, 9),
-      end: new Date(2022, 12, 16),
-      module: "module2",
-    },
-    project3: {
-      name: 'Project 3',
-      start: new Date(2022, 12, 16),
-      end: new Date(2023, 1, 20),
-      module: "module2",
-    },
-    project4: {
-      name: 'Project 4',
-      start: new Date(2023, 2, 20),
-      end: new Date(2023, 6, 6),
-      module: "module3",
-    },
-  };
-
+  console.log("ouaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiis: ", _timeLineData);
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -400,10 +385,10 @@ function Dashboard() {
               </div>
               <ActivityList activList={_meXPHubVar.activList} totalXp={_meXPHubVar.nbXps} />
             </div>}
-            {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
-              <div className='timelineBox' style={{overflowY:'scroll'}}>
-                {<TimelineComponent data={data}/>}
-              </div>
+            {timeline && _timeLineData && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
+              {/* <div className='timelineBox' style={{overflowY:'scroll'}}> */}
+                {<TimelineComponent projects={_timeLineData}/>}
+              {/* </div> */}
             </div>}
             {timelog && (
               <div style={{ display: 'flex', width: '100%' }}>
