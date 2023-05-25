@@ -134,6 +134,7 @@ class XPHub {
                     this.#me.nbXps += (dayDifference * 2) * element.final_note / 100;
                     this.#participation.project += 1;
                 } else {
+                    console.log("sdfg", (dayDifference * 2));
                     this.#me.nbXpsSoon += (dayDifference * 2);
                 }
                 this.#me.activList.push({ title: element.title, type: "Projet", status: 'present', date: date_begin });

@@ -269,7 +269,7 @@ const updateTimelineProjet = async (api) => {
 };
 
 export const updateAllCursusData = async (api, XPHubApi, generalNotesData) => {
-    await getXPHubData(api, XPHubApi, generalNotesData); // await here ?
+    getXPHubData(api, XPHubApi, generalNotesData); // await here ?
     getRoadBlockInformation(api, XPHubApi); // await here ?
     updateTimelineProjet(api); // await here ?
 }

@@ -11,11 +11,8 @@ import parse from 'html-react-parser';
 import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-<<<<<<< HEAD
 import TimelineComponent from './TimelineComponent';
-=======
 import NotificationsIcon from '@mui/icons-material/Notifications';
->>>>>>> c14897d91f4b9c42d07b033a3e02232f9f51efb1
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -396,7 +393,7 @@ function Dashboard() {
               </div>
             </div>
             )}
-            {hub && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
+            {hub && _meXPHubVar && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={(_meXPHubVar?.nbXps ?? '-') + " XP"} text2="Acquired" />
                 <StyledBox text1={(_meXPHubVar?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
