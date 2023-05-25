@@ -385,42 +385,24 @@ function Dashboard() {
               </div>
               <ActivityList activList={_meXPHubVar.activList} totalXp={_meXPHubVar.nbXps} />
             </div>}
-            {timeline && _timeLineData && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
-              {/* <div className='timelineBox' style={{overflowY:'scroll'}}> */}
+            {timeline && _timeLineData && <div style={{ width: '100%', height:'100%' }}>
+              <div className='timelineBox'>
                 {<TimelineComponent projects={_timeLineData}/>}
-              {/* </div> */}
+              </div>
             </div>}
             {timelog && (
               <div style={{ display: 'flex', width: '100%' }}>
-                <div className='infoTimeBox1' style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Time log (Last Week):</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_myTotalLastWeekHour.toFixed(2)} Hours</strong>
-                  </span>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Promotion Time log (Last Week):</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalLastWeekHour.toFixed(2)} Hours</strong>
-                  </span>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Time log (Current Week):</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_myTotalActualWeekHour.toFixed(2)} Hours</strong>
-                  </span>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Promotion Time log (Current Week):</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalActualWeekHour.toFixed(2)} Hours</strong>
-                  </span>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Your year log time:</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_mytotalYearHour.toFixed(2)} Hours</strong>
-                  </span>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', fontSize: '18px' }}>
-                    <span>Promotion year log time:</span>
-                    <strong style={{ marginLeft: 'auto' }}>{_averageTotalYearHour.toFixed(2)} Hours</strong>
-                  </span>
-                </div>
-                <div className='infoTimeBox2'>
-                  {<ActiveTimeChart data={_last7DayActiveTime} />}
-                </div>
+                <ActiveTimeChart
+                  data={{
+                    _last7DayActiveTime,
+                    _myTotalLastWeekHour,
+                    _averageTotalLastWeekHour,
+                    _myTotalActualWeekHour,
+                    _averageTotalActualWeekHour,
+                    _mytotalYearHour,
+                    _averageTotalYearHour
+                  }}
+                />
               </div>
             )}
           </div>

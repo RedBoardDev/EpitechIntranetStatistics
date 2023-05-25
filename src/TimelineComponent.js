@@ -37,7 +37,7 @@ const TimelineComponent = ({ projects }) => {
   const endDate = new Date(Math.max(...items.map(item => item.end_time)));
 
   return (
-    <div style={{ height: '100vh', paddingTop: 0 }}>
+    <div style={{ borderRadius: '10px' }}>
       <Timeline
         groups={groups}
         items={items}
@@ -52,12 +52,12 @@ const TimelineComponent = ({ projects }) => {
         canChangeGroup={false}
         stackItems={true}
       >
-        <TimelineHeaders>
-          <SidebarHeader canMove={false} />
+        <TimelineHeaders style={{backgroundColor: '#181c25', color:'darkblue'}}>
+          <SidebarHeader canMove={false}/>
           <DateHeader
             unit="month"
             labelFormat="MMMM yyyy"
-            style={{ pointerEvents: 'none' }}
+            style={{ pointerEvents: 'none', fontSize: '22px', fontWeight: 'bold' }}
           />
         </TimelineHeaders>
         <TodayMarker />
@@ -67,17 +67,26 @@ const TimelineComponent = ({ projects }) => {
           border-radius: 10px;
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
           height: 40px;
-          background-color: #607D8B;
-          color: white;
           display: flex;
           align-items: center;
-          padding: 0 10px;
+          padding: 5 10px;
+          font-size: 20px;
+          font-weight: bold;
         }
         .rct-sidebar-header {
           pointer-events: none;
         }
         .rct-item-content {
           pointer-events: none;
+        }
+        .rct-date-header {
+          background: none;
+          color: black;
+        }
+        .rct-today-marker {
+          z-index: 9999;
+          background-color: blue;
+          font-weight: bold;
         }
       `}</style>
     </div>
