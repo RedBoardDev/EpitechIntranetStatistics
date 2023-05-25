@@ -19,7 +19,10 @@ const ActivityList = ({ activList, totalXp }) => {
     },
     moduleRed: {
       color: 'red',
-    }
+    },
+    moduleYellow: {
+      color: 'yellow',
+    },
   };
 
   return (
@@ -36,6 +39,8 @@ const ActivityList = ({ activList, totalXp }) => {
             } else if (type === 'Experience') {
               return total + 3;
             }
+          } else if (activity.status === 'organisateur') {
+            return total + 7; // Ajouter 7 XP pour l'activité d'organisateur
           } else {
             if (type === 'Talk') {
               return total - 1;
@@ -68,7 +73,20 @@ const ActivityList = ({ activList, totalXp }) => {
           const hackathonXp = activitiesByType['Hackathon'] ? activitiesByType['Hackathon'].length : 0;
           const experiencesXp = activitiesByType['Experience'] ? activitiesByType['Experience'].length : 0;
           nbActi = activitiesByType[type].length;
-          xpActivity = totalXp - (talksXp + workshopXp * 2 + hackathonXp * 6 + experiencesXp * 8);
+          xpActivity = totalXp - ((talksXp) + (workshopXp * 2) + (hackathonXp * 6) + (experiencesXp * 8));
+        }
+
+        if (type === 'Talk') {
+          nbActi = activitiesByType[type].filter(activity => activity.status !== 'organisateur').length;
+          nbMaxActi = 15;
+        } else if (type === 'Workshop') {
+          nbActi = activitiesByType[type].filter(activity => activity.status !== 'organisateur').length;
+          nbMaxActi = 10;
+        } else if (type === 'Experience') {
+          nbActi = activitiesByType[type].filter(activity => activity.status !== 'organisateur').length;
+          nbMaxActi = 8;
+        } else if (type === 'Hackathon') {
+          nbActi = activitiesByType[type].filter(activity => activity.status !== 'organisateur').length;
         }
 
         let typeName = type.replace(/\[(.*?)\]/g, '');
@@ -99,20 +117,24 @@ const ActivityList = ({ activList, totalXp }) => {
                 </span>
               </div>
               <ul>
-                {activitiesByType[type].map((activity, i) => {
-                  const activityDate = new Date(activity.date);
-                  const currentDate = new Date();
-                  const dateColor = activityDate > currentDate ? styles.moduleBlue : activity.status === 'present' ? styles.moduleGreen : styles.moduleRed;
+              {activitiesByType[type].map((activity, i) => {
+                const activityDate = new Date(activity.date);
+                const currentDate = new Date();
+                const dateColor =
+                  activityDate > currentDate
+                    ? styles.moduleBlue
+                    : activity.status === 'present'
+                    ? styles.moduleGreen
+                    : activity.status === 'organisateur'
+                    ? styles.moduleYellow
+                    : styles.moduleRed;
 
-                  return (
-                    <p
-                      key={i}
-                      style={{ ...dateColor, fontSize: '1.1rem' }}
-                    >
-                      {activity.title.replace(/\[(.*?)\]/g, '')} - {activity.date}
-                    </p>
-                  );
-                })}
+                return (
+                  <p key={i} style={{ ...dateColor, fontSize: '1.1rem' }}>
+                    {activity.title.replace(/\[(.*?)\]/g, '')} - {activity.date}
+                  </p>
+                );
+              })}
               </ul>
             </div>
           </div>
