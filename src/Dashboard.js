@@ -11,6 +11,7 @@ import parse from 'html-react-parser';
 import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import TimelineComponent from './TimelineComponent';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -219,6 +220,33 @@ function Dashboard() {
     setAnchorEl(null);
   };
 
+  const data = {
+    project1: {
+      name: 'Project 1',
+      start: new Date(2022, 9, 5),
+      end: new Date(2022, 10, 2),
+      module: "module1",
+    },
+    project2: {
+      name: 'Project 2',
+      start: new Date(2022, 10, 9),
+      end: new Date(2022, 12, 16),
+      module: "module2",
+    },
+    project3: {
+      name: 'Project 3',
+      start: new Date(2022, 12, 16),
+      end: new Date(2023, 1, 20),
+      module: "module2",
+    },
+    project4: {
+      name: 'Project 4',
+      start: new Date(2023, 2, 20),
+      end: new Date(2023, 6, 6),
+      module: "module3",
+    },
+  };
+
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -370,11 +398,10 @@ function Dashboard() {
                 <StyledBox text1={(_meXPHubVar?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
               </div>
               <ActivityList activList={_meXPHubVar.activList} totalXp={_meXPHubVar.nbXps} />
-              {/* <ActivityList activList={_meXPHubVar.activList, _meXPHubVar.nbXps}/> */}
             </div>}
             {timeline && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px' }}>
-              <div className='timelineBox'>
-                oui
+              <div className='timelineBox' style={{overflowY:'scroll'}}>
+                {<TimelineComponent data={data}/>}
               </div>
             </div>}
             {timelog && (

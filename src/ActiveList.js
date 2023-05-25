@@ -1,5 +1,4 @@
 const ActivityList = ({ activList, totalXp }) => {
-  // Créer un objet pour grouper les activités par type
   const activitiesByType = activList.reduce((activities, activity) => {
     const { type } = activity;
     if (!activities[type]) {
@@ -9,13 +8,23 @@ const ActivityList = ({ activList, totalXp }) => {
     return activities;
   }, {});
 
-  // Créer un tableau de types pour l'affichage
   const activityTypes = Object.keys(activitiesByType);
+
+  const styles = {
+    moduleBlue: {
+      color: 'blue',
+    },
+    moduleGreen: {
+      color: 'green',
+    },
+    moduleRed: {
+      color: 'red',
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       {activityTypes.map((type, index) => {
-        // Calculer le total d'XP pour le type actuel
         let xpActivity = activitiesByType[type].reduce((total, activity) => {
           if (activity.status === 'present') {
             if (type === 'Talk') {
@@ -40,10 +49,8 @@ const ActivityList = ({ activList, totalXp }) => {
           }
           return total;
         }, 0);
-
         let nbActi = 0;
         let nbMaxActi = '∞';
-
         if (type === 'Talk') {
           nbActi = activitiesByType[type].length;
           nbMaxActi = 15;
@@ -60,7 +67,6 @@ const ActivityList = ({ activList, totalXp }) => {
           const workshopXp = activitiesByType['Workshop'] ? activitiesByType['Workshop'].length : 0;
           const hackathonXp = activitiesByType['Hackathon'] ? activitiesByType['Hackathon'].length : 0;
           const experiencesXp = activitiesByType['Experience'] ? activitiesByType['Experience'].length : 0;
-
           nbActi = activitiesByType[type].length;
           xpActivity = totalXp - (talksXp + workshopXp * 2 + hackathonXp * 6 + experiencesXp * 8);
         }
@@ -93,15 +99,20 @@ const ActivityList = ({ activList, totalXp }) => {
                 </span>
               </div>
               <ul>
-                {activitiesByType[type].map((activity, i) => (
-                  <p
-                    key={i}
-                    className={activity.status === 'present' ? 'module-green' : 'module-red'}
-                    style={{ fontSize: '1.1rem' }}
-                  >
-                    {activity.title.replace(/\[(.*?)\]/g, '')} - {activity.date}
-                  </p>
-                ))}
+                {activitiesByType[type].map((activity, i) => {
+                  const activityDate = new Date(activity.date);
+                  const currentDate = new Date();
+                  const dateColor = activityDate > currentDate ? styles.moduleBlue : activity.status === 'present' ? styles.moduleGreen : styles.moduleRed;
+
+                  return (
+                    <p
+                      key={i}
+                      style={{ ...dateColor, fontSize: '1.1rem' }}
+                    >
+                      {activity.title.replace(/\[(.*?)\]/g, '')} - {activity.date}
+                    </p>
+                  );
+                })}
               </ul>
             </div>
           </div>
