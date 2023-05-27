@@ -3,21 +3,6 @@ import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import './Dashboard.css';
 import Box from '@mui/material/Box';
 
-const getMissingDates = (data) => {
-  const dates = data.map(item => item[0]);
-  const startDate = Math.min(...dates);
-  const endDate = Math.max(...dates);
-  const missingDates = [];
-
-  for (let date = startDate; date <= endDate; date += 86400) {
-    if (!dates.includes(date)) {
-      missingDates.push(date);
-    }
-  }
-
-  return missingDates;
-};
-
 const ActiveTimeChart = ({ data }) => {
     if (!data) {
         return <div>Loading...</div>;
@@ -32,24 +17,6 @@ const ActiveTimeChart = ({ data }) => {
         _mytotalYearHour,
         _averageTotalYearHour
     } = data;
-
-    const missingDates = getMissingDates(_last7DayActiveTime);
-    let formattedData = _last7DayActiveTime.map(item => ({
-        date: new Date(item[0] * 1000).toLocaleDateString(),
-        activeTime: (item[1] / 3600).toFixed(1),
-        averageTime: (item[5] / 3600).toFixed(1),
-    }));
-
-    missingDates.forEach(date => {
-        let formattedDate = new Date(date * 1000).toLocaleDateString();
-        formattedData.push({
-            date: formattedDate,
-            activeTime: 0,
-            averageTime: 0,
-        });
-    });
-    formattedData.sort((a, b) => new Date(a.date) - new Date(b.date));
-    formattedData.shift();
 
     const StyledBoxLog = ({ title, text1, text2 }) => {
         return (
@@ -100,7 +67,7 @@ const ActiveTimeChart = ({ data }) => {
             <div className="infoTimeBox2" style={{ display: 'flex', justifyContent: 'center' }}>
                 <ResponsiveContainer width="100%" height={300} paddingBottom={20}>
                     <ComposedChart
-                        data={formattedData}
+                        data={_last7DayActiveTime}
                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />

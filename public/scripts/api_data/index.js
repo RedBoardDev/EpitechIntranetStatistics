@@ -17,6 +17,7 @@ function parseJwtToken(token) {
 async function initApiCall() {
     const api = new ApiCall();
     const rspMessage = await new Promise(resolve => {
+        // eslint-disable-next-line no-undef
         chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, resolve);
     });
     const userData = rspMessage['userData'];

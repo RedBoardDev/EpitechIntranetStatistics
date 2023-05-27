@@ -381,7 +381,7 @@ function Dashboard() {
             {hub && _XPHub_me && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
               <div style={{ display: 'flex', width: '100%', }}>
                 <StyledBox text1={(_XPHub_me?.nbXps ?? '-') + " XP"} text2="Acquired" />
-                <StyledBox text1={(_XPHub_me?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
+                <StyledBox text1={(_XPHub_me?.nbXpsSoon ?? '-') + " XP"} text2="In progress" />
               </div>
               <ActivityList activList={_XPHub_me.activList} xpAct={_XPHub_xpAct} />
             </div>}

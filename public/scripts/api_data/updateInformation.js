@@ -1,3 +1,5 @@
+import { formatDataWithMissingDates } from './activeTimeFct.js';
+
 const sendUpdate = async (eventName, data) => {
     const event = new CustomEvent(eventName, { detail: data });
     window.dispatchEvent(event);
@@ -5,8 +7,9 @@ const sendUpdate = async (eventName, data) => {
 
 export const updateActiveTimeChart = async (api) => {
     const totalDayActiveTime = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`));
-    const last14DayActiveTime = (totalDayActiveTime.slice(-14)).slice(7);
-    const last7DayActiveTime = totalDayActiveTime.slice(-7);
+    console.log((totalDayActiveTime.slice(-14)));
+    const lastWeekActiveTime = formatDataWithMissingDates(totalDayActiveTime.slice(-13, -6));
+    const last7DayActiveTime = formatDataWithMissingDates(totalDayActiveTime.slice(-7));
     let mytotalYearHour = 0;
     let averageTotalYearHour = 0;
     let myTotalActualWeekHour = 0;
@@ -18,13 +21,13 @@ export const updateActiveTimeChart = async (api) => {
         mytotalYearHour += item[1] / 3600;
         averageTotalYearHour += item[5] / 3600;
     }
-    for (const item of last14DayActiveTime) {
-        myTotalLastWeekHour += item[1] / 3600;
-        averageTotalLastWeekHour += item[5] / 3600;
+    for (const item of lastWeekActiveTime) {
+        myTotalLastWeekHour += item.activeTime;
+        averageTotalLastWeekHour += item.averageTime;
     }
     for (const item of last7DayActiveTime) {
-        myTotalActualWeekHour += item[1] / 3600;
-        averageTotalActualWeekHour += item[5] / 3600;
+        myTotalActualWeekHour += item.activeTime;
+        averageTotalActualWeekHour += item.averageTime;
     }
     sendUpdate('activeTimeChart-update', {
         _last7DayActiveTime: last7DayActiveTime,
