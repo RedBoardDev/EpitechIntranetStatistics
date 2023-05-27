@@ -139,7 +139,8 @@ function Dashboard() {
   });
 
   const [meXPHubVar, setHubData] = useState({
-    _meXPHubVar: undefined
+    _XPHub_me: undefined,
+    _XPHub_xpAct: undefined
   });
 
   const [msgAlertData, setMsgAlertData] = useState({
@@ -220,7 +221,7 @@ function Dashboard() {
   const { _credits, _GPA, _highestTEpitech } = importantDataCard;
   const { _last7DayActiveTime, _myTotalActualWeekHour, _averageTotalActualWeekHour, _mytotalYearHour, _averageTotalYearHour, _myTotalLastWeekHour, _averageTotalLastWeekHour } = timeChartData;
   const { _roadBlocksList } = roadBlockData;
-  const { _meXPHubVar } = meXPHubVar;
+  const { _XPHub_me, _XPHub_xpAct } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
   const { _timeLineData } = timeLineData;
 
@@ -232,7 +233,6 @@ function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log("ouaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiis: ", _timeLineData);
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -378,12 +378,12 @@ function Dashboard() {
               </div>
             </div>
             )}
-            {hub && _meXPHubVar && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
+            {hub && _XPHub_me && <div style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: '10px', overflowY:'scroll', height:'95%' }}>
               <div style={{ display: 'flex', width: '100%', }}>
-                <StyledBox text1={(_meXPHubVar?.nbXps ?? '-') + " XP"} text2="Acquired" />
-                <StyledBox text1={(_meXPHubVar?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
+                <StyledBox text1={(_XPHub_me?.nbXps ?? '-') + " XP"} text2="Acquired" />
+                <StyledBox text1={(_XPHub_me?.nbXpsSoon ?? '-') + " XP"} text2="Remaining" />
               </div>
-              <ActivityList activList={_meXPHubVar.activList} totalXp={_meXPHubVar.nbXps} />
+              <ActivityList activList={_XPHub_me.activList} xpAct={_XPHub_xpAct} />
             </div>}
             {timeline && _timeLineData && <div style={{ width: '100%', height:'100%' }}>
               <div className='timelineBox'>

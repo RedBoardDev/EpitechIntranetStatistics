@@ -69,10 +69,11 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
     });
 }
 
-export const updateXPHubInformation = async (meXPHubVar) => {
-    console.log("meXPHubVar",meXPHubVar);
+export const updateXPHubInformation = async (XPHub_me, XPHub_xpAct) => {
+    console.log("xphub var", XPHub_me, XPHub_xpAct);
     sendUpdate('xpHub-update', {
-        _meXPHubVar: meXPHubVar,
+        _XPHub_me: XPHub_me,
+        _XPHub_xpAct: XPHub_xpAct
     });
 }
 

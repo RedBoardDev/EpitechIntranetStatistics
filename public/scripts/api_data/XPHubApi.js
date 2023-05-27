@@ -1,17 +1,9 @@
 class XPHub {
     #xpAct;
-    #participation;
     #me;
 
     constructor() {
         this.#me = { nbXps: 0, nbXpsSoon: 0, soon: [], activList: []};
-        this.#participation = {
-            talk: 0,
-            workshop: 0,
-            hackaton: 0,
-            experience: 0,
-            project: 0,
-        }
         this.#xpAct = [
             {
                 key: 1,
@@ -24,6 +16,7 @@ class XPHub {
                 limitOrg: 6,
                 nbPart: 0,
                 nbOrg: 0,
+                nbXPTotal: 0
             },
             {
                 key: 2,
@@ -36,6 +29,7 @@ class XPHub {
                 limitOrg: 3,
                 nbPart: 0,
                 nbOrg: 0,
+                nbXPTotal: 0
             },
             {
                 key: 3,
@@ -48,6 +42,7 @@ class XPHub {
                 limitOrg: 100,
                 nbPart: 0,
                 nbOrg: 0,
+                nbXPTotal: 0
             },
             {
                 key: 4,
@@ -60,64 +55,17 @@ class XPHub {
                 limitOrg: 0,
                 nbPart: 0,
                 nbOrg: 0,
+                nbXPTotal: 0
+            },
+            {
+                key: 5,
+                name: 'Project',
+                alias: [],
+                nbPart: 0,
+                nbXPTotal: 0
             }
         ];
     }
-
-    requestGet = async (url) => {
-        let data;
-
-        try {
-            const res = await fetch(url, {
-                method: 'GET',
-                credentials: 'include',
-            });
-            data = await res.json();
-        } catch (e) {
-            console.log(e);
-            throw 'Invalid request';
-        }
-        return data;
-    };
-
-    getProfil = async () => {
-        return await this.requestGet(`${this.baseUrl}/user/?format=json`);
-    };
-
-    getActivitiesHub = async (scolaryear, region) => {
-        return await this.requestGet(`${this.baseUrl}/module/${scolaryear}/B-INN-000/${region}-0-1/?format=json`);
-    };
-
-    getEveryNotes = async () => {
-        return await this.requestGet(`${this.baseUrl}/user/thomas.ott@epitech.eu/notes/?format=json`);
-    };
-
-    getAllExperiences = async (scolaryear, activities, region, login) => {
-        const url = `${this.baseUrl}/module/${scolaryear}/B-INN-000/${region.split('/')[ 1 ]}-0-1`;
-        try {
-            let res = await Promise.all(
-                activities.map((act) => {
-                    return fetch(`${url}/${act?.codeacti}/note/?format=json`, {
-                        method: 'GET',
-                        credentials: 'include',
-                    });
-                }),
-            );
-            res = await Promise.all(
-                res?.map((result) => {
-                    return result.json();
-                }),
-            );
-            res?.map((result) => {
-                if (Object.keys(result).length === 0 && result.constructor === Object) return undefined;
-                const act = result?.find((user) => user.login === login);
-                if (act?.note === 100) this.addActivite('Experience', 'Experience', 'present', act?.date);
-                return 1;
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     dateIsPassed = (targetDate) => {
         const actualDate = new Date();
@@ -130,14 +78,18 @@ class XPHub {
                 let date1 = new Date(date_begin);
                 let date2 = new Date(date_end);
                 let dayDifference = ((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) + 1);
+                const findAct = this.#xpAct.find((act) => act.name === 'Project' || act.alias.includes('Project'));
+                findAct.nbPart += 1;
                 if (this.dateIsPassed(date2)) {
-                    this.#me.nbXps += (dayDifference * 2) * element.final_note / 100;
-                    this.#participation.project += 1;
+                    const XP = (dayDifference * 2) * element.final_note / 100;
+                    this.#me.nbXps += XP;
+                    findAct.nbXPTotal += XP;
+                    this.#me.activList.push({ title: element.title, type: "Project", status: 'present', date: date_begin, XPEarn: XP });
                 } else {
-                    console.log("sdfg", (dayDifference * 2));
-                    this.#me.nbXpsSoon += (dayDifference * 2);
+                    const XP = (dayDifference * 2);
+                    this.#me.nbXpsSoon += XP;
+                    this.#me.activList.push({ title: element.title, type: "Project", status: 'present', date: date_begin, XPEarn: 0 });
                 }
-                this.#me.activList.push({ title: element.title, type: "Projet", status: 'present', date: date_begin });
             }
         });
     };
@@ -151,19 +103,28 @@ class XPHub {
 
         switch (status) {
             case 'present':
-                nbPart < limitPart && (this.#me.nbXps += xpWinPart) && (findAct.nbPart += 1);
-                this.#me.activList.push({ title, type, status: 'present', date });
+                if (nbPart < limitPart) {
+                    this.#me.nbXps += xpWinPart;
+                    findAct.nbXPTotal += xpWinPart;
+                    findAct.nbPart += 1
+                }
+                this.#me.activList.push({ title, type, status: 'present', date, XPEarn: xpWinPart });
                 break;
             case 'absent':
                 this.#me.nbXps -= xpLostPart;
-                this.#me.activList.push({ title, type, status: 'absent', date });
+                findAct.nbXPTotal -= xpLostPart;
+                this.#me.activList.push({ title, type, status: 'absent', date, XPEarn: xpLostPart * (-1) });
                 break;
             case 'organisateur':
-                nbOrg < limitOrg && (this.#me.nbXps += xpWinOrg) && (findAct.nbOrg += 1);
-                this.#me.activList.push({ title, type, status: 'organisateur', date });
+                if (nbOrg < limitOrg) {
+                    this.#me.nbXps += xpWinOrg;
+                    findAct.nbXPTotal += xpWinOrg;
+                    findAct.nbOrg += 1;
+                }
+                this.#me.activList.push({ title, type, status: 'organisateur', date, XPEarn: xpWinOrg });
                 break;
             case 'soon':
-                this.#me.activList.push({ title, type, status: 'inscrit', date });
+                this.#me.activList.push({ title, type, status: 'inscrit', date, XPEarn: 0 });
                 break;
             default:
                 break;
@@ -176,36 +137,9 @@ class XPHub {
                 return undefined;
             const findAct = this.#xpAct.find((elem) => elem.name === act.type || elem.alias.includes(act.type));
             const { xpWinPart, limitPart, nbPart } = findAct;
-            nbPart < limitPart && (this.#me.nbXpsSoon += xpWinPart) && findAct.nbPart++;
+            nbPart <= limitPart && (this.#me.nbXpsSoon += xpWinPart) && findAct.nbPart++;
         });
     };
-
-    countXPValidated = () => {
-        this.#me.activList.forEach(element => {
-            if (element.status !== 'present') return;
-            switch (element.type) {
-                case 'Talk':
-                    this.#participation.talk += 1;
-                    break;
-                case 'Workshop':
-                    this.#participation.workshop += 1;
-                    break;
-                case 'Hackathon':
-                    this.#participation.hackaton += 1;
-                    break;
-                case 'Experience':
-                    this.#participation.experience += 1;
-                    break;
-                default:
-                    console.log("Unknown element:", element.type);
-                    break;
-            }
-        });
-    }
-
-    getParticipationVariable = () => {
-        return this.#participation;
-    }
 
     getMeVariable = () => {
         return this.#me;
@@ -213,6 +147,10 @@ class XPHub {
 
     getnbXps = () => {
         return this.#me.nbXps;
+    }
+
+    getxpAct = () => {
+        return this.#xpAct;
     }
 }
 

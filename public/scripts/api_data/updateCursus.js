@@ -34,9 +34,9 @@ const getXPHubData = async (api, XPHubApi, generalNotesData) => {
         }
     });
     XPHubApi.countXpSoon();
-    XPHubApi.countXPValidated();
-    const meXPHubVar = await XPHubApi.getMeVariable();
-    updateXPHubInformation(meXPHubVar);
+    const XPHub_me = await XPHubApi.getMeVariable();
+    const XPHub_xpAct = await XPHubApi.getxpAct();
+    updateXPHubInformation(XPHub_me, XPHub_xpAct);
 }
 
 const roadBlockData = `
