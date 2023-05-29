@@ -7,7 +7,6 @@ const sendUpdate = async (eventName, data) => {
 
 export const updateActiveTimeChart = async (api) => {
     const totalDayActiveTime = (await api.getDataFromAPI(`user/${api.getUserEmail()}/netsoul?format=json`));
-    console.log((totalDayActiveTime.slice(-14)));
     const lastWeekActiveTime = formatDataWithMissingDates(totalDayActiveTime.slice(-13, -6));
     const last7DayActiveTime = formatDataWithMissingDates(totalDayActiveTime.slice(-7));
     let mytotalYearHour = 0;
@@ -63,7 +62,6 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
     const credits = generalUserData['credits'];
     const GPA = generalUserData['gpa'][0]['gpa'];
     const highestTEpitech = await api.getHighestTEpitech(generalNotesData);
-    console.log("highestTEpitech", highestTEpitech);
 
     sendUpdate('importantDataCard-update', {
         _credits: credits,
@@ -73,7 +71,6 @@ export const updateImportantDataCard = async (api, generalUserData, generalNotes
 }
 
 export const updateXPHubInformation = async (XPHub_me, XPHub_xpAct) => {
-    console.log("xphub var", XPHub_me, XPHub_xpAct);
     sendUpdate('xpHub-update', {
         _XPHub_me: XPHub_me,
         _XPHub_xpAct: XPHub_xpAct
@@ -81,14 +78,12 @@ export const updateXPHubInformation = async (XPHub_me, XPHub_xpAct) => {
 }
 
 export const updateRoadBlockInformation = async (roadBlocksList) => {
-    console.log("roadBlocksList", roadBlocksList);
     sendUpdate('roadBlock-update', {
         _roadBlocksList: roadBlocksList,
     });
 }
 
 export const updateTimeLineData = async (timeLineData) => {
-    console.log("timeLineData", timeLineData);
     sendUpdate('timeLine-update', {
         _timeLineData: timeLineData,
     });
@@ -97,8 +92,6 @@ export const updateTimeLineData = async (timeLineData) => {
 export const updateMessageAndAlert = async (api) => {
     const alert = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/alert?format=json`);
     const message = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/message?format=json`);
-    console.log("messageAndAlert", alert);
-    console.log("messageAndAlert", message);
     sendUpdate('messageAndAlert-update', {
         _message: message,
         _alert: alert

@@ -1,5 +1,6 @@
 import { ApiCall } from "./ApiCall.js";
 import { XPHub } from "./XPHubApi.js";
+import { dashboardScript } from "./dashboard.js";
 import { updateAllCursusData } from "./updateCursus.js";
 import { updateActiveTimeChart, updateUserInformation, updateImportantDataCard, updateMessageAndAlert } from "./updateInformation.js";
 
@@ -42,5 +43,6 @@ window.addEventListener('load', async () => {
     updateMessageAndAlert(api);
     updateUserInformation(api, generalUserData);
     updateImportantDataCard(api, generalUserData, generalNotesData);
-    updateAllCursusData(api, XPHubApi, generalNotesData);
+    const timeLineData = await updateAllCursusData(api, XPHubApi, generalNotesData);
+    dashboardScript(api, timeLineData);
 });

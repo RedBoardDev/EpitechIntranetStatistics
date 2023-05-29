@@ -15,7 +15,6 @@ const CustomTodayMarker = () => {
 };
 
 const TimelineComponent = ({ projects }) => {
-  console.log(projects);
   if (!projects) {
     return <div>Loading...</div>;
   }

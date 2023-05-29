@@ -39,6 +39,7 @@ const getXPHubData = async (api, XPHubApi, generalNotesData) => {
     updateXPHubInformation(XPHub_me, XPHub_xpAct);
 }
 
+// a bouger
 const roadBlockData = `
   {
     "Technical foundation": {
@@ -235,8 +236,7 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
 const updateTimelineProjet = async (api) => {
     let timeLineData = {};
     const generalCourse = await api.getGeneralCourseData();
-    const regexSkip = /^(B0|[A-Z]0)|.*Hub.*|.*Roadblock.*|.*Administrative.*|.*Internship.*|.*Communication.*|.*Hackathon.*/;
-
+    const regexSkip = /^(B0|[A-Z]0)|.*Hub.*|.*Roadblock.*|.*Administrative.*|.*Internship.*|.*Hackathon.*/;
     for (let node of generalCourse) {
         if (node.status === "notregistered") {
             continue;
@@ -266,10 +266,11 @@ const updateTimelineProjet = async (api) => {
         }
     }
     updateTimeLineData(timeLineData);
+    return timeLineData;
 };
 
 export const updateAllCursusData = async (api, XPHubApi, generalNotesData) => {
     getXPHubData(api, XPHubApi, generalNotesData); // await here ?
     getRoadBlockInformation(api, XPHubApi); // await here ?
-    updateTimelineProjet(api); // await here ?
+    return updateTimelineProjet(api); // await here ?
 }

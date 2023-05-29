@@ -2,12 +2,10 @@ import './Dashboard.css';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ActiveTimeChart from './ActiveTimeChart';
 import ActivityList from './ActiveList';
-import parse from 'html-react-parser';
 import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,7 +13,6 @@ import TimelineComponent from './TimelineComponent';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 function Dashboard() {
-  const navigate = useNavigate();
 
   const ButtonSideNav = ({ text, onClick }) => {
     const handleClick = () => {
@@ -28,18 +25,6 @@ function Dashboard() {
       <Button variant="contained" size="large" style={{ backgroundColor: '#212b37', color: 'aliceblue', width: '10%', padding: '15px', margin: '20px 20px', borderRadius: '10px', fontSize: '1.0rem', fontWeight: 'bolder', display: 'flex', alignItems: 'center', textTransform: 'none' }} onClick={handleClick}>
         {text}
       </Button>
-    );
-  };
-
-  const GradientBox = ({ text, secondText, colors }) => {
-    const gradient = `linear-gradient(to bottom, ${colors.join(', ')})`;
-    return (
-      <Box component="span" sx={{ p: 2, background: gradient, width: '20%', margin: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', borderRadius: '10px', fontSize: '1.5rem', fontWeight: 'bolder' }}>
-        {text}
-        <Box sx={{ fontSize: '1.0rem', fontWeight: 'normal' }}>
-          {secondText}
-        </Box>
-      </Box>
     );
   };
 
@@ -151,16 +136,6 @@ function Dashboard() {
   const [timeLineData, setTimeLineData] = useState({
     _timeLineData: undefined
   });
-
-  const [expandedIndex, setExpandedIndex] = useState(null);
-
-  const handleToggle = (index) => {
-    if (expandedIndex === index) {
-      setExpandedIndex(null);
-    } else {
-      setExpandedIndex(index);
-    }
-  };
 
   useEffect(() => {
     const handleSidebarUpdate = (event) => {
