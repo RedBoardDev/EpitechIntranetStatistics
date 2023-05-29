@@ -94,6 +94,6 @@ export const updateMessageAndAlert = async (api) => {
     const message = await api.getDataFromAPI(`user/${api.getUserEmail()}/notification/message?format=json`);
     sendUpdate('messageAndAlert-update', {
         _message: message,
-        _alert: alert
+        _alert: (alert === undefined || alert.length > 0 ? alert : undefined)
     });
 }
