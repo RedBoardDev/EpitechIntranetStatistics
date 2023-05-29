@@ -11,7 +11,7 @@ function isDateInCurrentWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandato
     startOfWeek.setHours(0, 0, 0, 0);
     endOfWeek.setHours(23, 59, 59, 999);
 
-    if(dayOfWeek !== undefined) {
+    if (dayOfWeek !== undefined) {
         return date.getDay() === dayNumber && date >= startOfWeek && date <= endOfWeek;
     } else {
         return date >= startOfWeek && date <= endOfWeek;
@@ -30,7 +30,7 @@ function isDateInLastWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
     startOfLastWeek.setHours(0, 0, 0, 0);
     endOfLastWeek.setHours(23, 59, 59, 999);
 
-    if(dayOfWeek !== undefined) {
+    if (dayOfWeek !== undefined) {
         return date.getDay() === dayNumber && date >= startOfLastWeek && date <= endOfLastWeek;
     } else {
         return date >= startOfLastWeek && date <= endOfLastWeek;
@@ -51,7 +51,7 @@ function getCurrentWeekLink() {
 function getLastWeekLink() {
     var now = new Date();
     var startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - ((now.getDay() + 6) % 7) + 1 - (7 * 2   ));
+    startOfWeek.setDate(now.getDate() - ((now.getDay() + 6) % 7) + 1 - (7 * 2));
     var endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
     var startStr = startOfWeek.toISOString().slice(0, 10);
@@ -59,13 +59,41 @@ function getLastWeekLink() {
     return 'planning/load?format=json&start=' + startStr + '&end=' + endStr;
 }
 
-const checkDeadlineAtCurrentWeek = (timeLineData) => {
-    for (let key in timeLineData) {
-        for (let item of timeLineData[key]) {
-            if (isDateInLastWeek(item.end) === true) { // changer par actual week
-                console.log(item['title'], "finit cette semaine, le", item['end']);
+const isProjectInProgress = (project) => {
+    const currentDate = new Date();
+    const beginDate = new Date(project.begin);
+    const endDate = new Date(project.end);
+
+    return currentDate >= beginDate && currentDate <= endDate;
+};
+
+const isProjectInProgressLastWeek = (project) => {
+    const currentDate = new Date();
+    const lastWeek = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const beginDate = new Date(project.begin);
+    const endDate = new Date(project.end);
+
+    return beginDate <= lastWeek && endDate >= lastWeek;
+  };
+
+
+const checkProjectInProgressAtCurrentWeek = (timeLineData) => {
+    for (const key in timeLineData) {
+        const projects = timeLineData[key];
+        for (const project of projects) {
+            // const isInProgress = isProjectInProgress(project); // replace by this line
+            const isInProgress = isProjectInProgressLastWeek(project);
+            if (isInProgress) {
+                console.log("project in progress", project.title)
+                checkDeadlineAtCurrentWeek(project);
             }
         }
+    }
+};
+
+const checkDeadlineAtCurrentWeek = (project) => {
+    if (isDateInLastWeek(project.end) === true) { // changer par actual week
+        console.log(project.title, "finit cette semaine, le", project.end);
     }
 }
 
@@ -207,10 +235,10 @@ const roadBlockData = `
 function checkModuleCode(moduleCode) {
     const data = JSON.parse(roadBlockData);
     for (const category in data) {
-      const modules = data[category].modules;
-      if (modules.includes(moduleCode)) {
-        return true;
-      }
+        const modules = data[category].modules;
+        if (modules.includes(moduleCode)) {
+            return true;
+        }
     }
     return false;
 }
@@ -220,11 +248,12 @@ const checkActivitiesAtCurrentWeek = async (api) => {
     console.log(link);
     const rsp = await api.getDataFromAPI(link);
     for (let key in rsp) {
-        if ((rsp[key]['type_title'] !== "Follow-up" && rsp[key]['type_title'] !== 'Defense' && rsp[key]['type_title'] !== 'Review' && rsp[key]['type_title'] !== 'Delivery') ||
+        if ((rsp[key]['type_title'] !== "Follow-up" && rsp[key]['type_title'] !== 'Defense' && rsp[key]['type_title'] !== 'Review' && rsp[key]['type_title'] !== 'Delivery' && rsp[key]['type_title'] !== 'Keynote') ||
             rsp[key]['module_available'] === false ||
             // rsp[key]['past'] === true || // a remettre -> si l'activité est passé, ne pas l'afficher
             rsp[key]['module_registered'] === false ||
             checkModuleCode(rsp[key]['codemodule']) === false) {
+            // console.log("skipped", rsp[key]);
             continue;
         }
         if (rsp[key]['event_registered'] === false) {
@@ -235,6 +264,6 @@ const checkActivitiesAtCurrentWeek = async (api) => {
 }
 
 export const dashboardScript = (api, timeLineData) => {
-    checkDeadlineAtCurrentWeek(timeLineData);
+    checkProjectInProgressAtCurrentWeek(timeLineData);
     checkActivitiesAtCurrentWeek(api);
 }
