@@ -204,16 +204,18 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
     let roadBlocksList = [];
     const data = JSON.parse(roadBlockData);
     const types = Object.keys(data);
-    const semestersCodeForActualYear = [0, 3, 4]; // TO DO automatically
 
     for (const type of types) {
         const modulesActualSemester = await Promise.all(data[type].modules.map(async codeInstance => {
             const semesterCodeMatch = codeInstance.match(/-(\d)/);
             if (semesterCodeMatch) {
                 const semesterCode = semesterCodeMatch[1];
-                if (semestersCodeForActualYear.indexOf(Number(semesterCode)) !== -1) {
+                if (semesterCode) {
                     let moduleInfo = await getModuleInformation(api, codeInstance, semesterCode);
-                    if (codeInstance === 'B-INN-400') {
+                    if (/B-INN-[0-9]00/.test(codeInstance)) {
+                        if (moduleInfo === null || moduleInfo === undefined) {
+                            return false;
+                        }
                         moduleInfo.credits =  8;
                         moduleInfo.user_credits = 8;
                         moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10) % 10); // voir si l'on peut aller au dessus de 99
