@@ -295,7 +295,6 @@ function Dashboard() {
               <div className="RoadblockContainer">
                 {_roadBlocksList &&
                   _roadBlocksList.map((item, index) => {
-                    // Calculer le total des crédits des modules
                     const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
                     const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
                     const availableCredits = item.modules.reduce((acc, module) => {
@@ -307,8 +306,15 @@ function Dashboard() {
 
                     return (
                       <div key={index} className="RoadblockBox">
-                        <h3 style={{ fontSize: '1.5rem', marginTop: '1px' }}>
-                          <span>{item.type}</span> {totalUserCredits}/{availableCredits} ({totalCredits})
+                        <h3 style={{ fontSize: '1.5rem', marginTop: '1px', color: 'white' }}>
+                          <span>{item.type}</span>&nbsp;
+                          <span>
+                            {totalUserCredits}/{availableCredits}
+                          </span>
+                          {/* Voir ici pour remplacer 100 et le texte par le nbr de credit minimum pour avoir le roadblock */}
+                          <span style={{ color: totalCredits < 100 ? 'red' : 'white' }} title="Ceci est le total des crédits pour tous les modules de ce type.">
+                            ({totalCredits})
+                          </span>
                         </h3>
                         {item.modules.map((module, moduleIndex) => {
                           let textColor;

@@ -191,7 +191,7 @@ async function getModuleInformation(api, codeInstance, codeSemester) { //check s
                 user_credits: nodeCompleteData?.['user_credits'] ?? null,
                 credits: nodeCompleteData?.['credits'] ?? null,
                 student_grade: nodeCompleteData?.['student_grade'] ?? null,
-                student_credits: nodeCompleteData?.['student_credits'] ?? '0',
+                student_credits: nodeCompleteData?.['student_credits'] ?? 0,
                 color: nodeCompleteData?.['color'] ?? null
             };
             return moduleInfo;

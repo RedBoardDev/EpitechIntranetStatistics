@@ -97,3 +97,11 @@ export const updateMessageAndAlert = async (api) => {
         _alert: (alert === undefined || alert.length > 0 ? alert : undefined)
     });
 }
+
+export const updateDashBoard = async (projectInProgress, activitesAtCurrentWeek) => {
+    console.log("dashboard-update", projectInProgress, activitesAtCurrentWeek);
+    sendUpdate('dashboard-update', {
+        _projectInProgress: projectInProgress,
+        _activitesAtCurrentWeek: activitesAtCurrentWeek
+    });
+}

@@ -1,3 +1,5 @@
+import { updateDashBoard } from "./updateInformation.js";
+
 function isDateInCurrentWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const dayNumber = days.indexOf(dayOfWeek);
@@ -74,28 +76,27 @@ const isProjectInProgressLastWeek = (project) => {
     const endDate = new Date(project.end);
 
     return beginDate <= lastWeek && endDate >= lastWeek;
-  };
+};
 
+const checkDeadlineAtCurrentWeek = (project) => {
+    return isDateInLastWeek(project.end); // changer par actual week};
+};
 
 const checkProjectInProgressAtCurrentWeek = (timeLineData) => {
+    let projectInProgress = [];
     for (const key in timeLineData) {
         const projects = timeLineData[key];
         for (const project of projects) {
             // const isInProgress = isProjectInProgress(project); // replace by this line
             const isInProgress = isProjectInProgressLastWeek(project);
             if (isInProgress) {
-                console.log("project in progress", project.title)
-                checkDeadlineAtCurrentWeek(project);
+                project.deadLineThisWeek = checkDeadlineAtCurrentWeek(project); // TODO
+                projectInProgress.push(project);
             }
         }
     }
+    return projectInProgress;
 };
-
-const checkDeadlineAtCurrentWeek = (project) => {
-    if (isDateInLastWeek(project.end) === true) { // changer par actual week
-        console.log(project.title, "finit cette semaine, le", project.end);
-    }
-}
 
 // a bouger
 const roadBlockData = `
@@ -241,9 +242,10 @@ function checkModuleCode(moduleCode) {
         }
     }
     return false;
-}
+};
 
 const checkActivitiesAtCurrentWeek = async (api) => {
+    let activitesAtCurrentWeek = [];
     const link = getLastWeekLink(); // changer par actual week
     console.log(link);
     const rsp = await api.getDataFromAPI(link);
@@ -256,14 +258,16 @@ const checkActivitiesAtCurrentWeek = async (api) => {
             // console.log("skipped", rsp[key]);
             continue;
         }
-        if (rsp[key]['event_registered'] === false) {
+        if (rsp[key]['event_registered'] === false) { // TODO on react
             console.log("inscrit au module mais pas a cette activité !! alerte");
         }
-        console.log("checkActivitiesAtCurrentWeek", rsp[key]);
+        activitesAtCurrentWeek.push(rsp[key]);
     }
-}
+    return activitesAtCurrentWeek;
+};
 
-export const dashboardScript = (api, timeLineData) => {
-    checkProjectInProgressAtCurrentWeek(timeLineData);
-    checkActivitiesAtCurrentWeek(api);
-}
+export const dashboardScript = async (api, timeLineData) => {
+    const projectInProgress = checkProjectInProgressAtCurrentWeek(timeLineData);
+    const activitesAtCurrentWeek = await checkActivitiesAtCurrentWeek(api);
+    updateDashBoard(projectInProgress, activitesAtCurrentWeek);
+};
