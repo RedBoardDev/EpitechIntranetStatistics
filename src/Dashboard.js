@@ -137,6 +137,12 @@ function Dashboard() {
     _timeLineData: undefined
   });
 
+
+  const [dashboardUpdate, setDashboardUpdate] = useState({
+    _projectInProgress: undefined,
+    _activitesAtCurrentWeek: undefined
+  });
+
   useEffect(() => {
     const handleSidebarUpdate = (event) => {
       const { detail } = event;
@@ -173,6 +179,11 @@ function Dashboard() {
       setTimeLineData(detail);
     };
 
+    const handleDashboardUpdate = (event) => {
+      const { detail } = event;
+      setDashboardUpdate(detail);
+    };
+
     window.addEventListener('sidebar-update', handleSidebarUpdate);
     window.addEventListener('importantDataCard-update', handleimportantDataCardUpdate);
     window.addEventListener('activeTimeChart-update', handleTimeChartData);
@@ -180,6 +191,7 @@ function Dashboard() {
     window.addEventListener('xpHub-update', handleHubData);
     window.addEventListener('messageAndAlert-update', handleMsgAlertData);
     window.addEventListener('timeLine-update', handleTimeLineData);
+    window.addEventListener('dashboard-update', handleDashboardUpdate);
 
     return () => {
       window.removeEventListener('sidebar-update', handleSidebarUpdate);
@@ -189,6 +201,7 @@ function Dashboard() {
       window.removeEventListener('xpHub-update', handleHubData);
       window.removeEventListener('messageAndAlert-update', handleMsgAlertData);
       window.removeEventListener('timeLine-update', handleTimeLineData);
+      window.removeEventListener('dashboard-update', handleDashboardUpdate);
     };
   }, []);
 
@@ -199,6 +212,7 @@ function Dashboard() {
   const { _XPHub_me, _XPHub_xpAct } = meXPHubVar;
   const { _message, _alert } = msgAlertData;
   const { _timeLineData } = timeLineData;
+  const { _projectInProgress, _activitesAtCurrentWeek } = dashboardUpdate;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -208,6 +222,7 @@ function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log("ouaisssssss", _activitesAtCurrentWeek);
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -285,11 +300,45 @@ function Dashboard() {
                 <StyledBox text1={_GPA} text2="G.P.A" />
                 <StyledBox text1={_highestTEpitech} text2="best TEPitech" />
               </div>
-              {<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%' }}>
-                <div className='TimelogBox'>
-                  oui
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '10px', height: '100%' }}>
+                <div className='TimelogBox' style={{ flex: 1, marginRight: '10px' }}>
+                  {_projectInProgress && (
+                    <div>
+                      <h1 style={{ fontSize: '22px' }}>Don't forget to finish that this week...</h1>
+                      <hr />
+                      {_projectInProgress.length > 0 ? (
+                        <div>
+                          {_projectInProgress.map((item, index) => (
+                            item.deadLineThisWeek && (
+                              <div key={index}>
+                                <h1 style={{ textAlign: 'left' }}>- {item.title}</h1>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="small-text">No project will be finished this week</p>
+                      )}
+                      <hr />
+                    </div>
+                  )}
                 </div>
-              </div>}
+                <div className='TimelogBox3' style={{ flex: 1, marginLeft: '10px' }}>
+                  {(_activitesAtCurrentWeek && _activitesAtCurrentWeek.length > 0) && (
+                    <div>
+                      <h1 style={{ fontSize: '22px' }}>This week, there is...</h1>
+                      <hr />
+                      {_activitesAtCurrentWeek.map((item, index) => (
+                        <div key={index}>
+                          <h1>- {item.acti_title}</h1>
+                          <p>From {item.start} to {item.end}</p>
+                        </div>
+                      ))}
+                      <hr />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>}
             {roadblocks && (<div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
               <div className="RoadblockContainer">
