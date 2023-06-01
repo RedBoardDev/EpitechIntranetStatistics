@@ -276,7 +276,7 @@ function Dashboard() {
                   },
                 }}
               >
-              <MenuItem>Informations</MenuItem>
+              <MenuItem style={{ fontWeight: 'bold' }}>Informations</MenuItem>
               {msgAlertData && _message &&
                 _message.map((item, index) => (
                   <MenuItem style={{ margin: '10px' }} key={index}>
@@ -304,20 +304,20 @@ function Dashboard() {
                 <div className='TimelogBox' style={{ flex: 1, marginRight: '10px' }}>
                   {_projectInProgress && (
                     <div>
-                      <h1 style={{ fontSize: '22px' }}>Don't forget to finish that this week...</h1>
+                      <h1 style={{ fontSize: '20px' }}>It ends this week...</h1>
                       <hr />
                       {_projectInProgress.length > 0 ? (
                         <div>
                           {_projectInProgress.map((item, index) => (
                             item.deadLineThisWeek && (
                               <div key={index}>
-                                <h1 style={{ textAlign: 'left' }}>- {item.title}</h1>
+                                <h2 style={{ textAlign: 'left' }}>- {item.title}</h2>
                               </div>
                             )
                           ))}
                         </div>
                       ) : (
-                        <p className="small-text">No project will be finished this week</p>
+                        <p className="small-text">No projects to finish this week.</p>
                       )}
                       <hr />
                     </div>
@@ -326,12 +326,11 @@ function Dashboard() {
                 <div className='TimelogBox3' style={{ flex: 1, marginLeft: '10px' }}>
                   {(_activitesAtCurrentWeek && _activitesAtCurrentWeek.length > 0) && (
                     <div>
-                      <h1 style={{ fontSize: '22px' }}>This week, there is...</h1>
+                      <h1 style={{ fontSize: '20px' }}>This week, there is:</h1>
                       <hr />
                       {_activitesAtCurrentWeek.map((item, index) => (
                         <div key={index}>
-                          <h1>- {item.acti_title}</h1>
-                          <p>From {item.start} to {item.end}</p>
+                          <h2>- {item.acti_title}</h2>
                         </div>
                       ))}
                       <hr />
