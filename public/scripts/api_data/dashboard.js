@@ -1,13 +1,13 @@
 import { updateDashBoard } from "./updateInformation.js";
 
 function isDateInCurrentWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
-    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const dayNumber = days.indexOf(dayOfWeek);
 
     var date = new Date(dateStr);
     var now = new Date();
     var startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - (now.getDay() + 6) % 7);
+    startOfWeek.setDate(now.getDate() - (now.getDay() || 7) + 1);;
     var endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
     startOfWeek.setHours(0, 0, 0, 0);
@@ -20,29 +20,29 @@ function isDateInCurrentWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandato
     }
 }
 
-function isDateInLastWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
-    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const dayNumber = days.indexOf(dayOfWeek);
+// function isDateInLastWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
+//     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+//     const dayNumber = days.indexOf(dayOfWeek);
 
-    var date = new Date(dateStr);
-    var now = new Date();
-    var startOfThisWeek = new Date(now.setDate(now.getDate() - now.getDay()));
-    var startOfLastWeek = new Date(startOfThisWeek.setDate(startOfThisWeek.getDate() - 6));
-    var endOfLastWeek = new Date(new Date(startOfLastWeek).setDate(startOfLastWeek.getDate() + 6));
-    startOfLastWeek.setHours(0, 0, 0, 0);
-    endOfLastWeek.setHours(23, 59, 59, 999);
+//     var date = new Date(dateStr);
+//     var now = new Date();
+//     var startOfThisWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+//     var startOfLastWeek = new Date(startOfThisWeek.setDate(startOfThisWeek.getDate() - 6));
+//     var endOfLastWeek = new Date(new Date(startOfLastWeek).setDate(startOfLastWeek.getDate() + 6));
+//     startOfLastWeek.setHours(0, 0, 0, 0);
+//     endOfLastWeek.setHours(23, 59, 59, 999);
 
-    if (dayOfWeek !== undefined) {
-        return date.getDay() === dayNumber && date >= startOfLastWeek && date <= endOfLastWeek;
-    } else {
-        return date >= startOfLastWeek && date <= endOfLastWeek;
-    }
-}
+//     if (dayOfWeek !== undefined) {
+//         return date.getDay() === dayNumber && date >= startOfLastWeek && date <= endOfLastWeek;
+//     } else {
+//         return date >= startOfLastWeek && date <= endOfLastWeek;
+//     }
+// }
 
 function getCurrentWeekLink() {
     var now = new Date();
     var startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - ((now.getDay() + 6) % 7) + 1);
+    startOfWeek.setDate(now.getDate() - (now.getDay() || 7) + 1);
     var endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
     var startStr = startOfWeek.toISOString().slice(0, 10);
@@ -50,18 +50,7 @@ function getCurrentWeekLink() {
     return 'planning/load?format=json&start=' + startStr + '&end=' + endStr;
 }
 
-function getLastWeekLink() {
-    var now = new Date();
-    var startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - ((now.getDay() + 6) % 7) + 1 - (7 * 2));
-    var endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    var startStr = startOfWeek.toISOString().slice(0, 10);
-    var endStr = endOfWeek.toISOString().slice(0, 10);
-    return 'planning/load?format=json&start=' + startStr + '&end=' + endStr;
-}
-
-const isProjectInProgress = (project) => {
+const isProjectInProgressCurrentWeek = (project) => {
     const currentDate = new Date();
     const beginDate = new Date(project.begin);
     const endDate = new Date(project.end);
@@ -69,17 +58,8 @@ const isProjectInProgress = (project) => {
     return currentDate >= beginDate && currentDate <= endDate;
 };
 
-const isProjectInProgressLastWeek = (project) => {
-    const currentDate = new Date();
-    const lastWeek = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const beginDate = new Date(project.begin);
-    const endDate = new Date(project.end);
-
-    return beginDate <= lastWeek && endDate >= lastWeek;
-};
-
 const checkDeadlineAtCurrentWeek = (project) => {
-    return isDateInLastWeek(project.end); // changer par actual week};
+    return isDateInCurrentWeek(project.end);
 };
 
 const checkProjectInProgressAtCurrentWeek = (timeLineData) => {
@@ -87,8 +67,7 @@ const checkProjectInProgressAtCurrentWeek = (timeLineData) => {
     for (const key in timeLineData) {
         const projects = timeLineData[key];
         for (const project of projects) {
-            // const isInProgress = isProjectInProgress(project); // replace by this line
-            const isInProgress = isProjectInProgressLastWeek(project);
+            const isInProgress = isProjectInProgressCurrentWeek(project);
             if (isInProgress) {
                 project.deadLineThisWeek = checkDeadlineAtCurrentWeek(project); // TODO
                 projectInProgress.push(project);
@@ -246,19 +225,18 @@ function checkModuleCode(moduleCode) {
 
 const checkActivitiesAtCurrentWeek = async (api) => {
     let activitesAtCurrentWeek = [];
-    const link = getLastWeekLink(); // changer par actual week
+    const link = getCurrentWeekLink();
     console.log(link);
     const rsp = await api.getDataFromAPI(link);
     for (let key in rsp) {
         if ((rsp[key]['type_title'] !== "Follow-up" && rsp[key]['type_title'] !== 'Defense' && rsp[key]['type_title'] !== 'Review' && rsp[key]['type_title'] !== 'Delivery' && rsp[key]['type_title'] !== 'Keynote') ||
             rsp[key]['module_available'] === false ||
-            // rsp[key]['past'] === true || // a remettre -> si l'activité est passé, ne pas l'afficher
+            rsp[key]['past'] === true ||
             rsp[key]['module_registered'] === false ||
             checkModuleCode(rsp[key]['codemodule']) === false) {
-            // console.log("skipped", rsp[key]);
             continue;
         }
-        if (rsp[key]['event_registered'] === false) { // TODO on react
+        if (rsp[key]['event_registered'] === false) {
             console.log("inscrit au module mais pas a cette activité !! alerte");
         }
         activitesAtCurrentWeek.push(rsp[key]);

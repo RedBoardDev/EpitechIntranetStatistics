@@ -16,18 +16,39 @@ export const updateActiveTimeChart = async (api) => {
     let myTotalLastWeekHour = 0;
     let averageTotalLastWeekHour = 0;
 
+    const now = new Date();
+    const currentDayOfWeek = now.getDay();
+    const adjustedDayOfWeek = currentDayOfWeek === 0 ? 7 : currentDayOfWeek;
+
+    // Set the current week start and end dates
+    const currentWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - adjustedDayOfWeek + 1);
+    const currentWeekEnd = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() + 6);
+
+    // Set the last week start and end dates
+    const lastWeekStart = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 7);
+    const lastWeekEnd = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 1);
+
     for (const item of totalDayActiveTime) {
         mytotalYearHour += item[1] / 3600;
         averageTotalYearHour += item[5] / 3600;
     }
+
     for (const item of lastWeekActiveTime) {
-        myTotalLastWeekHour += item.activeTime;
-        averageTotalLastWeekHour += item.averageTime;
+        const itemDate = new Date(item.date);
+        if (itemDate >= lastWeekStart && itemDate <= lastWeekEnd) {
+            myTotalLastWeekHour += item.activeTime;
+            averageTotalLastWeekHour += item.averageTime;
+        }
     }
+
     for (const item of last7DayActiveTime) {
-        myTotalActualWeekHour += item.activeTime;
-        averageTotalActualWeekHour += item.averageTime;
+        const itemDate = new Date(item.date);
+        if (itemDate >= currentWeekStart && itemDate <= currentWeekEnd) {
+            myTotalActualWeekHour += item.activeTime;
+            averageTotalActualWeekHour += item.averageTime;
+        }
     }
+
     sendUpdate('activeTimeChart-update', {
         _last7DayActiveTime: last7DayActiveTime,
         _myTotalActualWeekHour: myTotalActualWeekHour,
@@ -38,6 +59,7 @@ export const updateActiveTimeChart = async (api) => {
         _averageTotalLastWeekHour: averageTotalLastWeekHour
     });
 }
+
 
 export const updateUserInformation = async (api, generalUserData) => {
     const prenom = generalUserData['title'];
