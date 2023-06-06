@@ -20,25 +20,6 @@ function isDateInCurrentWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandato
     }
 }
 
-// function isDateInLastWeek(dateStr, dayOfWeek) { // dayOfWeek is not a mandatory
-//     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-//     const dayNumber = days.indexOf(dayOfWeek);
-
-//     var date = new Date(dateStr);
-//     var now = new Date();
-//     var startOfThisWeek = new Date(now.setDate(now.getDate() - now.getDay()));
-//     var startOfLastWeek = new Date(startOfThisWeek.setDate(startOfThisWeek.getDate() - 6));
-//     var endOfLastWeek = new Date(new Date(startOfLastWeek).setDate(startOfLastWeek.getDate() + 6));
-//     startOfLastWeek.setHours(0, 0, 0, 0);
-//     endOfLastWeek.setHours(23, 59, 59, 999);
-
-//     if (dayOfWeek !== undefined) {
-//         return date.getDay() === dayNumber && date >= startOfLastWeek && date <= endOfLastWeek;
-//     } else {
-//         return date >= startOfLastWeek && date <= endOfLastWeek;
-//     }
-// }
-
 function getCurrentWeekLink() {
     var now = new Date();
     var startOfWeek = new Date(now);
