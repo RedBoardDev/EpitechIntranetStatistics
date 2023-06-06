@@ -25,8 +25,8 @@ export const updateActiveTimeChart = async (api) => {
     const currentWeekEnd = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() + 6);
 
     // Set the last week start and end dates
-    const lastWeekStart = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 7);
-    const lastWeekEnd = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 1);
+    // const lastWeekStart = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 7);
+    // const lastWeekEnd = new Date(currentWeekStart.getFullYear(), currentWeekStart.getMonth(), currentWeekStart.getDate() - 1);
 
     for (const item of totalDayActiveTime) {
         mytotalYearHour += item[1] / 3600;
@@ -34,11 +34,11 @@ export const updateActiveTimeChart = async (api) => {
     }
 
     for (const item of lastWeekActiveTime) {
-        const itemDate = new Date(item.date);
-        if (itemDate >= lastWeekStart && itemDate <= lastWeekEnd) {
+        // const itemDate = new Date(item.date);
+        // if (itemDate >= lastWeekStart && itemDate <= lastWeekEnd) {
             myTotalLastWeekHour += item.activeTime;
             averageTotalLastWeekHour += item.averageTime;
-        }
+        // }
     }
 
     for (const item of last7DayActiveTime) {
