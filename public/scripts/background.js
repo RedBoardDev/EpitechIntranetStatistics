@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             }
         });
         waitForVar().then(() => {
-            chrome.tabs.    update({url: chrome.runtime.getURL("index.html")});
+            chrome.tabs.create({url: chrome.runtime.getURL("index.html")});
         });
     }
     if (request.command === "GET_TOKEN") {
