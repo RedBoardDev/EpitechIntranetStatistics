@@ -99,7 +99,7 @@ function Dashboard() {
     _cursus: '-',
     _semester: '-',
     _promo: '-',
-    _profilPicture: '-',
+    _profilPicture: 'basic_profil_picture.png',
     _city: '-'
   });
 
