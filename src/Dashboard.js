@@ -311,26 +311,27 @@ function Dashboard() {
                           {_projectInProgress.map((item, index) => (
                             item.deadLineThisWeek && (
                               <div key={index}>
-                                <h2 style={{ textAlign: 'left' }}>- {item.title}</h2>
+                                <h2 style={{ textAlign: 'left' }}>{item.title}</h2>
                               </div>
                             )
                           ))}
                         </div>
                       ) : (
-                        <p className="small-text">No projects to finish this week.</p>
+                        <h2 className="small-text">No projects to finish this week.</h2>
                       )}
                       <hr />
                     </div>
                   )}
                 </div>
                 <div className='TimelogBox3' style={{ flex: 1, marginLeft: '10px' }}>
-                  {(_activitesAtCurrentWeek && _activitesAtCurrentWeek.length > 0) && (
+                  {_activitesAtCurrentWeek && (
                     <div>
                       <h1 style={{ fontSize: '20px' }}>This week, there is:</h1>
                       <hr />
                       {_activitesAtCurrentWeek.map((item, index) => (
                         <div key={index}>
-                          <h2>- {item.acti_title}</h2>
+                          <h2>{item.acti_title}</h2>
+                          <p style={{ textAlign: 'left' }}>{item.begin} - {item.end}</p>
                         </div>
                       ))}
                       <hr />
