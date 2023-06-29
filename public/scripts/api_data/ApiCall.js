@@ -2,6 +2,7 @@ class ApiCall {
     #preLoadData;
     #scolarYear;
     #location;
+    #studentYear
     constructor() {
         window.localStorage.setItem("refresh_token", null);
         window.localStorage.setItem("user_email", null);
@@ -14,6 +15,7 @@ class ApiCall {
         this.setScolarYear(userData['scolaryear'])
         this.setUserLocation(userData['location']);
         this.#preLoadData.set("general_user", userData);
+        this.#studentYear = userData['studentyear'];
 
         const notesData = await this.getDataFromAPI(`user/${email}/notes?format=json`);
         this.#preLoadData.set("general_notes", notesData);
@@ -49,6 +51,10 @@ class ApiCall {
     }
 
     // getter / setter function
+
+    getStudentYear() {
+        return this.#studentYear;
+    }
 
     getUserToken() {
         return window.localStorage.getItem("refresh_token");

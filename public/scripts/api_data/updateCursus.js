@@ -70,6 +70,7 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
     let roadBlocksList = [];
     const data = roadBlockData;
     const types = Object.keys(data);
+    const studentYear = api.getStudentYear();
 
     for (const type of types) {
         const modulesActualSemester = await Promise.all(data[type].modules.map(async codeInstance => {
@@ -82,8 +83,8 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
                         if (moduleInfo === null || moduleInfo === undefined) {
                             return false;
                         }
-                        moduleInfo.credits =  8; // TODO 5 if tek01
-                        moduleInfo.user_credits = 8; // TODO 5 if tek01
+                        moduleInfo.credits = (studentYear === 1) ? 5 : 8;
+                        moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
                         moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10) % 10); // voir si l'on peut aller au dessus de 99
                         if (moduleInfo.student_credits >= moduleInfo.credits)
                             moduleInfo.color = 'green';
@@ -105,7 +106,7 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
             available_credits: filteredModules.reduce((sum, module) => {
                 return sum + (parseInt(module.user_credits) || 0);
             }, 0),
-            credit_needed: roadBlockData[type]['goal_tech2'],
+            credit_needed: roadBlockData[type][`goal_tech${studentYear}`] || 0,
             actual_student_credits: filteredModules.reduce((sum, module) => {
                 return sum + (module.student_credits || 0);
             }, 0)
