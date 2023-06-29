@@ -222,7 +222,6 @@ function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log("ouaisssssss", _activitesAtCurrentWeek);
   return (
     <div className='DashBoard'>
       <div className='Main' style={{ display: 'flex', justifyContent: 'space-between' }}>

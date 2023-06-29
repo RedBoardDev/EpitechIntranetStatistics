@@ -100,6 +100,7 @@ export const updateXPHubInformation = async (XPHub_me, XPHub_xpAct) => {
 }
 
 export const updateRoadBlockInformation = async (roadBlocksList) => {
+    console.log("roadBlocksList: ", roadBlocksList);
     sendUpdate('roadBlock-update', {
         _roadBlocksList: roadBlocksList,
     });
