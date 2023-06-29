@@ -85,7 +85,9 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
                         }
                         moduleInfo.credits = (studentYear === 1) ? 5 : 8;
                         moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
-                        moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10) % 10); // voir si l'on peut aller au dessus de 99
+                        moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10));
+                        if (moduleInfo.student_credits > moduleInfo.credits)
+                        moduleInfo.student_credits = moduleInfo.credits;
                         if (moduleInfo.student_credits >= moduleInfo.credits)
                             moduleInfo.color = 'green';
                     }
@@ -153,7 +155,7 @@ const updateTimelineProjet = async (api) => {
 };
 
 export const updateAllCursusData = async (api, XPHubApi, generalNotesData) => {
-    await getXPHubData(api, XPHubApi, generalNotesData); // await here ?
-    getRoadBlockInformation(api, XPHubApi); // await here ?
-    return updateTimelineProjet(api); // await here ?
+    await getXPHubData(api, XPHubApi, generalNotesData);
+    getRoadBlockInformation(api, XPHubApi);
+    return updateTimelineProjet(api);
 }

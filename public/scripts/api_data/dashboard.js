@@ -51,7 +51,7 @@ const checkProjectInProgressAtCurrentWeek = (timeLineData) => {
         for (const project of projects) {
             const isInProgress = isProjectInProgressCurrentWeek(project);
             if (isInProgress) {
-                project.deadLineThisWeek = checkDeadlineAtCurrentWeek(project); // TODO
+                project.deadLineThisWeek = checkDeadlineAtCurrentWeek(project);
                 projectInProgress.push(project);
             }
         }

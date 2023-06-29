@@ -59,7 +59,6 @@ function Hub() {
       <ButtonSideNav text="Roadblocks" onClick={Roadblocks} />
       <ButtonSideNav text="Hub" onClick={Hub} />
       <ButtonSideNav text="Timeline" onClick={Timeline} />
-      HUUUUUUUUUUUUUUUUUUUUB
     </div>
   );
 }
