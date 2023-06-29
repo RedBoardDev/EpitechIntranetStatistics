@@ -73,7 +73,6 @@ function checkModuleCode(moduleCode) {
 const checkActivitiesAtCurrentWeek = async (api) => {
     let activitesAtCurrentWeek = [];
     const link = getCurrentWeekLink();
-    console.log(link);
     const rsp = await api.getDataFromAPI(link);
     for (let key in rsp) {
         if ((rsp[key]['type_title'] !== "Follow-up" && rsp[key]['type_title'] !== 'Defense' && rsp[key]['type_title'] !== 'Review' && rsp[key]['type_title'] !== 'Delivery' && rsp[key]['type_title'] !== 'Keynote') ||

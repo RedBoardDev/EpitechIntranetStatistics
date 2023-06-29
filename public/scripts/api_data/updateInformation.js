@@ -100,7 +100,6 @@ export const updateXPHubInformation = async (XPHub_me, XPHub_xpAct) => {
 }
 
 export const updateRoadBlockInformation = async (roadBlocksList) => {
-    console.log("roadBlocksList: ", roadBlocksList);
     sendUpdate('roadBlock-update', {
         _roadBlocksList: roadBlocksList,
     });
@@ -122,7 +121,6 @@ export const updateMessageAndAlert = async (api) => {
 }
 
 export const updateDashBoard = async (projectInProgress, activitesAtCurrentWeek) => {
-    console.log("dashboard-update", projectInProgress, activitesAtCurrentWeek);
     sendUpdate('dashboard-update', {
         _projectInProgress: projectInProgress,
         _activitesAtCurrentWeek: activitesAtCurrentWeek

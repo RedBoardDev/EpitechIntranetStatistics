@@ -343,25 +343,17 @@ function Dashboard() {
               <div className="RoadblockContainer">
                 {_roadBlocksList &&
                   _roadBlocksList.map((item, index) => {
-                    const totalCredits = item.modules.reduce((acc, module) => acc + module.credits, 0);
-                    const totalUserCredits = item.modules.reduce((acc, module) => acc + module.student_credits, 0);
-                    const availableCredits = item.modules.reduce((acc, module) => {
-                      if (module.user_credits !== null) {
-                        return acc + Number(module.user_credits);
-                      }
-                      return acc;
-                    }, 0);
-
                     return (
                       <div key={index} className="RoadblockBox">
                         <h3 style={{ fontSize: '1.5rem', marginTop: '1px', color: 'white' }}>
                           <span>{item.type}</span>&nbsp;
-                          <span>
-                            {totalUserCredits}/{availableCredits}
+                          <span style={{ color: item.actual_student_credits < item.credit_needed ? 'red' : 'green' }} title="actual student credits / credit need to validate the roadblock">
+                            {item.actual_student_credits}/{item.credit_needed}
                           </span>
-                          {/* Voir ici pour remplacer 100 et le texte par le nbr de credit minimum pour avoir le roadblock */}
-                          <span style={{ color: totalCredits < 100 ? 'red' : 'white' }} title="Ceci est le total des crédits pour tous les modules de ce type.">
-                            ({totalCredits})
+                          <span style={{
+                            color: item.available_credits < item.credit_needed ? 'red' : 'white', fontSize: '0.8em' }}
+                            title={item.available_credits < item.credit_needed ? 'You can not have enough credits to validate the roadblock' : 'available credits for selected modules'}>
+                            ({item.available_credits})
                           </span>
                         </h3>
                         {item.modules.map((module, moduleIndex) => {

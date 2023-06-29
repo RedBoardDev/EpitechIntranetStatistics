@@ -29,8 +29,6 @@ export const roadBlockData = {
       "B-FUN-500",
       "B-FUN-501",
       "B-FUN-510",
-      "B-SYN-200",
-      "B-SYN-400",
       "B-YEP-500",
       "B-PDG-300"
     ],
@@ -66,8 +64,6 @@ export const roadBlockData = {
       "B-SEC-200",
       "B-SEC-400",
       "B-SEC-500",
-      "B-SYN-200",
-      "B-SYN-400",
       "B-PSU-400"
     ],
     "goal_tech1": 8,

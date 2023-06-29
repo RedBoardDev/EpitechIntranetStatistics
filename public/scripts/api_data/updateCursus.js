@@ -96,14 +96,21 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
             return false;
         }));
         const filteredModules = modulesActualSemester.filter(module => module !== false);
-        roadBlocksList.push({  // adapter pour tek 1 / 2 / 3
+        roadBlocksList.push({
             type: type,
             modules: filteredModules,
-            total_credits: filteredModules.reduce((sum, module) => sum + module.credits, 0),
-            available_credits: filteredModules.reduce((sum, module) => sum + parseInt(module.user_credits), 0),
+            total_roadblock_credits: filteredModules.reduce((sum, module) => {
+                return sum + (module.credits || 0);
+            }, 0),
+            available_credits: filteredModules.reduce((sum, module) => {
+                return sum + (parseInt(module.user_credits) || 0);
+            }, 0),
             credit_needed: roadBlockData[type]['goal_tech2'],
-            student_credits: filteredModules.reduce((sum, module) => sum + module.student_credits, 0)
+            actual_student_credits: filteredModules.reduce((sum, module) => {
+                return sum + (module.student_credits || 0);
+            }, 0)
         });
+
     }
     updateRoadBlockInformation(roadBlocksList);
 }
