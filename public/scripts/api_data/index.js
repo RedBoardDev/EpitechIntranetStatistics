@@ -26,6 +26,7 @@ async function initApiCall() {
     const jwtToken = parseJwtToken(refreshToken);
     if (userData['status'] !== 'SUCCESS' || !refreshToken || !jwtToken['login']) {
         console.log("GET TOKEN FAILED, CALL ERROR404 PAGE.");
+        return undefined;
     }
     api.setUserToken(refreshToken);
     api.setUserEmail(jwtToken['login']);
@@ -35,7 +36,15 @@ async function initApiCall() {
 
 window.addEventListener('load', async () => {
     const XPHubApi = new XPHub();
-    const api = await initApiCall();
+    let api;
+    api = await initApiCall();
+    if (api === undefined) {
+        location.reload();
+        api = await initApiCall();
+        if (api === undefined) {
+            return;
+        }
+    }
     const generalUserData = await api.getPreLoadData("general_user");
     const generalNotesData = await api.getPreLoadData("general_notes");
 
