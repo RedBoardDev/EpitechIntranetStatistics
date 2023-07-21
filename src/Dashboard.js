@@ -276,14 +276,14 @@ function Dashboard() {
                 }}
               >
               <MenuItem style={{ fontWeight: 'bold' }}>Informations</MenuItem>
-              {msgAlertData && _message &&
+              {msgAlertData && _message && _message.length > 0 &&
                 _message.map((item, index) => (
                   <MenuItem style={{ margin: '10px' }} key={index}>
                     {item.title.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '').replace(/\s*by\s*/, '')}
                   </MenuItem>
                 ))}
               <MenuItem style={{ fontWeight: 'bold' }}>Alerts</MenuItem>
-              {msgAlertData && _alert &&
+              {msgAlertData && _alert && _alert.length > 0 &&
                 _alert.map((item, index) => (
                   <MenuItem style={{ margin: '10px' }} key={index}>
                     {item.title.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '').replace(/\s*by\s*/, '')}
