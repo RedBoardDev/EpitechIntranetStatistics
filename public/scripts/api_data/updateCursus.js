@@ -18,8 +18,10 @@ const getXPHubData = async (api, XPHubApi, generalNotesData) => {
         activitiesCampus = (await api.getDataFromAPI(`/module/${api.getScolarYear()}/B-INN-000/${region}-0-1/?format=json`));
         api.setNodeCourseCompleteData({ code: "B-INN-000", codeinstance: `${region}-0-1` }, activitiesCampus);
     }
-
-    const everyActivities = (activitiesPublic.activites).concat(activitiesCampus.activites);
+    const everyActivities = [
+        ...(activitiesPublic?.activites || []),
+        ...(activitiesCampus?.activites || [])
+    ];
     everyActivities.map((activite) => {
         if (activite.type_title) {
             if (activite.type_title === "Project") {
@@ -87,7 +89,7 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
                         moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
                         moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10));
                         if (moduleInfo.student_credits > moduleInfo.credits)
-                        moduleInfo.student_credits = moduleInfo.credits;
+                            moduleInfo.student_credits = moduleInfo.credits;
                         if (moduleInfo.student_credits >= moduleInfo.credits)
                             moduleInfo.color = 'green';
                     }
