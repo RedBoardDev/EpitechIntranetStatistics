@@ -58,6 +58,7 @@ export const roadBlockData = {
       "B-FUN-400",
       "B-PSU-402",
       "B-CNA-410",
+      "B-CNA-500",
       "B-DOP-200",
       "B-DOP-400",
       "B-DOP-500",
