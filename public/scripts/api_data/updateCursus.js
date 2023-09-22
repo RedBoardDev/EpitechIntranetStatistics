@@ -94,6 +94,7 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
                             moduleInfo.color = 'green';
                     }
                     if (moduleInfo !== null && moduleInfo !== undefined) {
+                        console.log("moduleInfo", moduleInfo);
                         return moduleInfo;
                     }
                 }
