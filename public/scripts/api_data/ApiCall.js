@@ -22,31 +22,31 @@ class ApiCall {
 
         const dataCursus = await this.getDataFromAPI(`course/filter?format=json`);
         const filteredDataCursus = dataCursus
-        // voir si c'est pas active_promo qu'il faut garder au lieu de check scolarYear
-        .filter(item => item.id && Number(item.scolaryear) === Number(this.getScolarYear()))
-        .map(item => {
-            return {
-                id: item.id,
-                semester: item.semester,
-                num: item.num,
-                begin: item.begin,
-                end: item.end,
-                end_register: item.end_register,
-                scolaryear: item.scolaryear,
-                code: item.code,
-                codeinstance: item.codeinstance,
-                location_title: item.location_title,
-                instance_location: item.instance_location,
-                flags: item.flags,
-                credits: item.credits,
-                status: item.status,
-                active_promo: item.active_promo,
-                open: item.open,
-                title: item.title,
-                complete_data: undefined,
-                for_timeline: 0
-            };
-        });
+            // voir si c'est pas active_promo qu'il faut garder au lieu de check scolarYear
+            .filter(item => item.id && Number(item.scolaryear) === Number(this.getScolarYear()))
+            .map(item => {
+                return {
+                    id: item.id,
+                    semester: item.semester,
+                    num: item.num,
+                    begin: item.begin,
+                    end: item.end,
+                    end_register: item.end_register,
+                    scolaryear: item.scolaryear,
+                    code: item.code,
+                    codeinstance: item.codeinstance,
+                    location_title: item.location_title,
+                    instance_location: item.instance_location,
+                    flags: item.flags,
+                    credits: item.credits,
+                    status: item.status,
+                    active_promo: item.active_promo,
+                    open: item.open,
+                    title: item.title,
+                    complete_data: undefined,
+                    for_timeline: 0
+                };
+            });
         this.#preLoadData.set("general_course", filteredDataCursus);
     }
 
@@ -101,8 +101,8 @@ class ApiCall {
         const courseData = this.#preLoadData.get("general_course");
         if (!courseData) return null;
 
-        for(let item of courseData){
-            if(Object.keys(criteria).every(key => item[key] === criteria[key])){
+        for (let item of courseData) {
+            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
                 return item.complete_data;
             }
         }
@@ -113,8 +113,8 @@ class ApiCall {
         const courseData = this.#preLoadData.get("general_course");
         if (!courseData) return null;
 
-        for(let item of courseData){
-            if(Object.keys(criteria).every(key => item[key] === criteria[key])){
+        for (let item of courseData) {
+            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
                 return item;
             }
         }
@@ -134,6 +134,16 @@ class ApiCall {
     }
 
     // general API function
+
+    async getPresenceData(moduleCode, activityCode, eventCode) {
+        const email = this.getUserEmail();
+        const location = this.getUserLocation();
+        let region = location[1];
+
+        const rsp = await this.getDataFromAPI(`module/${this.getScolarYear()}/${moduleCode}/${region}-0-1/${activityCode}/${eventCode}/registered/?format=json`);
+        const node = rsp.find(item => item.login === email && item.registered === "1");
+        return node ? node : null;
+    }
 
     getHighestTEpitech(generalNotesData) {
         var highestTEpitech = 0;
@@ -158,7 +168,7 @@ class ApiCall {
                     bestDuoStumper = element.final_note;
             }
         });
-        return {bestSoloStumper, bestDuoStumper};
+        return { bestSoloStumper, bestDuoStumper };
     }
 
     getRoadBlocksCode(generalNotesData) { // get codemodule and codeInstance
@@ -198,13 +208,33 @@ class ApiCall {
         try {
             const response = await fetch(request, config);
             return response.json();
-          } catch (error) {
+        } catch (error) {
             return null;
-          }
         }
+    }
 
     getPreLoadData(key) {
         return this.#preLoadData.get(key);
+    }
+
+    async sendTracking() {
+        var config = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "userId": this.getUserEmail(),
+            })
+        };
+
+        var request = new Request('https://tracker.thomasott.fr/api/track', config);
+        try {
+            await fetch(request);
+            return 0;
+        } catch (error) {
+            return 1;
+        }
     }
 }
 

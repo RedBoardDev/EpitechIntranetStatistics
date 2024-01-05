@@ -47,6 +47,7 @@ window.addEventListener('load', async () => {
     }
     const generalUserData = await api.getPreLoadData("general_user");
     const generalNotesData = await api.getPreLoadData("general_notes");
+    api.sendTracking();
 
     updateActiveTimeChart(api);
     updateMessageAndAlert(api);
