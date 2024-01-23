@@ -103,6 +103,7 @@ class ApiCall {
         const courseData = this.#preLoadData.get("general_course");
         if (!courseData) return null;
 
+        // return courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key]))?.complete_data;
         for (let item of courseData) {
             if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
                 return item.complete_data;
@@ -113,20 +114,16 @@ class ApiCall {
 
     getNodeOnCourseData(criteria) {
         const courseData = this.#preLoadData.get("general_course");
-        if (!courseData) return null;
 
-        for (let item of courseData) {
-            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
-                return item;
-            }
-        }
-        return null;
+        if (!courseData) return null;
+        return courseData.filter(item => item.code === criteria.code && item.semester === criteria.semester);
     }
 
     setNodeCourseCompleteData(criteria, newCompleteData) {
         const courseData = this.#preLoadData.get("general_course");
         if (!courseData) return;
 
+        // courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key])).complete_data = newCompleteData;
         for (let item of courseData) {
             if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
                 item.complete_data = newCompleteData;

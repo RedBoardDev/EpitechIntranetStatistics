@@ -50,7 +50,13 @@ async function getModuleInformation(api, codeInstance, codeSemester) { //check s
         }
         if (nodeCompleteData === undefined) {
             const nodeInfo = await api.getNodeOnCourseData({ code: `${codeInstance}`, semester: Number(codeSemester) });
-            nodeCompleteData = await api.getDataFromAPI(`module/${api.getScolarYear()}/${nodeInfo.code}/${nodeInfo.codeinstance}/?format=json`);
+            let nodeData;
+            nodeData = nodeInfo.find((item) => item.status !== "notregistered") || nodeInfo[0];
+            // if (nodeInfo.length > 1) {
+            // } else
+            //     nodeData = nodeInfo[0];
+
+            nodeCompleteData = await api.getDataFromAPI(`module/${api.getScolarYear()}/${nodeData.code}/${nodeData.codeinstance}/?format=json`);
             api.setNodeCourseCompleteData({ code: codeInstance, semester: codeSemester }, nodeCompleteData);
         }
         if (!nodeCompleteData.error) {
@@ -64,7 +70,9 @@ async function getModuleInformation(api, codeInstance, codeSemester) { //check s
             };
             return moduleInfo;
         }
-    } catch (error) { }
+    } catch (error) {
+        console.log(error)
+    }
     return false;
 }
 
@@ -73,7 +81,6 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
     const data = roadBlockData;
     const types = Object.keys(data);
     const studentYear = api.getStudentYear();
-
     for (const type of types) {
         const modulesActualSemester = await Promise.all(data[type].modules.map(async codeInstance => {
             const semesterCodeMatch = codeInstance.match(/-(\d)/);
@@ -94,7 +101,6 @@ const getRoadBlockInformation = async (api, XPHubApi) => {
                             moduleInfo.color = 'green';
                     }
                     if (moduleInfo !== null && moduleInfo !== undefined) {
-                        console.log("moduleInfo", moduleInfo);
                         return moduleInfo;
                     }
                 }

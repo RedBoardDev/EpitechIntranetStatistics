@@ -52,8 +52,10 @@ const TimelineComponent = ({ projects }) => {
     });
   });
 
-  const startDate = new Date(Math.min(...items.map(item => item.start_time)));
-  const endDate = new Date(Math.max(...items.map(item => item.end_time)));
+  const startDate = new Date(Math.min(...items.map(item => item.start_time))).valueOf();
+  const endDate = new Date(Math.max(...items.map(item => item.end_time))).valueOf();
+
+
 
   return (
     <div style={{ borderRadius: '10px' }}>

@@ -69,7 +69,7 @@ export const roadBlockData = {
     ],
     "goal_tech1": 8,
     "goal_tech2": 6,
-    "goal_tech3": 2
+    "goal_tech3": 6
   },
   "HUB - Innovation": {
     "modules": [
@@ -95,7 +95,7 @@ export const roadBlockData = {
     ],
     "goal_tech1": 3,
     "goal_tech2": 4,
-    "goal_tech3": 13
+    "goal_tech3": 6
   },
   "Soft skills": {
     "modules": [
@@ -119,10 +119,12 @@ export const roadBlockData = {
       "B-PRO-510",
       "B-PRO-400",
       "B-PMP-400",
-      "B-PCP-400"
+      "B-PCP-400",
+      "B-SVR-500",
+      "B-DES-500"
     ],
     "goal_tech1": 3,
     "goal_tech2": 3,
-    "goal_tech3": 3
+    "goal_tech3": 4
   }
 }
