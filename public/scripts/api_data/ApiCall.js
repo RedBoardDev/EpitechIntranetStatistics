@@ -1,11 +1,13 @@
+import { generateIdFromStr } from './crypto.js';
+import { storeData, getData } from './webStorage.js';
 class ApiCall {
     #preLoadData;
     #scolarYear;
     #location;
     #studentYear
     constructor() {
-        window.localStorage.setItem("refresh_token", null);
-        window.localStorage.setItem("user_email", null);
+        storeData('refresh_token', null);
+        storeData('user_email', null);
         this.#preLoadData = new Map();
     }
 
@@ -57,19 +59,19 @@ class ApiCall {
     }
 
     getUserToken() {
-        return window.localStorage.getItem("refresh_token");
+        return getData('refresh_token');
     }
 
     setUserToken(refreshToken) {
-        window.localStorage.setItem("refresh_token", refreshToken);
+        storeData('refresh_token', refreshToken);
     }
 
     getUserEmail() {
-        return window.localStorage.getItem("user_email");
+        return getData('user_email');
     }
 
     setUserEmail(userEmail) {
-        window.localStorage.setItem("user_email", userEmail);
+        storeData('user_email', userEmail);
     }
 
     getScolarYear() {
@@ -204,7 +206,9 @@ class ApiCall {
                 Cookies: this.getUserToken()
             }
         };
-        var request = new Request('https://intra.epitech.eu/' + endpoint, config);
+        const apiBase = (false ? 'http://127.0.0.1:3900/proxy/' : 'https://intra.epitech.eu/');
+        var request = new Request(apiBase + endpoint, config);
+
         try {
             const response = await fetch(request, config);
             return response.json();
@@ -218,20 +222,30 @@ class ApiCall {
     }
 
     async sendTracking() {
+        if (!this.getUserEmail()) return;
+        const storedTrackingId = getData('tracker_id')
+
+        let encryptedEmail;
+        if (storedTrackingId) {
+            encryptedEmail = storedTrackingId;
+        } else {
+            encryptedEmail = await generateIdFromStr(this.getUserEmail());
+            storeData('tracker_id', encryptedEmail);
+        }
         var config = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "userId": this.getUserEmail(),
+                "userId": encryptedEmail,
             })
         };
 
-        var request = new Request('https://tracker.thomasott.fr/api/track', config);
         try {
-            await fetch(request);
-            return 0;
+            var request = new Request('https://tracker.thomasott.fr/api/track', config);
+            const response = await fetch(request);
+            return (!response.ok && response.status !== 429);
         } catch (error) {
             return 1;
         }
