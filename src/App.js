@@ -6,16 +6,16 @@ import Hub from './Hub';
 import Timeline from './Timeline';
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/roadblocks" element={<Roadblocks />} />
-        <Route path="/hub" element={<Hub />} />
-        <Route path="/timeline" element={<Timeline />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/roadblocks" element={<Roadblocks />} />
+                <Route path="/hub" element={<Hub />} />
+                <Route path="/timeline" element={<Timeline />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
