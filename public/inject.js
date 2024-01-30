@@ -21,7 +21,26 @@ function getElementByXpath(path) {
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
-window.addEventListener('load', async () => {
+/* global chrome */
+function createPopup() {
+    var overlay = document.createElement("div");
+    overlay.className = "overlay";
+    document.body.appendChild(overlay);
+
+    var iframe = document.createElement("iframe");
+    iframe.className = "popup";
+    iframe.src = chrome.runtime.getURL("index.html");
+    document.body.appendChild(iframe);
+
+    document.addEventListener('click', (event) => {
+        if (!iframe.contains(event.target)) {
+            iframe.style.display = "none";
+            overlay.style.display = "none";
+        }
+    });
+}
+
+function addButtonToPage() {
     const neartag = getElementByXpath('//*[@id="header"]/div[2]/div/div[6]/table/tbody/tr/td[4]');
     let newButton = createButton(document, "a", "button", " Statistics");
     newButton.title = " Statistics";
@@ -32,6 +51,16 @@ window.addEventListener('load', async () => {
     td.appendChild(newButton);
     insertAfter(td, neartag);
     newButton.addEventListener('click', () => {
-        chrome.runtime.sendMessage({command: "OPEN_NEW_TAB" });
+        setTimeout(() => {
+            createPopup();
+        }, 0);
     });
+}
+
+window.addEventListener('load', () => {
+    const navbar = document.querySelector("#sidebar");
+    if (navbar) {
+        navbar.style.zIndex = "9500";
+    }
+    addButtonToPage();
 });
