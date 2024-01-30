@@ -1,53 +1,49 @@
-const userData = {
-    refresh_token: null,
-    language: null,
-    status: null
-}
-
-const waitForVar = () => {
-    return new Promise((resolve) => {
-      const interval = setInterval(() => {
-            if (userData.refresh_token !== null) {
-                clearInterval(interval);
-                resolve();
-            }
-        }, 10);
-    });
-};
+/* global chrome */
 
 function getCookiesForEpitech() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         chrome.cookies.getAll({}, (cookies) => {
-            resolve(cookies.filter((cookie) => {
+            const epitechCookies = cookies.filter((cookie) => {
                 return cookie.domain === "intra.epitech.eu" && cookie.name === "user";
-            }));
+            });
+
+            if (epitechCookies && epitechCookies.length > 0) {
+                resolve(epitechCookies);
+            } else {
+                reject(new Error("No Epitech user cookie found."));
+            }
         });
     });
-};
+}
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.command === "OPEN_NEW_TAB") {
-        getCookiesForEpitech().then((data) => {
-            if (data && data[0] && data[0]['value']) {
-                userData.refresh_token = data[0]['value'];
-                userData.status = 'SUCCESS';
-            } else {
-                userData.status = 'FAIL';
-            }
+function handleGetToken(request, sendResponse) {
+    getCookiesForEpitech()
+        .then((cookies) => {
+            const data = {
+                refresh_token: cookies[0]['value'],
+                status: true
+            };
+            sendResponse(data);
+        })
+        .catch((error) => {
+            const data = {
+                status: false,
+                error: error.message
+            };
+            sendResponse(data);
         });
-        waitForVar().then(() => {
-            chrome.tabs.create({url: chrome.runtime.getURL("index.html")});
-        });
-    }
-    if (request.command === "GET_TOKEN") {
-        getCookiesForEpitech().then((data) => {
-            if (data && data[0] && data[0]['value']) {
-                userData.refresh_token = data[0]['value'];
-                userData.status = 'SUCCESS';
-            } else {
-                userData.status = 'FAIL';
-            }
-        });
-        sendResponse({userData});
+
+    return true;
+}
+
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    console.log("Received message:", request);
+
+    switch (request.command) {
+        case "GET_TOKEN":
+            return handleGetToken(request, sendResponse);
+        default:
+            return false;
     }
 });
