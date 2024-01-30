@@ -71,9 +71,9 @@ class ApiCall {
     //     return this.#studentYear;
     // }
 
-    // getUserToken() {
-    //     return getData('refresh_token');
-    // }
+    #getUserToken() {
+        return getData('refresh_token');
+    }
 
     getUserEmail() {
         return getData('user_email');
@@ -201,7 +201,7 @@ class ApiCall {
         var config = {
             method: method,
             headers: {
-                Cookies: this.getUserToken()
+                Cookies: this.#getUserToken()
             }
         };
         const apiBase = (false ? 'http://127.0.0.1:3900/proxy/' : 'https://intra.epitech.eu/');

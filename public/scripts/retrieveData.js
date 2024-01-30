@@ -1,4 +1,4 @@
-import { updateFrontend } from "./updateFrontend";
+import { updateFrontend } from "./updateFrontend.js";
 
 function updateSideBarInformation(dataApi) {
     const generalUserData = dataApi.getGeneralUserData();
@@ -22,7 +22,7 @@ function getHighestTEpitech(dataApi) {
     var highestTEpitech = 0;
 
     const filteredTEPitech = generalNotesData['notes'].filter(element => {
-        return element.title === "TEPitech" && (element.scolaryear).toString() === this.getScolarYear()
+        return element.title === "TEPitech" && (element.scolaryear).toString() === dataApi.getScolarYear()
     });
 
     filteredTEPitech.forEach(element => {

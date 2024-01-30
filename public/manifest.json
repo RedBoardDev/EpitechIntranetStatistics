@@ -34,5 +34,16 @@
         "inject.css"
       ]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js",
+        "index.html"
+      ],
+      "matches": [
+        "https://intra.epitech.eu/*"
+      ]
+    }
   ]
 }
