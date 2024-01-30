@@ -1,21 +1,12 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import './App.css';
 
-import Dashboard from './Dashboard';
-import Roadblocks from './Roadblocks';
-import Hub from './Hub';
-import Timeline from './Timeline';
-
-function App() {
+const Popup = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/roadblocks" element={<Roadblocks />} />
-                <Route path="/hub" element={<Hub />} />
-                <Route path="/timeline" element={<Timeline />} />
-            </Routes>
-        </Router>
+        <div className="popup">
+            <p>Ceci est votres popup React.</p>
+        </div>
     );
-}
+};
 
-export default App;
+export default Popup;
