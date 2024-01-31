@@ -34,7 +34,19 @@ const App = () => {
                 }}
             >
                 <Sidebar />
-                <Dashboard />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: '1',
+                        borderRadius: 8,
+                        height: '100%',
+                        border: '2px solid #1F364D',
+                    }}
+                >
+                    <Dashboard />
+                </Box>
             </Box>
 
             <Box

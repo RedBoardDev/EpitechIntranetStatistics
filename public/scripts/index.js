@@ -10,10 +10,13 @@ async function initApiCall() {
     let refresh_token = getData('refresh_token');
 
     if (!refresh_token) {
-        const data = await new Promise(resolve => {
-            chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, resolve);
-        });
-
+        // const data = await new Promise(resolve => {
+        //     chrome.runtime.sendMessage({ command: 'GET_TOKEN' }, resolve);
+        // });
+        const data = {
+            refresh_token: '',
+            status: true
+        }
         if (!data || data['status'] !== true) {
             console.error(data['error']);
             return undefined;

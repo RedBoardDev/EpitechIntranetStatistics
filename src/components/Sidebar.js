@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const Sidebar = () => {
     const [city, setCity] = useState('-');
@@ -80,14 +80,13 @@ const Sidebar = () => {
                     justifyContent: 'center',
                 }}
             >
-                <div style={{ marginBottom: '8px' }}>{name}</div>
-                <div style={{ marginBottom: '8px' }}>{email}</div>
-                <div style={{ marginBottom: '8px' }}>{city}</div>
-                <div style={{ marginBottom: '8px' }}>{cursus}</div>
-                <div style={{ marginBottom: '8px' }}>semester {semester}</div>
-                <div style={{ marginBottom: '8px' }}>{promo}</div>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {name} </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {email} </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {city} </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {cursus} </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> semester {semester} </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {promo} </Typography>
             </Box>
-
         </Box>
     );
 };
