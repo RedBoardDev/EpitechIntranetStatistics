@@ -5,13 +5,13 @@ function updateSideBarInformation(dataApi) {
     if (!generalUserData) return;
 
     const data = {
-        _prenom: (generalUserData['title'] ?? ''),
-        _email: dataApi.getUserEmail(),
-        _cursus: (generalUserData['course_code'] ?? ''),
-        _semester: (generalUserData['semester_code'] ?? ''),
-        _promo: 'Promotion ' + (generalUserData['promo'] ?? ''),
-        _profilPicture: ("https://intra.epitech.eu" + (generalUserData['picture'] ?? '')),
-        _city: (generalUserData['groups'][0]?.['title'] ?? '')
+        name: (generalUserData['title'] ?? ''),
+        email: dataApi.getUserEmail(),
+        cursus: (generalUserData['course_code'] ?? ''),
+        semester: (generalUserData['semester_code'] ?? ''),
+        promo: 'Promotion ' + (generalUserData['promo'] ?? ''),
+        profilPicture: ("https://intra.epitech.eu" + (generalUserData['picture'] ?? '')),
+        city: (generalUserData['groups'][0]?.['title'] ?? '')
     };
 
     updateFrontend('sidebar', data);
@@ -36,9 +36,9 @@ async function updateDashboardInformation(dataApi) {
     if (!generalUserData) return;
 
     const data = {
-        _credits: (generalUserData['credits'] ?? 0),
-        _GPA: (generalUserData['gpa'][0]?.['gpa'] ?? 0.00),
-        _highestTEpitech: (getHighestTEpitech(dataApi))
+        credits: (generalUserData['credits'] ?? 0),
+        GPA: (generalUserData['gpa'][0]?.['gpa'] ?? 0.00),
+        highestTEpitech: (getHighestTEpitech(dataApi))
     };
     updateFrontend('dashboard', data);
 }

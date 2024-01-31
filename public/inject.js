@@ -24,11 +24,11 @@ function getElementByXpath(path) {
 /* global chrome */
 function createPopup() {
     var overlay = document.createElement("div");
-    overlay.className = "overlay";
+    overlay.className = "overlay-extension";
     document.body.appendChild(overlay);
 
     var iframe = document.createElement("iframe");
-    iframe.className = "popup";
+    iframe.className = "popup-extension";
     iframe.src = chrome.runtime.getURL("index.html");
     document.body.appendChild(iframe);
 
