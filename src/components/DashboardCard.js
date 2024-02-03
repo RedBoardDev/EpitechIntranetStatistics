@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const CustomCard = ({ title, text }) => {
+const CustomCard = ({ title = '-', text='-' }) => {
     return (
         <Box
             sx={{
@@ -28,7 +28,7 @@ const CustomCard = ({ title, text }) => {
 };
 
 
-const DashboardCard = () => {
+const DashboardCard = ({ data }) => {
     return (
         <Box
             sx={{
@@ -40,9 +40,9 @@ const DashboardCard = () => {
                 padding: '18px',
             }}
         >
-            <CustomCard title="Credits" text="142" />
-            <CustomCard title="G.P.A" text="142" />
-            <CustomCard title="Best TEPitech" text="142" />
+            <CustomCard title="Credits" text={data['credits']} />
+            <CustomCard title="G.P.A" text={data['GPA']} />
+            <CustomCard title="Best TEPitech" text={data['highestTEpitech']} />
         </Box>
     );
 };

@@ -1,20 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import DashboardCard from './DashboardCard';
+import DashboardCard from '../components/DashboardCard';
+import { useData } from '../contexts/DataContext';
 
 const Dashboard = () => {
-    useEffect(() => {
-        const handleDashboardUpdate = (event) => {
-            const { detail } = event;
-            console.log("dashboard", detail);
-        };
-
-        window.addEventListener('dashboard', handleDashboardUpdate);
-
-        return () => {
-            window.removeEventListener('dashboard', handleDashboardUpdate);
-        };
-    }, []);
+    const { dashboardData } = useData();
 
     return (
         <Box
@@ -26,7 +16,7 @@ const Dashboard = () => {
                 overflow: 'hidden',
             }}
         >
-            <DashboardCard />
+            <DashboardCard data={dashboardData} />
             <Box
                 sx={{
                     display: 'flex',

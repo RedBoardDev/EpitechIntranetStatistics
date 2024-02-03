@@ -2,26 +2,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { DataProvider } from './contexts/DataContext';
+
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div
-            style={{
-                width: '50%',
-                height: '50%',
-                border: 'none',
-                boxShadow: 'none',
-                backgroundColor: 'none',
-                zIndex: 99999,
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-            }}
-        >
-    <App />
+      style={{
+        width: '50%',
+        height: '50%',
+        border: 'none',
+        boxShadow: 'none',
+        backgroundColor: 'none',
+        zIndex: 99999,
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <DataProvider>
+        <App />
+      </DataProvider>
     </div>
   </React.StrictMode>
 );

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { useData } from '../contexts/DataContext';
 
 const Sidebar = () => {
+    const { sidebarData } = useData();
+
     const [city, setCity] = useState('-');
     const [cursus, setCursus] = useState('-');
     const [email, setEmail] = useState('-');
@@ -11,23 +14,14 @@ const Sidebar = () => {
     const [semester, setSemester] = useState('-');
 
     useEffect(() => {
-        const handleSidebarUpdate = (event) => {
-            const { detail } = event;
-            setCity(detail.city ?? '-');
-            setCursus(detail.cursus ?? '-');
-            setEmail(detail.email ?? '-');
-            setName(detail.name ?? '-');
-            setProfilPicture(detail.profilPicture ?? '-');
-            setPromo(detail.promo ?? '-');
-            setSemester(detail.semester ?? '-');
-        };
-
-        window.addEventListener('sidebar', handleSidebarUpdate);
-
-        return () => {
-            window.removeEventListener('sidebar', handleSidebarUpdate);
-        };
-    }, []);
+        setCity(sidebarData.city ?? '-');
+        setCursus(sidebarData.cursus ?? '-');
+        setEmail(sidebarData.email ?? '-');
+        setName(sidebarData.name ?? '-');
+        setProfilPicture(sidebarData.profilPicture ?? '-');
+        setPromo(sidebarData.promo ?? '-');
+        setSemester(sidebarData.semester ?? '-');
+    }, [sidebarData]);
 
     return (
         <Box
