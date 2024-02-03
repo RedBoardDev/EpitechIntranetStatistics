@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
+import Layout from './Layout';
 
 const App = () => {
     return (
-
         <Box
             sx={{
                 display: 'flex',
@@ -23,43 +21,7 @@ const App = () => {
                 boxSizing: 'border-box',
             }}
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    mb: 2,
-                    width: '100%',
-                    height: '100%',
-                }}
-            >
-                <Sidebar />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flex: '1',
-                        borderRadius: 8,
-                        height: '100%',
-                        border: '2px solid #1F364D',
-                    }}
-                >
-                    <Dashboard />
-                </Box>
-            </Box>
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '2%',
-                    width: '100%',
-                }}
-            >
-                Navigationbar
-            </Box>
+            <Layout />
         </Box>
     );
 };
