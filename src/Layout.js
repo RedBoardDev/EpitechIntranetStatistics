@@ -9,6 +9,7 @@ import DeveloperBoardOutlinedIcon from '@mui/icons-material/DeveloperBoardOutlin
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
+import Roadblock from "./Pages/Roadblock";
 
 const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("dashboard");
@@ -23,8 +24,8 @@ const Layout = () => {
                 return <Dashboard />;
             case "hub":
                 return <Hub />;
-            // case "roadblock":
-            //     return <RoadBlock />;
+            case "roadblock":
+                return <Roadblock />;
             default:
                 return <Dashboard />;
         }
@@ -35,11 +36,10 @@ const Layout = () => {
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    mb: 2,
+                    justifyContent: 'top',
+                    alignItems: 'top',
                     width: '100%',
-                    height: '100%',
+                    height: '94%',
                 }}
             >
                 <Sidebar />
@@ -47,11 +47,10 @@ const Layout = () => {
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
                         flex: '1',
                         borderRadius: 8,
-                        height: '100%',
                         border: '2px solid #1F364D',
+                        overflowY: 'auto'
                     }}
                 >
                     {renderSelectedPage()}
@@ -63,7 +62,8 @@ const Layout = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: '2%',
+                    height: '30px',
+                    paddingTop: '15px',
                     width: '100%',
                 }}
             >

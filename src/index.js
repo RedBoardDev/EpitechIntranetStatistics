@@ -11,8 +11,8 @@ root.render(
   <React.StrictMode>
     <div
       style={{
-        width: '50%',
-        height: '50%',
+        width: '66%',
+        height: '66%',
         border: 'none',
         boxShadow: 'none',
         backgroundColor: 'none',

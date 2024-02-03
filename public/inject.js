@@ -65,7 +65,7 @@ function addButtonToPage() {
 window.addEventListener('load', () => {
     const navbar = document.querySelector("#sidebar");
     if (navbar) {
-        navbar.style.zIndex = "9500";
+        navbar.style.zIndex = "950";
     }
     addButtonToPage();
 });

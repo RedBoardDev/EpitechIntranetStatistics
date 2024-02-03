@@ -8,7 +8,7 @@ const IconButton = ({ onClick, selected, icon, tooltipText }) => {
                 onClick={onClick}
                 sx={{ color: selected ? "#black" : "#1F364D", marginRight: 1 }}
             >
-                {icon}
+                {React.cloneElement(icon, { style: { fontSize: 40 } })}
             </IconButtonMui>
         </Tooltip>
     );
