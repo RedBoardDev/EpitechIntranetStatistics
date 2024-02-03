@@ -29,13 +29,15 @@ const Dashboard = () => {
             <DashboardCard />
             <Box
                 sx={{
-                    width: '100%',
-                    flex: '1',
-                    backgroundColor: 'lightgreen',
                     display: 'flex',
+                    flex: '1',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    fontSize: '14px',
+                    overflow: 'hidden',
+                    border: '2px solid #1F364D',
+                    borderRadius: '14px',
+                    margin: '18px',
+                    marginTop: '0px',
                 }}
             >
                 Bottom Box

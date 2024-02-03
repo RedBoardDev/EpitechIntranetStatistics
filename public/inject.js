@@ -32,12 +32,17 @@ function createPopup() {
     iframe.src = chrome.runtime.getURL("index.html");
     document.body.appendChild(iframe);
 
-    document.addEventListener('click', (event) => {
-        if (!iframe.contains(event.target)) {
-            iframe.style.display = "none";
-            overlay.style.display = "none";
-        }
-    });
+    // const div = document.createElement('div');
+    // div.className = "popup-extension";
+    // div.src = chrome.runtime.getURL("index.html");
+    // document.body.appendChild(div);
+
+    // document.addEventListener('click', (event) => {
+    //     if (!iframe.contains(event.target)) {
+    //         iframe.style.display = "none";
+    //         overlay.style.display = "none";
+    //     }
+    // });
 }
 
 function addButtonToPage() {
