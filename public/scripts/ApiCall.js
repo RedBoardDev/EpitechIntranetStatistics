@@ -67,9 +67,9 @@ class ApiCall {
 
     // getter / setter function
 
-    // getStudentYear() {
-    //     return this.#studentYear;
-    // }
+    getStudentYear() {
+        return this.#studentYear;
+    }
 
     #getUserToken() {
         return getData('refresh_token');
@@ -112,40 +112,46 @@ class ApiCall {
     //     this.#preLoadData.set("general_course", newData);
     // }
 
-    // getNodeOnCourseCompleteData(criteria) {
-    //     const courseData = this.#preLoadData.get("general_course");
-    //     if (!courseData) return null;
+    getNodeOnCourseCompleteData(criteria) {
+        const courseData = this.#preLoad_generalCourseData;
+        if (!courseData) return null;
 
-    //     // return courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key]))?.complete_data;
-    //     for (let item of courseData) {
-    //         if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
-    //             return item.complete_data;
-    //         }
-    //     }
-    //     return null;
-    // }
+        // voir la ligne d'en dessous
+        // return courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key]))?.complete_data;
+        for (let item of courseData) {
+            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
+                return item.complete_data;
+            }
+        }
+        return null;
+    }
 
-    // getNodeOnCourseData(criteria) {
-    //     const courseData = this.#preLoadData.get("general_course");
+    getNodeOnCourseData(criteria) {
+        const courseData = this.#preLoad_generalCourseData;
 
-    //     if (!courseData) return null;
-    //     return courseData.filter(item => item.code === criteria.code && item.semester === criteria.semester);
-    // }
+        if (!courseData) return null;
+        return courseData.filter(item => item.code === criteria.code && item.semester === criteria.semester);
+    }
 
-    // setNodeCourseCompleteData(criteria, newCompleteData) {
-    //     const courseData = this.#preLoadData.get("general_course");
-    //     if (!courseData) return;
+    setNodeCourseCompleteData(criteria, newCompleteData) {
+        const courseData = this.#preLoad_generalCourseData;
+        if (!courseData) return;
 
-    //     // courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key])).complete_data = newCompleteData;
-    //     for (let item of courseData) {
-    //         if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
-    //             item.complete_data = newCompleteData;
-    //         }
-    //     }
-    //     this.#preLoadData.set("general_course", courseData);
-    // }
+        // courseData.find(item => Object.keys(criteria).every(key => item[key] === criteria[key])).complete_data = newCompleteData;
+        for (let item of courseData) {
+            if (Object.keys(criteria).every(key => item[key] === criteria[key])) {
+                item.complete_data = newCompleteData;
+            }
+        }
+        // this.#preLoadData.set("general_course", courseData);
+        this.#preLoad_generalCourseData = courseData;
+    }
 
     // // general API function
+
+    async getCompleteDataFromApi(codeModule, codeInstance) {
+        return await this.#callApi('GET', `module/${this.getScolarYear()}/${codeModule}/${codeInstance}/?format=json`);
+    }
 
     // async getPresenceData(moduleCode, activityCode, eventCode) {
     //     const email = this.getUserEmail();
