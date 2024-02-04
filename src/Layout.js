@@ -73,16 +73,16 @@ const Layout = () => {
                     tooltipText="Dashboard"
                 />
                 <IconButton
-                    onClick={() => handlePageChange("hub")}
-                    selected={selectedPage === "hub"}
-                    icon={<HubOutlinedIcon />}
-                    tooltipText="Hub"
-                />
-                <IconButton
                     onClick={() => handlePageChange("roadblock")}
                     selected={selectedPage === "roadblock"}
                     icon={<WidgetsOutlinedIcon />}
                     tooltipText="Roadblock"
+                />
+                <IconButton
+                    onClick={() => handlePageChange("hub")}
+                    selected={selectedPage === "hub"}
+                    icon={<HubOutlinedIcon />}
+                    tooltipText="Hub"
                 />
             </Box>
         </>

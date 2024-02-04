@@ -3,7 +3,7 @@ class XPHub {
     #me;
 
     constructor() {
-        this.#me = { nbXps: 0, nbXpsSoon: 0, soon: [], activList: [] };
+        this.#me = { nbXps: 0, nbXpsSoon: 0, nbXpsLost: 0, activList: [] };
         this.#xpAct = [
             {
                 key: 1,
@@ -112,6 +112,7 @@ class XPHub {
                 break;
             case 'absent':
                 this.#me.nbXps -= xpLostPart;
+                this.#me.nbXpsLost -= xpLostPart;
                 findAct.nbXPTotal -= xpLostPart;
                 this.#me.activList.push({ title, type, status: 'absent', date, XPEarn: xpLostPart * (-1) });
                 break;

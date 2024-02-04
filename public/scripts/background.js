@@ -16,7 +16,7 @@ function getCookiesForEpitech() {
     });
 }
 
-function handleGetToken(request, sendResponse) {
+function handleGetToken(sendResponse) {
     getCookiesForEpitech()
         .then((cookies) => {
             const data = {
@@ -32,17 +32,14 @@ function handleGetToken(request, sendResponse) {
             };
             sendResponse(data);
         });
-
     return true;
 }
 
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("Received message:", request);
-
     switch (request.command) {
         case "GET_TOKEN":
-            return handleGetToken(request, sendResponse);
+            return handleGetToken(sendResponse);
         default:
             return false;
     }

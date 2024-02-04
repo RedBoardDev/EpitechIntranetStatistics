@@ -87,9 +87,9 @@ class ApiCall {
         this.#scolarYear = scolarYear;
     }
 
-    // getUserLocation() {
-    //     return this.#location.toString().split('/');
-    // }
+    getUserLocation() {
+        return this.#location.toString().split('/');
+    }
 
     #setUserLocation(location) {
         this.#location = location;

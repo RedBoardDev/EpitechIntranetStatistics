@@ -50,14 +50,10 @@ const ModuleInfo = ({ module }) => {
 };
 
 const RoadBlockCard = ({ roadblockData }) => {
-    console.log("roadblock detail", roadblockData);
-
     const {
         type,
         actual_student_credits,
         credit_needed,
-        user_credits,
-        available_credits,
         modules,
     } = roadblockData;
 
