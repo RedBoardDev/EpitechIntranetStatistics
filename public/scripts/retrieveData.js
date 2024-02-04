@@ -139,10 +139,10 @@ const getXPHubData = async (api, XPHubApi) => {
         node['activities'] = activities;
     });
     const XPHub = {
-        XP_Completed: XPHub_me.nbXps,
-        XP_InProgress: XPHub_me.nbXpsSoon,
-        XP_Lost: XPHub_me.nbXpsLost,
-        XP_Activities: XPHub_xpAct,
+        xp_completed: XPHub_me.nbXps,
+        xp_in_progress: XPHub_me.nbXpsSoon,
+        xp_lost: XPHub_me.nbXpsLost,
+        activities_per_type: XPHub_xpAct,
     };
     updateFrontend('hub', XPHub);
 }

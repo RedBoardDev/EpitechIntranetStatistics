@@ -7,6 +7,7 @@ export const DataProvider = ({ children }) => {
     const [dashboardData, setDashboardData] = useState({});
     const [sidebarData, setSidebarData] = useState({});
     const [roadblockData, setRoadblockData] = useState({});
+    const [hubData, setHubData] = useState({});
 
     useEffect(() => {
         const handleDashboardUpdate = (event) => {
@@ -24,19 +25,26 @@ export const DataProvider = ({ children }) => {
             setRoadblockData(detail);
         }
 
+        const handleHubUpdate = (event) => {
+            const { detail } = event;
+            setHubData(detail);
+        }
+
         addListener('sidebar', handleSidebarUpdate);
         addListener('dashboard', handleDashboardUpdate);
         addListener('roadblock', handleRoadblockUpdate);
+        addListener('hub', handleHubUpdate);
 
         return () => {
             removeListener('sidebar', handleSidebarUpdate);
             removeListener('dashboard', handleDashboardUpdate);
             removeListener('roadblock', handleRoadblockUpdate);
+            removeListener('hub', handleHubUpdate);
         };
     }, []);
 
     return (
-        <DataContext.Provider value={{ dashboardData, sidebarData, roadblockData     }}>
+        <DataContext.Provider value={{ dashboardData, sidebarData, roadblockData, hubData}}>
             {children}
         </DataContext.Provider>
     );

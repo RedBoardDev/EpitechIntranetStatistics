@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import DashboardCard from '../components/DashboardCard';
 import { useData } from '../contexts/DataContext';
+import SummaryCard from '../components/SummaryCard';
 
 const Dashboard = () => {
     const { dashboardData } = useData();
@@ -16,7 +16,11 @@ const Dashboard = () => {
                 overflow: 'auto',
             }}
         >
-            <DashboardCard data={dashboardData} />
+            <SummaryCard cardsData={[
+                { title: "Credits", text: dashboardData['credits'] },
+                { title: "G.P.A", text: dashboardData['GPA'] },
+                { title: "Best TEPitech", text: dashboardData['highestTEpitech'] },
+            ]} />
             <Box
                 sx={{
                     display: 'flex',

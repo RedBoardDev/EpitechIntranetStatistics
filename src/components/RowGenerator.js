@@ -1,26 +1,32 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-const RowGenerator = ({ data, itemsPerRow, renderCell }) => {
+const RowGenerator = ({ data = [], itemsPerRow, renderCell }) => {
     let rows = [];
-    for (let i = 0; i < data.length; i += itemsPerRow) {
+    const numRows = Math.ceil(data.length / itemsPerRow);
+
+    for (let i = 0; i < numRows; i++) {
+        const startIndex = i * itemsPerRow;
+        const endIndex = startIndex + itemsPerRow;
+        const rowData = data.slice(startIndex, endIndex);
+
         rows.push(
             <Box
                 key={i}
                 sx={{
                     gap: '20px',
                     display: 'flex',
-                    height: '100%',
                     margin: '18px',
                     flexDirection: 'row',
                     height: 'fit-content',
                 }}
             >
-                {data.slice(i, i + itemsPerRow).map((item, index) =>
-                    renderCell(index + i, data[index + i]))}
+                {rowData.map((item, index) =>
+                    renderCell(index + startIndex, item))}
             </Box>
         );
     }
+
     return rows;
 };
 

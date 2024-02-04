@@ -21,20 +21,22 @@ const extractModuleInfo = (moduleName, grade = undefined) => {
     }
 };
 
-const ModuleInfo = ({ module }) => {
+const CardInfo = ({ module }) => {
     const [moduleColor, setModuleColor] = useState('#666c70');
 
     useEffect(() => {
-        switch (module.color) {
-            case 'orange':
-                setModuleColor('#c8cfdb');
+        switch (module.status) {
+            case 'soon':
+                setModuleColor('#666c70');
                 break;
-            case 'green':
+            case 'present':
                 setModuleColor('#2d962d');
                 break;
-            case 'red':
+            case 'absent':
                 setModuleColor('#f25050');
                 break;
+            case 'organisateur':
+                setModuleColor('#cf940a');
             default:
                 setModuleColor('#666c70');
                 break;
@@ -42,21 +44,27 @@ const ModuleInfo = ({ module }) => {
     }, [module]);
 
     return (
-        <Typography key={module.name} sx={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: moduleColor }}>{extractModuleInfo(module.name, module.student_grade)}</span>
-            <span style={{ whiteSpace: 'nowrap', fontSize: '15px' }}>{module.user_credits ?? 0}/{module.credits} credits</span>
+        <Typography key={module.title} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: moduleColor }}>{module.title.replace(/\[(.*?)\]/g, '')}</span>
         </Typography>
     );
 };
 
-const RoadBlockCard = ({ roadblockData }) => {
+const HubCard = ({ data }) => {
     const {
-        type,
-        actual_student_credits,
-        credit_needed,
-        modules,
-    } = roadblockData;
-
+        name,
+        activities,
+        alias,
+        limitOrg,
+        limitPart,
+        nbOrg,
+        nbPart,
+        nbXPTotal,
+        xpLostPart,
+        xpWinOrg,
+        xpWinPart
+    } = data;
+    if (data === undefined) return null;
     return (
         <Box
             sx={{
@@ -67,8 +75,8 @@ const RoadBlockCard = ({ roadblockData }) => {
                 borderRadius: '6px',
                 width: '100%',
                 border: '2px solid #1F364D',
+                margin: '-6px',
                 padding: '6px',
-                // height: '100%',
             }}
         >
             <Box
@@ -85,16 +93,15 @@ const RoadBlockCard = ({ roadblockData }) => {
                     fontSize: 'clamp(16px, 1.2vw, 24px)',
                     marginBottom: '2px',
                 }}>
-                    {type}
+                    {name} - {nbXPTotal} XP
                 </Typography>
                 <Typography sx={{
                     fontSize: 'clamp(12px, 0.9vw, 20px)',
                     marginRight: '4px',
                     marginLeft: '4px',
                     textShadow: '1px 1px 1px rgba(0, 0, 0, 0.2)',
-                    color: actual_student_credits < credit_needed ? '#f25050' : '#2d962d'
                 }}>
-                    {actual_student_credits} / {credit_needed}
+                    {nbPart}/{(limitPart > 99 ? '∞' : limitPart) ?? '∞'}
                 </Typography>
             </Box>
             <Box
@@ -103,12 +110,12 @@ const RoadBlockCard = ({ roadblockData }) => {
                     marginLeft: '4px',
                 }}
             >
-                {modules.map((module) => (
-                    <ModuleInfo key={module.name} module={module} />
+                {activities && activities.length > 0 && activities.map((activity) => (
+                    <CardInfo key={activity.title} module={activity} />
                 ))}
             </Box>
         </Box>
     );
 };
 
-export default RoadBlockCard;
+export default HubCard;
