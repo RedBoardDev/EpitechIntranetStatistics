@@ -116,12 +116,16 @@ export const roadBlockData = {
       "B-GER-001",
       "B-FRE-010",
       "B-PRO-100",
+      "B-PRO-200",
       "B-PRO-510",
       "B-PRO-400",
-      "B-PMP-400",
       "B-PCP-400",
       "B-SVR-500",
-      "B-DES-500"
+      "B-DES-500",
+      "B-PMP-100",
+      "B-PMP-200",
+      "B-PMP-400",
+
     ],
     "goal_tech1": 3,
     "goal_tech2": 3,
