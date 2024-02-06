@@ -1,7 +1,7 @@
 import { ApiCall } from "./ApiCall.js";
 import { XPHub } from "./XPHubApi.js";
 import { parseJwtToken } from "./crypto.js";
-import { retrieveData } from "./retrieveData.js";
+import { retrieveData } from "./retrieveData/retrieveData.js";
 import { getData } from "./webStorage.js";
 
 /* global chrome */

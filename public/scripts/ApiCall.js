@@ -104,9 +104,12 @@ class ApiCall {
     }
 
     // general_course - getter / setter function
-    // getGeneralCourseData() {
-    //     return this.#preLoadData.get("general_course");
-    // }
+    getGeneralCourseData() {
+        const courseData = this.#preLoad_generalCourseData;
+
+        if (!courseData) return null;
+        return courseData;
+    }
 
     // setGeneralCourseData(newData) {
     //     this.#preLoadData.set("general_course", newData);
