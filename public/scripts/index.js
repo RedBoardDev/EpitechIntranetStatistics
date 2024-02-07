@@ -36,5 +36,5 @@ window.addEventListener('load', async () => {
     const dataApi = await initApiCall();
     if (!XPHubApi || !dataApi) return;
     // dataApi.sendTracking();
-    retrieveData(XPHubApi, dataApi);
+    await retrieveData(XPHubApi, dataApi);
 });

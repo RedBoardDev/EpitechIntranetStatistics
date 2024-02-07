@@ -1,4 +1,6 @@
-export const updateTimelineChart = async (dataApi) => {
+import { updateFrontend } from "../updateFrontend.js";
+
+export async function updateTimelineChart(dataApi) {
     let timeLineData = {};
     const generalCourse = await dataApi.getGeneralCourseData();
     const regexSkip = /^(B0|[A-Z]0)|.*Hub.*|.*Roadblock.*|.*Administrative.*|.*Internship.*|.*Hackathon.*/;
@@ -30,6 +32,5 @@ export const updateTimelineChart = async (dataApi) => {
             }
         }
     }
-    console.log("timeLineData", timeLineData);
-    // updateTimeLineData(timeLineData);
+    updateFrontend('timeline', timeLineData);
 };
