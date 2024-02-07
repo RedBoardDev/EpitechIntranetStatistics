@@ -79,7 +79,7 @@ const Dashboard = () => {
                         <FullscreenIcon />
                     </IconButton>
                 )}
-                <ChartComponent data={timelineData} />
+                {timelineData && <ChartComponent data={timelineData} />}
                 <Modal
                     open={isModalOpen}
                     onClose={closeModal}
