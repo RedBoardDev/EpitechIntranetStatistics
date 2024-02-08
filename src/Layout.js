@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Box, Select, MenuItem } from "@mui/material";
+import { Box } from "@mui/material";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
 import Hub from "./Pages/Hub";
+import Roadblock from "./Pages/Roadblock";
 import IconButton from "./components/IconButton";
 
-import DeveloperBoardOutlinedIcon from '@mui/icons-material/DeveloperBoardOutlined';
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
-import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
-import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
-import Roadblock from "./Pages/Roadblock";
+// icons
+import HiveRoundedIcon from '@mui/icons-material/HiveRounded';
+import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
+import BatchPredictionRoundedIcon from '@mui/icons-material/BatchPredictionRounded';
+import PublicRoundedIcon from '@mui/icons-material/PublicRounded';
 
 const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("dashboard");
@@ -69,20 +70,26 @@ const Layout = () => {
             >
                 <IconButton onClick={() => handlePageChange("dashboard")}
                     selected={selectedPage === "dashboard"}
-                    icon={<DeveloperBoardOutlinedIcon />}
+                    icon={<HiveRoundedIcon />}
                     tooltipText="Dashboard"
                 />
                 <IconButton
                     onClick={() => handlePageChange("roadblock")}
                     selected={selectedPage === "roadblock"}
-                    icon={<WidgetsOutlinedIcon />}
+                    icon={<WidgetsRoundedIcon />}
                     tooltipText="Roadblock"
                 />
                 <IconButton
                     onClick={() => handlePageChange("hub")}
                     selected={selectedPage === "hub"}
-                    icon={<HubOutlinedIcon />}
+                    icon={<BatchPredictionRoundedIcon />}
                     tooltipText="Hub"
+                />
+                <IconButton
+                    onClick={() => handlePageChange("tepitech")}
+                    selected={selectedPage === "tepitech"}
+                    icon={<PublicRoundedIcon />}
+                    tooltipText="TEPitech"
                 />
             </Box>
         </>
