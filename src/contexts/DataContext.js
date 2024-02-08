@@ -30,8 +30,8 @@ function transformDataToSeries(data) {
 export const DataProvider = ({ children }) => {
     const [dashboardData, setDashboardData] = useState({});
     const [sidebarData, setSidebarData] = useState({});
-    const [roadblockData, setRoadblockData] = useState({});
-    const [hubData, setHubData] = useState({});
+    const [roadblockData, setRoadblockData] = useState(undefined);
+    const [hubData, setHubData] = useState(null);
     const [timelineData, setTimelineData] = useState(undefined);
 
     useEffect(() => {

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import RowGenerator from '../components/RowGenerator';
 import { useData } from '../contexts/DataContext';
 import RoadBlockCard from '../components/RoadBlockCard';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Roadblock = () => {
     const { roadblockData } = useData();
@@ -20,8 +21,12 @@ const Roadblock = () => {
                 height: '100%',
                 width: '100%',
                 overflow: 'auto',
+                position: 'relative',
+
             }}
         >
+            {console.log(roadblockData)}
+            <LoadingSpinner data={roadblockData} />
             <RowGenerator data={roadblockData} itemsPerRow={itemsPerRow} renderCell={renderCell} />
         </Box>
     );

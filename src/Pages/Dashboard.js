@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, CircularProgress, IconButton, Modal, Slide } from '@mui/material';
+import { Box, IconButton, Modal, Slide } from '@mui/material';
 import { useData } from '../contexts/DataContext';
 import SummaryCard from '../components/SummaryCard';
 import ChartComponent from "../components/ChartComponent";
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Dashboard = () => {
     const { dashboardData, timelineData } = useData();
@@ -49,23 +50,8 @@ const Dashboard = () => {
                     height: '100%',
                 }}
             >
-                {(!timelineData) && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
-                            right: 0,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                        }}
-                    >
-                        <CircularProgress />
-                    </Box>
-                )}
+                <LoadingSpinner data={timelineData} />
+
                 {timelineData && timelineData.length > 0 && (
                     <IconButton
                         sx={{
