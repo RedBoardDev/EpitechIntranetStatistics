@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { COLORS, BOX_SHADOW } from '../styles.js';
 
 const extractModuleInfo = (moduleName, grade = undefined) => {
     const regex = /(\[[A-Z]-[A-Z]+-\d+\])\s*(\w+)\s*-\s*(.+)/;
@@ -61,14 +62,13 @@ const RoadBlockCard = ({ roadblockData }) => {
         <Box
             sx={{
                 flex: '1',
-                backgroundColor: '#F0EFF4',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '6px',
                 width: '100%',
-                border: '2px solid #1F364D',
                 padding: '6px',
-                // height: '100%',
+                backgroundColor: COLORS.box2,
+                boxShadow: BOX_SHADOW.box2,
             }}
         >
             <Box

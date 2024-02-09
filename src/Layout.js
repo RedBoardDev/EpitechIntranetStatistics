@@ -5,6 +5,7 @@ import Dashboard from "./Pages/Dashboard";
 import Hub from "./Pages/Hub";
 import Roadblock from "./Pages/Roadblock";
 import IconButton from "./components/IconButton";
+import { COLORS, BOX_SHADOW, BORDER_RADIUS } from './styles.js';
 
 // icons
 import HiveRoundedIcon from '@mui/icons-material/HiveRounded';
@@ -49,9 +50,10 @@ const Layout = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         flex: '1',
-                        borderRadius: 8,
-                        border: '2px solid #1F364D',
-                        overflowY: 'auto'
+                        borderRadius: BORDER_RADIUS.box2,
+                        overflowY: 'auto',
+                        backgroundColor: COLORS.backgroundBox,
+                        boxShadow: BOX_SHADOW.backgroundBox,
                     }}
                 >
                     {renderSelectedPage()}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useData } from '../contexts/DataContext';
+import { COLORS, BOX_SHADOW, BORDER_RADIUS } from '../styles.js';
 
 const Sidebar = () => {
     const { sidebarData } = useData();
@@ -32,9 +33,10 @@ const Sidebar = () => {
                 alignItems: 'center',
                 width: '22%',
                 height: '100%',
-                borderRadius: 8,
-                border: '2px solid #1F364D',
+                borderRadius: BORDER_RADIUS.box2,
                 marginRight: 2,
+                boxShadow: BOX_SHADOW.sidebar,
+                backgroundColor: COLORS.sidebar,
             }}
         >
             <Box
@@ -55,7 +57,6 @@ const Sidebar = () => {
                         width: '50%',
                         height: 'auto',
                         borderRadius: '20px',
-                        border: '2px solid #1F364D',
                     }}
                     onError={(e) => {
                         e.target.src = 'https://cdn.pixabay.com/photo/2017/02/23/13/05/avatar-2092113_960_720.png';

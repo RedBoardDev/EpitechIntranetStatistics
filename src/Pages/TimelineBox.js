@@ -4,6 +4,7 @@ import ChartComponent from "../components/ChartComponent";
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { COLORS, BOX_SHADOW } from '../styles.js';
 
 const TimelineBox = ({ timelineData }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,11 +26,12 @@ const TimelineBox = ({ timelineData }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 overflow: 'hidden',
-                border: '2px solid #1F364D',
                 borderRadius: '14px',
                 margin: '18px',
                 marginTop: '0px',
                 height: '100%',
+                backgroundColor: COLORS.box2,
+                boxShadow: BOX_SHADOW.box2,
             }}
         >
             <LoadingSpinner data={timelineData} />

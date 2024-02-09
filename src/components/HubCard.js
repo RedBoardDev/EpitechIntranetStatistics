@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { COLORS, BOX_SHADOW } from '../styles.js';
 
 const extractModuleInfo = (moduleName, grade = undefined) => {
     const regex = /(\[[A-Z]-[A-Z]+-\d+\])\s*(\w+)\s*-\s*(.+)/;
@@ -37,6 +38,7 @@ const CardInfo = ({ module }) => {
                 break;
             case 'organisateur':
                 setModuleColor('#cf940a');
+                break;
             default:
                 setModuleColor('#666c70');
                 break;
@@ -69,14 +71,14 @@ const HubCard = ({ data }) => {
         <Box
             sx={{
                 flex: '1',
-                backgroundColor: '#F0EFF4',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '6px',
                 width: '100%',
-                border: '2px solid #1F364D',
                 margin: '-6px',
                 padding: '6px',
+                backgroundColor: COLORS.box2,
+                boxShadow: BOX_SHADOW.box2,
             }}
         >
             <Box

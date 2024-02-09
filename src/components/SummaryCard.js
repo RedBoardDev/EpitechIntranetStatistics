@@ -1,20 +1,21 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { COLORS, BOX_SHADOW } from '../styles.js';
 
 const CustomCard = ({ title = '-', text = '-' }) => {
     return (
         <Box
             sx={{
                 flex: '1',
-                backgroundColor: '#F0EFF4',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
                 fontSize: '18px',
                 fontWeight: 'bold',
-                border: '2px solid #1F364D',
+                backgroundColor: COLORS.box2,
                 borderRadius: '14px',
+                boxShadow: BOX_SHADOW.box2,
             }}
         >
             <Typography variant="h4" sx={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '4px' }}>
