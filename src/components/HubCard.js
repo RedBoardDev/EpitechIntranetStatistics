@@ -75,8 +75,9 @@ const HubCard = ({ data }) => {
                 flexDirection: 'column',
                 borderRadius: '6px',
                 width: '100%',
-                margin: '-6px',
-                padding: '6px',
+                padding: '12px',
+                marginTop: '-10px',
+                marginBottom: '-10px',
                 backgroundColor: COLORS.box2,
                 boxShadow: BOX_SHADOW.box2,
             }}
@@ -108,7 +109,7 @@ const HubCard = ({ data }) => {
             </Box>
             <Box
                 sx={{
-                    marginTop: '8px',
+                    marginTop: '12px',
                     marginLeft: '4px',
                 }}
             >

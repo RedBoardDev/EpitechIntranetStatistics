@@ -66,7 +66,7 @@ const RoadBlockCard = ({ roadblockData }) => {
                 flexDirection: 'column',
                 borderRadius: '6px',
                 width: '100%',
-                padding: '6px',
+                padding: '12px',
                 backgroundColor: COLORS.box2,
                 boxShadow: BOX_SHADOW.box2,
             }}

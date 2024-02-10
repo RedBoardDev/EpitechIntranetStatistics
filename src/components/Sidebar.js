@@ -57,6 +57,8 @@ const Sidebar = () => {
                         width: '50%',
                         height: 'auto',
                         borderRadius: '20px',
+                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.12)',
                     }}
                     onError={(e) => {
                         e.target.src = 'https://cdn.pixabay.com/photo/2017/02/23/13/05/avatar-2092113_960_720.png';
