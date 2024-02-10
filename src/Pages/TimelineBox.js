@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Modal, Slide } from '@mui/material';
+import { Box, IconButton, Modal, Skeleton, Slide } from '@mui/material';
 import ChartComponent from "../components/ChartComponent";
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
@@ -17,26 +17,55 @@ const TimelineBox = ({ timelineData }) => {
         setIsModalOpen(false);
     };
 
+    const renderSkeletons = () => {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', width: '100%', height: '100%' }}>
+                <Box sx={{ width: '16%', height: '90%', margin: '10px', marginRight: 0 }}>
+                    <Skeleton
+                        animation="pulse"
+                        variant="rect"
+                        width="100%"
+                        height="100%"
+                        sx={{ borderRadius: '14px' }}
+                    />
+
+                </Box>
+                <Box sx={{ height: '90%', width: '75%', margin: '10px' }}>
+                    <Skeleton
+                        animation="pulse"
+                        variant="rect"
+                        width="100%"
+                        height="100%"
+                        sx={{ borderRadius: '14px' }}
+                    />
+                    <Box sx={{ paddingTop: 0.5, marginRight: 1, marginLeft: 1 }}>
+                        <Skeleton animation="pulse" />
+                    </Box>
+                </Box>
+            </Box>
+        );
+    };
+
     return (
         <Box
             sx={{
-                position: 'relative',
                 display: 'flex',
                 flex: '1',
+                flexDirection: 'column',
                 justifyContent: 'center',
-                alignItems: 'center',
                 overflow: 'hidden',
                 borderRadius: '14px',
                 margin: '18px',
                 marginTop: '0px',
                 height: '100%',
+                position: 'relative',
                 backgroundColor: COLORS.box2,
                 boxShadow: BOX_SHADOW.box2,
             }}
         >
-            <LoadingSpinner data={timelineData} />
 
-            {timelineData && timelineData.length > 0 && (
+            {/* {renderSkeletons()} */}
+            {!timelineData ? renderSkeletons() : (
                 <IconButton
                     sx={{
                         position: 'absolute',
@@ -50,6 +79,7 @@ const TimelineBox = ({ timelineData }) => {
                     <FullscreenIcon />
                 </IconButton>
             )}
+
             {timelineData && <ChartComponent data={timelineData} />}
             <Modal
                 open={isModalOpen}

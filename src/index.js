@@ -9,23 +9,36 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div
-      style={{
-        width: '66%',
-        height: '66%',
-        border: 'none',
-        boxShadow: 'none',
-        backgroundColor: 'none',
-        zIndex: 99999,
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <DataProvider>
-        <App />
-      </DataProvider>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      width: '100vw',
+      backgroundImage: 'url(/assets/SCREEN.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    }}>
+      <div
+        style={{
+          width: '66%',
+          height: '66%',
+          border: 'none',
+          boxShadow: 'none',
+          backgroundColor: 'none',
+          zIndex: 99999,
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <DataProvider>
+          <App />
+        </DataProvider>
+      </div>
     </div>
   </React.StrictMode>
 );
