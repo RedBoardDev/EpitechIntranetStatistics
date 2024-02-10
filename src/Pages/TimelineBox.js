@@ -45,6 +45,7 @@ const TimelineBox = ({ timelineData }) => {
                         zIndex: 999
                     }}
                     onClick={openModal}
+                    title="Full screen"
                 >
                     <FullscreenIcon />
                 </IconButton>
@@ -64,20 +65,24 @@ const TimelineBox = ({ timelineData }) => {
                     <Box sx={{
                         bgcolor: 'white',
                         borderRadius: '14px',
-                        boxShadow: 24,
                         padding: 4,
                         width: '90%',
                         height: '90%',
+                        backgroundColor: COLORS.box22,
+                        boxShadow: BOX_SHADOW.box22,
                     }}>
-                        <IconButton style={{
-                            position: 'absolute',
-                            zIndex: 999,
-                            margin: '-18px',
-                        }}
-                            onClick={closeModal}>
+                        <IconButton
+                            style={{
+                                position: 'absolute',
+                                zIndex: 999,
+                                margin: '-18px',
+                            }}
+                            onClick={closeModal}
+                            title="Close"
+                        >
                             <FullscreenExitIcon />
                         </IconButton>
-                        <ChartComponent data={timelineData} />
+                        <ChartComponent data={timelineData} fullscreen />
                     </Box>
                 </Slide>
             </Modal>
