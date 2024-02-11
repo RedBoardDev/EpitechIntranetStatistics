@@ -12,6 +12,7 @@ import HiveRoundedIcon from '@mui/icons-material/HiveRounded';
 import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
 import BatchPredictionRoundedIcon from '@mui/icons-material/BatchPredictionRounded';
 import PublicRoundedIcon from '@mui/icons-material/PublicRounded';
+import TEPitech from "./Pages/TEPitech.js";
 
 const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("dashboard");
@@ -28,8 +29,9 @@ const Layout = () => {
                 return <Hub />;
             case "roadblock":
                 return <Roadblock />;
+            case "tepitech":
             default:
-                return <Dashboard />;
+                return <TEPitech />;
         }
     };
 

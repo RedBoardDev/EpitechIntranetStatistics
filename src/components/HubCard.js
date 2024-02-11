@@ -80,6 +80,7 @@ const HubCard = ({ data }) => {
                 flexDirection: 'column',
                 borderRadius: '6px',
                 width: '100%',
+                maxWidth: '50%',
                 padding: '12px',
                 marginTop: '-10px',
                 marginBottom: '-10px',
