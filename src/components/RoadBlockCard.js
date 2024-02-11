@@ -3,32 +3,40 @@ import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { COLORS, BOX_SHADOW } from '../styles.js';
 
-const extractModuleInfo = (moduleName, grade = undefined) => {
+const extractModuleInfo = (moduleName) => {
     const regex = /(\[[A-Z]-[A-Z]+-\d+\])\s*(\w+)\s*-\s*(.+)/;
     const matches = moduleName.match(regex);
 
     if (matches) {
         const code = matches[2];
         const restOfString = matches[3];
+        const moduleCompleteName = `[${code}] - ${restOfString}`;
 
-        if (!grade)
-            return `${code} - ${restOfString}`;
-        if (grade === 'Acquis')
-            return `${code} - ${restOfString} - ${grade}`;
-
-        return `${code} - ${restOfString} - grade ${grade}`;
-    } else {
-        return moduleName;
+        return `${moduleCompleteName}`;
     }
+    return moduleName;
 };
 
+const extractStudentNotes = (user_credits = 0, credits = 0, grade = undefined) => {
+    const creditsString = `${user_credits ?? 0}/${credits} credits`;
+
+    if (!grade || grade === 'N/A')
+        return `${creditsString}`;
+    return `${grade.toString()} - ${creditsString}`;
+}
+
 const ModuleInfo = ({ module }) => {
-    const [moduleColor, setModuleColor] = useState('#666c70');
+    const [moduleColor, setModuleColor] = useState('#8d9396');
+
+    // #bf6c1b orange
+    // #2d962d green
+    // #f25050 red
+    // #8d9396 grey
 
     useEffect(() => {
         switch (module.color) {
             case 'orange':
-                setModuleColor('#c8cfdb');
+                setModuleColor('#bf6c1b');
                 break;
             case 'green':
                 setModuleColor('#2d962d');
@@ -37,15 +45,15 @@ const ModuleInfo = ({ module }) => {
                 setModuleColor('#f25050');
                 break;
             default:
-                setModuleColor('#666c70');
+                setModuleColor('#8d9396');
                 break;
         }
     }, [module]);
 
     return (
         <Typography key={module.name} sx={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: moduleColor }}>{extractModuleInfo(module.name, module.student_grade)}</span>
-            <span style={{ whiteSpace: 'nowrap', fontSize: '15px' }}>{module.user_credits ?? 0}/{module.credits} credits</span>
+            <span style={{ color: moduleColor }}>{extractModuleInfo(module.name)}</span>
+            <span style={{ whiteSpace: 'nowrap', fontSize: '15px', color: `${!module.color ? '#8d9396' : ''}` }}>{extractStudentNotes(module.user_credits, module.credits, module.student_grade)}</span>
         </Typography>
     );
 };

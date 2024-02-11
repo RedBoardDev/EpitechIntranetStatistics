@@ -28,8 +28,7 @@ export async function updateRoadBlockInformation(dataApi, XPHubApi) {
                 // moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
                 moduleInfo.user_credits = creditPerStudentYear[studentYear] ?? 8;
 
-                // moduleInfo.student_credits = Math.floor((XPHubApi.getnbXps() / 10));
-                moduleInfo.student_credits = 3;
+                moduleInfo.user_credits = Math.floor((XPHubApi.getnbXps() / 10));
                 if (moduleInfo.student_credits > moduleInfo.credits)
                     moduleInfo.student_credits = moduleInfo.credits;
                 if (moduleInfo.student_credits >= moduleInfo.credits)

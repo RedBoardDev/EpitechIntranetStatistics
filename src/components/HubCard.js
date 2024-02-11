@@ -23,12 +23,17 @@ const extractModuleInfo = (moduleName, grade = undefined) => {
 };
 
 const CardInfo = ({ module }) => {
-    const [moduleColor, setModuleColor] = useState('#666c70');
+    const [moduleColor, setModuleColor] = useState('#bf6c1b');
+
+    // #bf6c1b orange
+    // #2d962d green
+    // #f25050 red
+    // #a18716 grey yellow
 
     useEffect(() => {
         switch (module.status) {
             case 'soon':
-                setModuleColor('#666c70');
+                setModuleColor('#bf6c1b');
                 break;
             case 'present':
                 setModuleColor('#2d962d');
@@ -37,10 +42,10 @@ const CardInfo = ({ module }) => {
                 setModuleColor('#f25050');
                 break;
             case 'organisateur':
-                setModuleColor('#cf940a');
+                setModuleColor('#a18716');
                 break;
             default:
-                setModuleColor('#666c70');
+                setModuleColor('#bf6c1b');
                 break;
         }
     }, [module]);
