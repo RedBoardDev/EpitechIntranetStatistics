@@ -13,12 +13,22 @@ import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
 import BatchPredictionRoundedIcon from '@mui/icons-material/BatchPredictionRounded';
 import PublicRoundedIcon from '@mui/icons-material/PublicRounded';
 import TEPitech from "./Pages/TEPitech.js";
+import SettingsModal from "./components/SettingsModal.js";
 
 const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("dashboard");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handlePageChange = (page) => {
         setSelectedPage(page);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const renderSelectedPage = () => {
@@ -96,6 +106,24 @@ const Layout = () => {
                     tooltipText="TEPitech"
                 />
             </Box>
+            <img
+                src="/icons/logo_128x128.png"
+                alt="Settings"
+                title="Settings"
+                style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '20px',
+                    width: '36px',
+                    height: 'auto',
+                    cursor: 'pointer',
+                    transition: 'opacity 0.3s',
+                }}
+                onClick={openModal}
+                onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+                onMouseLeave={(e) => e.target.style.opacity = '1'}
+            />
+            <SettingsModal isOpen={isModalOpen} handleClose={closeModal} />
         </>
     );
 };

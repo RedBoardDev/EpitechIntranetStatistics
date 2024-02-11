@@ -64,24 +64,6 @@ const Sidebar = () => {
                         e.target.src = 'https://cdn.pixabay.com/photo/2017/02/23/13/05/avatar-2092113_960_720.png';
                     }}
                 />
-                <img
-                    src="/icons/logo_128x128.png"
-                    alt="Settings"
-                    title="Settings"
-                    style={{
-                        position: 'absolute',
-                        bottom: '10px',
-                        right: '20px',
-                        width: '36px',
-                        height: 'auto',
-                        cursor: 'pointer',
-                        transition: 'opacity 0.3s',
-                    }}
-                    onClick={() => console.log("Image clicked")}
-                    onMouseEnter={(e) => e.target.style.opacity = '0.8'}
-                    onMouseLeave={(e) => e.target.style.opacity = '1'}
-                />
-
             </Box>
             <Box
                 sx={{
