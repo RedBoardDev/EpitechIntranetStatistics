@@ -1,5 +1,5 @@
 async function getModuleInformation(apiData, codeInstance, codeSemester) { //check si on bien inscrit au module + roadblock + projet sinon mettre en gris dans le front
-    // try {
+    try {
         let nodeCompleteData = await apiData.getNodeOnCourseCompleteData({ code: `${codeInstance}`, semester: Number(codeSemester) });
         if (nodeCompleteData === null) {
             return null;
@@ -8,10 +8,6 @@ async function getModuleInformation(apiData, codeInstance, codeSemester) { //che
             const nodeInfo = await apiData.getNodeOnCourseData({ code: `${codeInstance}`, semester: Number(codeSemester) });
             let nodeData;
             nodeData = nodeInfo.find((item) => item.status !== "notregistered") || nodeInfo[0];
-            // if (nodeInfo.length > 1) {
-            // } else
-            //     nodeData = nodeInfo[0];
-
             nodeCompleteData = await apiData.getCompleteDataFromApi(nodeData.code, nodeData.codeinstance);
             apiData.setNodeCourseCompleteData({ code: codeInstance, semester: codeSemester }, nodeCompleteData);
         }
@@ -26,9 +22,9 @@ async function getModuleInformation(apiData, codeInstance, codeSemester) { //che
             };
             return moduleInfo;
         }
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    } catch (error) {
+        return false;
+    }
     return false;
 }
 

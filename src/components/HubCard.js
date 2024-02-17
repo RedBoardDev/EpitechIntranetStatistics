@@ -110,7 +110,7 @@ const HubCard = ({ data }) => {
                     marginLeft: '4px',
                     textShadow: '1px 1px 1px rgba(0, 0, 0, 0.2)',
                 }}>
-                    {nbPart}/{(limitPart > 99 ? '∞' : limitPart) ?? '∞'}
+                    {nbPart}/{(limitPart === -1 ? '∞' : limitPart) ?? '∞'}
                 </Typography>
             </Box>
             <Box

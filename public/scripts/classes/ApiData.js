@@ -139,7 +139,6 @@ class ApiData {
                 item.complete_data = newCompleteData;
             }
         }
-        // this.#preLoadData.set("general_course", courseData);
         this.#preLoad_generalCourseData = courseData;
     }
 

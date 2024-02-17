@@ -25,17 +25,17 @@ export const getXPHubData = async (epitechData, apiData, XPHubData) => {
         ...(activitiesCampus?.activites || [])
     ];
     everyActivities.map((activite) => {
-        if (activite.type_title) {
-            if (activite.type_title === "Project") {
-                XPHubData.addProject(generalNotesData['notes'], activite.codeacti, activite.begin, activite.end);
-            } else {
-                activite.events.map((event) => {
-                    if (event.user_status) XPHubData.addActivite(activite.title, activite.type_title, event.user_status, event.begin);
-                    else if (event.assistants.find((assistant) => assistant.login === apiData.getUserEmail()))
-                        XPHubData.addActivite(activite.title, activite.type_title, 'organisateur', event.begin);
-                    else if (event.already_register) XPHubData.addActivite(activite.title, activite.type_title, 'soon', event.begin);
-                });
-            }
+        if (activite.type_title && activite.type_title === "Project") {
+            // for optimisation, we can store each project and do addProject with every project to avoid multiple loops of generalNotesData
+            XPHubData.addProject(generalNotesData['notes'], activite.codeacti, activite.begin, activite.end);
+        } else {
+            activite.events.map((event) => {
+                if (event.user_status)
+                    XPHubData.addActivite(activite.title, activite.type_title, event.user_status, event.begin);
+                else if (event.assistants.find((assistant) => assistant.login === apiData.getUserEmail()))
+                    XPHubData.addActivite(activite.title, activite.type_title, 'organisateur', event.begin);
+                else if (event.already_register) XPHubData.addActivite(activite.title, activite.type_title, 'soon', event.begin);
+            });
         }
     });
     XPHubData.countXpSoon();

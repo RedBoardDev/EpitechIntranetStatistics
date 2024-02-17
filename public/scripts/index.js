@@ -34,7 +34,7 @@ async function initApiData() {
 
 window.addEventListener('load', async () => {
     const epitechData = new EpitechData();
-    const XPHubData = new XPHub(); // change to use hub data from epitechData
+    const XPHubData = new XPHub(epitechData.getHubActivities());
     const apiData = await initApiData();
 
     if (!epitechData || !XPHubData || !apiData) return;
