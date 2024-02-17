@@ -1,23 +1,24 @@
-import { updateFrontend } from "../updateFrontend.js";
+import { updateFrontend } from "../utils/updateFrontend.js";
 
-export const getXPHubData = async (api, XPHubApi) => {
-    const generalNotesData = await api.getGeneralNotesData();
+export const getXPHubData = async (epitechData, apiData, XPHubData) => {
+    const generalNotesData = await apiData.getGeneralNotesData();
+    const hubUnit = epitechData.getHubUnit();
 
-    const location = api.getUserLocation();
-    let pays = location[0];
-    let region = location[1];
+    const location = apiData.getUserLocation();
+    const pays = location[0];
+    const region = location[1];
 
-    let activitiesPublic = await api.getNodeOnCourseCompleteData({ code: "B-INN-000", codeinstance: `${pays}-0-1` });
-    let activitiesCampus = await api.getNodeOnCourseCompleteData({ code: "B-INN-000", codeinstance: `${region}-0-1` });
+    let activitiesPublic = await apiData.getNodeOnCourseCompleteData({ code: hubUnit, codeinstance: `${pays}-0-1` });
+    let activitiesCampus = await apiData.getNodeOnCourseCompleteData({ code: hubUnit, codeinstance: `${region}-0-1` });
     if (activitiesPublic === undefined) {
         activitiesPublic = null;
-        activitiesPublic = (await api.getCompleteDataFromApi("B-INN-000", `${pays}-0-1`));
-        api.setNodeCourseCompleteData({ code: "B-INN-000", codeinstance: `${pays}-0-1` }, activitiesPublic);
+        activitiesPublic = (await apiData.getCompleteDataFromApi(hubUnit, `${pays}-0-1`));
+        apiData.setNodeCourseCompleteData({ code: hubUnit, codeinstance: `${pays}-0-1` }, activitiesPublic);
     }
     if (activitiesCampus === undefined) {
         activitiesCampus = null;
-        activitiesCampus = (await api.getCompleteDataFromApi("B-INN-000", `${region}-0-1`));
-        api.setNodeCourseCompleteData({ code: "B-INN-000", codeinstance: `${region}-0-1` }, activitiesCampus);
+        activitiesCampus = (await apiData.getCompleteDataFromApi(hubUnit, `${region}-0-1`));
+        apiData.setNodeCourseCompleteData({ code: hubUnit, codeinstance: `${region}-0-1` }, activitiesCampus);
     }
     const everyActivities = [
         ...(activitiesPublic?.activites || []),
@@ -26,20 +27,20 @@ export const getXPHubData = async (api, XPHubApi) => {
     everyActivities.map((activite) => {
         if (activite.type_title) {
             if (activite.type_title === "Project") {
-                XPHubApi.addProject(generalNotesData['notes'], activite.codeacti, activite.begin, activite.end);
+                XPHubData.addProject(generalNotesData['notes'], activite.codeacti, activite.begin, activite.end);
             } else {
                 activite.events.map((event) => {
-                    if (event.user_status) XPHubApi.addActivite(activite.title, activite.type_title, event.user_status, event.begin);
-                    else if (event.assistants.find((assistant) => assistant.login === api.getUserEmail()))
-                        XPHubApi.addActivite(activite.title, activite.type_title, 'organisateur', event.begin);
-                    else if (event.already_register) XPHubApi.addActivite(activite.title, activite.type_title, 'soon', event.begin);
+                    if (event.user_status) XPHubData.addActivite(activite.title, activite.type_title, event.user_status, event.begin);
+                    else if (event.assistants.find((assistant) => assistant.login === apiData.getUserEmail()))
+                        XPHubData.addActivite(activite.title, activite.type_title, 'organisateur', event.begin);
+                    else if (event.already_register) XPHubData.addActivite(activite.title, activite.type_title, 'soon', event.begin);
                 });
             }
         }
     });
-    XPHubApi.countXpSoon();
-    const XPHub_me = await XPHubApi.getMeVariable();
-    let XPHub_xpAct = await XPHubApi.getxpAct();
+    XPHubData.countXpSoon();
+    const XPHub_me = await XPHubData.getMeVariable();
+    let XPHub_xpAct = await XPHubData.getxpAct();
     XPHub_xpAct.map((node) => {
         const types = node.alias;
         types.push(node.name);

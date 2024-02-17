@@ -1,12 +1,13 @@
-import { ApiCall } from "./ApiCall.js";
-import { XPHub } from "./XPHubApi.js";
-import { parseJwtToken } from "./crypto.js";
+import { ApiData } from "./classes/ApiData.js";
+import { EpitechData } from "./classes/EpitechData.js";
+import { XPHub } from "./classes/XPHubApi.js";
+import { parseJwtToken } from "./utils/crypto.js";
 import { retrieveData } from "./retrieveData/retrieveData.js";
-import { getData } from "./webStorage.js";
+import { getData } from "./utils/webStorage.js";
 
 /* global chrome */
 
-async function initApiCall() {
+async function initApiData() {
     let refresh_token = getData('refresh_token');
 
     if (!refresh_token) {
@@ -26,15 +27,17 @@ async function initApiCall() {
         return undefined;
     }
 
-    const api = new ApiCall();
+    const api = new ApiData();
     await api.init(refresh_token, jwtToken['login']);
     return api;
 }
 
 window.addEventListener('load', async () => {
-    const XPHubApi = new XPHub();
-    const dataApi = await initApiCall();
-    if (!XPHubApi || !dataApi) return;
+    const epitechData = new EpitechData();
+    const XPHubData = new XPHub(); // change to use hub data from epitechData
+    const apiData = await initApiData();
+
+    if (!epitechData || !XPHubData || !apiData) return;
     // dataApi.sendTracking();
-    await retrieveData(XPHubApi, dataApi);
+    await retrieveData(epitechData, XPHubData, apiData);
 });

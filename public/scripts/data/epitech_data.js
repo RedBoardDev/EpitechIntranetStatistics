@@ -1,4 +1,4 @@
-{
+const epitechData = {
   "update_date": "2024-02-05",
   "promo_requirements": {
     "pge1": {
@@ -11,30 +11,17 @@
         "solo_stumper": "B-CPE-210",
         "duo_stumper": "B-CPE-210"
       },
-      "roadblocks": [
-        {
-          "technical_foundation": 10,
-          "technical_supplement": 2,
-          "innovation": 0,
-          "softskills": 1,
-          "tepitech": 600,
-          "solo_stumper": 15,
-          "duo_stumper": 15,
-          "professional_writings": 0,
-          "total_credits": 25
-        },
-        {
-          "technical_foundation": 20,
-          "technical_supplement": 8,
-          "innovation": 3,
-          "softskills": 3,
-          "tepitech": 600,
-          "solo_stumper": 15,
-          "duo_stumper": 15,
-          "professional_writings": 0,
-          "total_credits": 60
-        }
-      ]
+      "roadblocks": {
+        "technical_foundation": 20,
+        "technical_supplement": 8,
+        "innovation": 3,
+        "softskills": 3,
+        "tepitech": 600,
+        "solo_stumper": 15,
+        "duo_stumper": 15,
+        "professional_writings": 0,
+        "total_credits": 60
+      }
     },
     "pge2": {
       "units": {
@@ -44,26 +31,15 @@
         "innovation": "G-JAM-001,B-INN-400,G-CUS-001,G-CUS-002,G-CUS-003,G-CUS-004,G-CUS-005,G-CUS-006,G-CUS-007,G-CUS-008",
         "softskills": "B-PRO-400,B-PCP-000,B-PMP-400"
       },
-      "roadblocks": [
-        {
-          "technical_foundation": 0,
-          "technical_supplement": 0,
-          "innovation": 0,
-          "softskills": 0,
-          "tepitech": -1,
-          "professional_writings": 0,
-          "total_credits": 80
-        },
-        {
-          "technical_foundation": 13,
-          "technical_supplement": 6,
-          "innovation": 4,
-          "softskills": 3,
-          "tepitech": 700,
-          "professional_writings": 1,
-          "total_credits": 120
-        }
-      ]
+      "roadblocks": {
+        "technical_foundation": 13,
+        "technical_supplement": 6,
+        "innovation": 4,
+        "softskills": 3,
+        "tepitech": 700,
+        "professional_writings": 1,
+        "total_credits": 120
+      }
     },
     "pge3": {
       "units": {
@@ -73,29 +49,19 @@
         "innovation": "G-JAM-001,B-INN-500,G-CUS-001,G-CUS-002,G-CUS-003,G-CUS-004,G-CUS-005,G-CUS-006,G-CUS-007,G-CUS-008,B-PRO-500",
         "softskills": "B-DES-500,B-SVR-500,B-PRO-510,B-PCP-000"
       },
-      "roadblocks": [
-        {
-          "technical_foundation": 8,
-          "technical_supplement": 6,
-          "innovation": 6,
-          "softskills": 4,
-          "tepitech": 750,
-          "professional_writings": 2,
-          "total_credits": 155
-        },
-        {
-          "technical_foundation": 8,
-          "technical_supplement": 6,
-          "innovation": 6,
-          "softskills": 4,
-          "tepitech": 750,
-          "professional_writings": 2,
-          "total_credits": 180
-        }
-      ]
+      "roadblocks": {
+        "technical_foundation": 8,
+        "technical_supplement": 6,
+        "innovation": 6,
+        "softskills": 4,
+        "tepitech": 750,
+        "professional_writings": 2,
+        "total_credits": 180
+      }
     }
   },
   "hub": {
+    "unit": "B-INN-000",
     "max_credits": {
       "pge1": 5,
       "pge2": 8,
@@ -104,7 +70,9 @@
     "activities": [
       {
         "name": "Talk",
-        "alias": ["Meetup"],
+        "alias": [
+          "Meetup"
+        ],
         "xpWinPart": 1,
         "xpWinOrg": 4,
         "xpLostPart": 1,
@@ -149,3 +117,5 @@
     ]
   }
 }
+
+export { epitechData };

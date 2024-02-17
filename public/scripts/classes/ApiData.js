@@ -1,7 +1,6 @@
-import { generateIdFromStr } from './crypto.js';
-import { storeData, getData } from './webStorage.js';
-class ApiCall {
-    // #preLoadData;
+import { generateIdFromStr } from '../utils/crypto.js';
+import { storeData, getData } from '../utils/webStorage.js';
+class ApiData {
     #scolarYear;
     #location;
     #studentYear;
@@ -11,7 +10,6 @@ class ApiCall {
     #preLoad_generalCourseData;
 
     constructor() {
-        // this.#preLoadData = new Map();
         this.#scolarYear = undefined;
         this.#location = undefined;
         this.#studentYear = undefined;
@@ -110,11 +108,6 @@ class ApiCall {
         if (!courseData) return null;
         return courseData;
     }
-
-    // setGeneralCourseData(newData) {
-    //     this.#preLoadData.set("general_course", newData);
-    // }
-
     getNodeOnCourseCompleteData(criteria) {
         const courseData = this.#preLoad_generalCourseData;
         if (!courseData) return null;
@@ -156,52 +149,6 @@ class ApiCall {
         return await this.#callApi('GET', `module/${this.getScolarYear()}/${codeModule}/${codeInstance}/?format=json`);
     }
 
-    // async getPresenceData(moduleCode, activityCode, eventCode) {
-    //     const email = this.getUserEmail();
-    //     const location = this.getUserLocation();
-    //     let region = location[1];
-
-    //     const rsp = await this.#callApi('GET', `module/${this.getScolarYear()}/${moduleCode}/${region}-0-1/${activityCode}/${eventCode}/registered/?format=json`);
-    //     const node = rsp.find(item => item.login === email && item.registered === "1");
-    //     return node ? node : null;
-    // }
-
-    // getBestStumpers(generalNotesData) {
-    //     var bestSoloStumper = 0;
-    //     var bestDuoStumper = 0;
-    //     generalNotesData['notes'].forEach(element => {
-    //         if (element.titlemodule.includes("B2 - Stumpers")) {
-    //             if (element.title.includes("Solo"))
-    //                 bestSoloStumper = element.final_note;
-    //             else
-    //                 bestDuoStumper = element.final_note;
-    //         }
-    //     });
-    //     return { bestSoloStumper, bestDuoStumper };
-    // }
-
-    // getRoadBlocksCode(generalNotesData) { // get codemodule and codeInstance
-    //     var roadBlockCodes = [];
-    //     if (this.#preLoadData.has("roadblock_code")) return this.#preLoadData.get("roadblock_code");
-    //     generalNotesData['modules'].forEach(element => {
-    //         if (element.scolaryear == this.getScolarYear() && element.barrage == 200) {
-    //             const codeinstance = (element.codeinstance).toString();
-    //             const codemodule = (element.codemodule).toString();
-    //             roadBlockCodes.push([codeinstance, codemodule]);
-    //         }
-    //     });
-    //     this.#preLoadData.set("roadblock_code", roadBlockCodes);
-    //     return roadBlockCodes;
-    // }
-
-    // async getRoadBlockData(codemodule, codeinstance) {
-    //     var roadBlockData;
-    //     if (this.#preLoadData.has(`roadblock_data-${codemodule}`)) return this.#preLoadData.get(`roadblock_data-${codemodule}`);
-    //     roadBlockData = await this.#callApi('GET', `module/${this.getScolarYear()}/${codemodule}/${codeinstance}/?format=json`);
-    //     this.#preLoadData.set(`roadblock_data-${codemodule}`, roadBlockData);
-    //     return roadBlockData;
-    // }
-
     // // preload data function
 
     async #callApi(method, endpoint) {
@@ -223,10 +170,6 @@ class ApiCall {
             return null;
         }
     }
-
-    // getPreLoadData(key) {
-    //     return this.#preLoadData.get(key);
-    // }
 
     async sendTracking() {
         if (!this.getUserEmail()) return;
@@ -259,4 +202,4 @@ class ApiCall {
     }
 }
 
-export { ApiCall };
+export { ApiData };

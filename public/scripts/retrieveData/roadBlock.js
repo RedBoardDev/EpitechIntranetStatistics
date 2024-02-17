@@ -1,12 +1,12 @@
 import { creditPerStudentYear } from "../data/hubData.js";
 import { modulesPerRoadBlock } from "../data/sortedModules.js";
-import { getModuleInformation } from "../ModuleHandler.js";
-import { updateFrontend } from "../updateFrontend.js";
+import { getModuleInformation } from "./ModuleHandler.js";
+import { updateFrontend } from "../utils/updateFrontend.js";
 
-export async function updateRoadBlockInformation(dataApi, XPHubApi) {
+export async function updateRoadBlockInformation(epitechData, apiData, XPHubData) {
     const sortedModules = modulesPerRoadBlock;
     const roadBlockkeys = Object.keys(sortedModules);
-    const studentYear = dataApi.getStudentYear();
+    const studentYear = apiData.getStudentYear();
 
     let roadBlocksList = [];
 
@@ -17,7 +17,7 @@ export async function updateRoadBlockInformation(dataApi, XPHubApi) {
                 return false;
 
             const semesterCode = semesterCodeMatch[1];
-            let moduleInfo = await getModuleInformation(dataApi, codeInstance, semesterCode);
+            let moduleInfo = await getModuleInformation(apiData, codeInstance, semesterCode);
             if (moduleInfo === null || moduleInfo === undefined)
                 return false;
 
@@ -28,7 +28,7 @@ export async function updateRoadBlockInformation(dataApi, XPHubApi) {
                 // moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
                 moduleInfo.user_credits = creditPerStudentYear[studentYear] ?? 8;
 
-                moduleInfo.user_credits = Math.floor((XPHubApi.getnbXps() / 10));
+                moduleInfo.user_credits = Math.floor((XPHubData.getnbXps() / 10));
                 if (moduleInfo.student_credits > moduleInfo.credits)
                     moduleInfo.student_credits = moduleInfo.credits;
                 if (moduleInfo.student_credits >= moduleInfo.credits)

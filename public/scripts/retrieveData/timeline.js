@@ -1,8 +1,8 @@
-import { updateFrontend } from "../updateFrontend.js";
+import { updateFrontend } from "../utils/updateFrontend.js";
 
-export async function updateTimelineChart(dataApi) {
+export async function updateTimelineChart(apiData) {
     let timeLineData = {};
-    const generalCourse = await dataApi.getGeneralCourseData();
+    const generalCourse = await apiData.getGeneralCourseData();
     const regexSkip = /^(B0|[A-Z]0)|.*Hub.*|.*Roadblock.*|.*Administrative.*|.*Internship.*|.*Hackathon.*/;
     for (let node of generalCourse) {
         if (node.status === "notregistered") {
@@ -13,7 +13,7 @@ export async function updateTimelineChart(dataApi) {
         }
         let nodeCompleteData;
         if (node.complete_data === undefined) {
-            nodeCompleteData = await dataApi.getCompleteDataFromApi(node.code, node.codeinstance);
+            nodeCompleteData = await apiData.getCompleteDataFromApi(node.code, node.codeinstance);
             node.complete_data = nodeCompleteData;
         } else {
             nodeCompleteData = node.complete_data;
