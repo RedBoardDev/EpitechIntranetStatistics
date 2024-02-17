@@ -13,7 +13,7 @@ import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
 import BatchPredictionRoundedIcon from '@mui/icons-material/BatchPredictionRounded';
 import PublicRoundedIcon from '@mui/icons-material/PublicRounded';
 import TEPitech from "./Pages/TEPitech.js";
-import SettingsModal from "./components/SettingsModal.js";
+import AboutModal from "./components/AboutModal.js";
 
 const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("dashboard");
@@ -108,8 +108,8 @@ const Layout = () => {
             </Box>
             <img
                 src="/icons/logo_128x128.png"
-                alt="Settings"
-                title="Settings"
+                alt="About"
+                title="About"
                 style={{
                     position: 'absolute',
                     bottom: '10px',
@@ -123,7 +123,7 @@ const Layout = () => {
                 onMouseEnter={(e) => e.target.style.opacity = '0.8'}
                 onMouseLeave={(e) => e.target.style.opacity = '1'}
             />
-            <SettingsModal isOpen={isModalOpen} handleClose={closeModal} />
+            <AboutModal isOpen={isModalOpen} handleClose={closeModal} />
         </>
     );
 };
