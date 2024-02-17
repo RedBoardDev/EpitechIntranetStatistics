@@ -60,7 +60,7 @@ const ModuleInfo = ({ module }) => {
 
 const RoadBlockCard = ({ roadblockData }) => {
     const {
-        type,
+        name: type,
         actual_student_credits,
         credit_needed,
         modules,

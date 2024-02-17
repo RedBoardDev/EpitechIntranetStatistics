@@ -62,14 +62,14 @@ export const DataProvider = ({ children }) => {
 
         addListener('sidebar', handleSidebarUpdate);
         addListener('dashboard', handleDashboardUpdate);
-        addListener('roadblock', handleRoadblockUpdate);
+        addListener('roadblocks', handleRoadblockUpdate);
         addListener('hub', handleHubUpdate);
         addListener('timeline', handleTimelineUpdate);
 
         return () => {
             removeListener('sidebar', handleSidebarUpdate);
             removeListener('dashboard', handleDashboardUpdate);
-            removeListener('roadblock', handleRoadblockUpdate);
+            removeListener('roadblocks', handleRoadblockUpdate);
             removeListener('hub', handleHubUpdate);
             removeListener('timeline', handleTimelineUpdate);
         };

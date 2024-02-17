@@ -1,60 +1,72 @@
-import { creditPerStudentYear } from "../data/hubData.js";
-import { modulesPerRoadBlock } from "../data/sortedModules.js";
 import { getModuleInformation } from "./ModuleHandler.js";
 import { updateFrontend } from "../utils/updateFrontend.js";
 
+function hubUnitInformation(epitechData, XPHubData, studentYear, moduleInfo) {
+    let newModuleInfo = moduleInfo;
+
+    newModuleInfo.credits = epitechData.getHubMaxCredits(studentYear);
+    newModuleInfo.user_credits = Math.floor((XPHubData.getnbXps() / 10));
+
+    if (newModuleInfo.student_credits > newModuleInfo.credits)
+        newModuleInfo.student_credits = newModuleInfo.credits;
+    if (newModuleInfo.student_credits >= newModuleInfo.credits)
+        newModuleInfo.color = 'green';
+
+    return newModuleInfo;
+}
+
+async function getUnitInformation(epitechData, apiData, XPHubData, studentYear, unitCode) {
+    const semesterCodeMatch = unitCode.match(/-(\d)/);
+    if (!semesterCodeMatch || !semesterCodeMatch[1]) return null;
+
+    const moduleInfo = await getModuleInformation(apiData, unitCode, semesterCodeMatch[1]);
+    if (!moduleInfo) return null;
+
+    if (/B-INN-[0-9]00/.test(unitCode)) { // HUB UNIT
+        return hubUnitInformation(epitechData, XPHubData, studentYear, moduleInfo);
+    } else {
+        return moduleInfo;
+    }
+}
+
+function roadblockInformation(unitsData, rdKey, rdName, creditNeeded) {
+    const roadblockData = {
+        key: rdKey,
+        name: rdName,
+        modules: unitsData,
+        total_roadblock_credits: unitsData.reduce((sum, module) => {
+            return sum + (module.credits || 0);
+        }, 0),
+        available_credits: unitsData.reduce((sum, module) => {
+            return sum + (parseInt(module.user_credits) || 0);
+        }, 0),
+        credit_needed: creditNeeded,
+        actual_student_credits: unitsData.reduce((sum, module) => {
+            return sum + (module.student_credits || 0);
+        }, 0)
+    };
+    return roadblockData;
+}
+
 export async function updateRoadBlockInformation(epitechData, apiData, XPHubData) {
-    const sortedModules = modulesPerRoadBlock;
-    const roadBlockkeys = Object.keys(sortedModules);
+    const roadblocksNames = epitechData.getRoadblocksNames();
+    const roadblocksKey = Object.keys(roadblocksNames);
     const studentYear = apiData.getStudentYear();
 
-    let roadBlocksList = [];
+    let roadBlocksData = [];
 
-    for (const rdKey of roadBlockkeys) {
-        const actualSemesterModules = await Promise.all(sortedModules[rdKey].modules.map(async codeInstance => {
-            const semesterCodeMatch = codeInstance.match(/-(\d)/);
-            if (!semesterCodeMatch || !semesterCodeMatch[1])
-                return false;
-
-            const semesterCode = semesterCodeMatch[1];
-            let moduleInfo = await getModuleInformation(apiData, codeInstance, semesterCode);
-            if (moduleInfo === null || moduleInfo === undefined)
-                return false;
-
-            // hub module ?
-            if (/B-INN-[0-9]00/.test(codeInstance)) {
-                // moduleInfo.credits = (studentYear === 1) ? 5 : 8;
-                moduleInfo.credits = creditPerStudentYear[studentYear] ?? 8;
-                // moduleInfo.user_credits = (studentYear === 1) ? 5 : 8;
-                moduleInfo.user_credits = creditPerStudentYear[studentYear] ?? 8;
-
-                moduleInfo.user_credits = Math.floor((XPHubData.getnbXps() / 10));
-                if (moduleInfo.student_credits > moduleInfo.credits)
-                    moduleInfo.student_credits = moduleInfo.credits;
-                if (moduleInfo.student_credits >= moduleInfo.credits)
-                    moduleInfo.color = 'green';
-            }
-            if (moduleInfo !== null && moduleInfo !== undefined)
-                return moduleInfo;
-            return false;
-        }));
-
-        const filteredModules = actualSemesterModules.filter(module => module !== false);
-
-        roadBlocksList.push({
-            type: rdKey,
-            modules: filteredModules,
-            total_roadblock_credits: filteredModules.reduce((sum, module) => {
-                return sum + (module.credits || 0);
-            }, 0),
-            available_credits: filteredModules.reduce((sum, module) => {
-                return sum + (parseInt(module.user_credits) || 0);
-            }, 0),
-            credit_needed: sortedModules[rdKey][`goal_tech${studentYear}`] || 0,
-            actual_student_credits: filteredModules.reduce((sum, module) => {
-                return sum + (module.student_credits || 0);
-            }, 0)
-        });
+    for (const rdKey of roadblocksKey) {
+        const unitsCode = epitechData.getUnitsByType(studentYear, rdKey);
+        let unitsData = [];
+        for (const unitCode of unitsCode) {
+            const unitData = await getUnitInformation(epitechData, apiData, XPHubData, studentYear, unitCode);
+            if (!unitData) continue;
+            unitsData.push(unitData);
+        }
+        const creditNeeded = epitechData.getRoadblocksRequirementsByType(studentYear, rdKey);
+        const roadblockData = roadblockInformation(unitsData, rdKey, roadblocksNames[rdKey], creditNeeded);
+        if (roadblockData.key === 'professional_writings') continue; // do not show professional_writings
+        roadBlocksData.push(roadblockData);
     }
-    updateFrontend('roadblock', roadBlocksList);
+    updateFrontend("roadblocks", roadBlocksData);
 }

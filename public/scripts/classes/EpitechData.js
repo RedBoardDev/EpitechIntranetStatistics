@@ -11,6 +11,14 @@ class EpitechData {
     return this.#data?.update_date ?? '1942-04-02';
   }
 
+  getRoadblocksNames() {
+    return this.#data?.roadblocks_name ?? null;
+  }
+
+  getRoadblocksNameByType(type) {
+    return this.#data?.roadblocks_name?.[type] ?? null;
+  }
+
   getRoadblocksRequirements(schoolyear) {
     const yearKey = `pge${schoolyear}`;
     return this.#data?.promo_requirements?.[yearKey]?.roadblocks ?? null;
