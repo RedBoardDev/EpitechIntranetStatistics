@@ -53,7 +53,7 @@ const ModuleInfo = ({ module }) => {
     return (
         <Typography key={module.name} sx={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: moduleColor }}>{extractModuleInfo(module.name)}</span>
-            <span style={{ whiteSpace: 'nowrap', fontSize: '15px', color: `${!module.color ? '#8d9396' : ''}` }}>{extractStudentNotes(module.user_credits, module.credits, module.student_grade)}</span>
+            <span style={{ whiteSpace: 'nowrap', fontSize: '15px', color: `${!module.color ? '#8d9396' : ''}` }}>{extractStudentNotes(module.student_credits, module.credits, module.student_grade)}</span>
         </Typography>
     );
 };

@@ -5,11 +5,11 @@ function hubUnitInformation(epitechData, XPHubData, studentYear, moduleInfo) {
     let newModuleInfo = moduleInfo;
 
     newModuleInfo.credits = epitechData.getHubMaxCredits(studentYear);
-    newModuleInfo.user_credits = Math.floor((XPHubData.getnbXps() / 10));
+    newModuleInfo.student_credits = Math.floor((XPHubData.getnbXps() / 10));
 
-    if (newModuleInfo.student_credits > newModuleInfo.credits)
-        newModuleInfo.student_credits = newModuleInfo.credits;
-    if (newModuleInfo.student_credits >= newModuleInfo.credits)
+    if (newModuleInfo.user_credits > newModuleInfo.credits)
+        newModuleInfo.user_credits = newModuleInfo.credits;
+    if (newModuleInfo.user_credits >= newModuleInfo.credits)
         newModuleInfo.color = 'green';
 
     return newModuleInfo;
@@ -65,8 +65,9 @@ export async function updateRoadBlockInformation(epitechData, apiData, XPHubData
         }
         const creditNeeded = epitechData.getRoadblocksRequirementsByType(studentYear, rdKey);
         const roadblockData = roadblockInformation(unitsData, rdKey, roadblocksNames[rdKey], creditNeeded);
-        if (roadblockData.key === 'professional_writings') continue; // do not show professional_writings
         roadBlocksData.push(roadblockData);
     }
-    updateFrontend("roadblocks", roadBlocksData);
+    const filteredRoadBlocksData = roadBlocksData.filter(roadblockData => roadblockData.key !== 'professional_writings'); // do not show professional_writings
+    updateFrontend("roadblocks", filteredRoadBlocksData);
+    return roadBlocksData;
 }

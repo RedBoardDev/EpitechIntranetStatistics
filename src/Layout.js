@@ -99,12 +99,12 @@ const Layout = () => {
                     icon={<BatchPredictionRoundedIcon />}
                     tooltipText="Hub"
                 />
-                <IconButton
+                {/* <IconButton
                     onClick={() => handlePageChange("tepitech")}
                     selected={selectedPage === "tepitech"}
                     icon={<PublicRoundedIcon />}
                     tooltipText="TEPitech"
-                />
+                /> */}
             </Box>
             <img
                 src="/icons/logo_128x128.png"

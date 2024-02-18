@@ -13,9 +13,11 @@ async function getModuleInformation(apiData, codeInstance, codeSemester) { //che
         }
         if (!nodeCompleteData.error) {
             let moduleInfo = {
-                name: `[${codeInstance}] ${nodeCompleteData?.['title'] ?? null}`,
+                name: `${nodeCompleteData?.['title'] ?? null}`,
+                codeInstance: codeInstance,
                 user_credits: nodeCompleteData?.['user_credits'] ?? null,
                 credits: nodeCompleteData?.['credits'] ?? null,
+                student_registered: nodeCompleteData?.['student_registered'] ?? 0,
                 student_grade: nodeCompleteData?.['student_grade'] ?? null,
                 student_credits: nodeCompleteData?.['student_credits'] ?? 0,
                 color: nodeCompleteData?.['color'] ?? null
