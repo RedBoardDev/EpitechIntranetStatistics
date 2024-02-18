@@ -65,9 +65,8 @@ export async function updateRoadBlockInformation(epitechData, apiData, XPHubData
         }
         const creditNeeded = epitechData.getRoadblocksRequirementsByType(studentYear, rdKey);
         const roadblockData = roadblockInformation(unitsData, rdKey, roadblocksNames[rdKey], creditNeeded);
-        roadBlocksData.push(roadblockData);
+        if (roadblockData.key !== 'professional_writings') // do not show professional_writings
+            roadBlocksData.push(roadblockData);
     }
-    const filteredRoadBlocksData = roadBlocksData.filter(roadblockData => roadblockData.key !== 'professional_writings'); // do not show professional_writings
-    updateFrontend("roadblocks", filteredRoadBlocksData);
-    return roadBlocksData;
+    updateFrontend("roadblocks", roadBlocksData);
 }

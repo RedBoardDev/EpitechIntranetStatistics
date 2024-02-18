@@ -144,6 +144,13 @@ class ApiData {
 
     // // general API function
 
+    async getCurrent() {
+        const general = await this.#callApi('GET', `?format=json`);
+        if (!general) return null;
+        const current = general['current'] ?? null;
+        return current;
+    }
+
     async getCompleteDataFromApi(codeModule, codeInstance) {
         return await this.#callApi('GET', `module/${this.getScolarYear()}/${codeModule}/${codeInstance}/?format=json`);
     }

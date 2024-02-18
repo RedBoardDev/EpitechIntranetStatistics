@@ -33,6 +33,7 @@ export const DataProvider = ({ children }) => {
     const [roadblockData, setRoadblockData] = useState(undefined);
     const [hubData, setHubData] = useState(null);
     const [timelineData, setTimelineData] = useState(undefined);
+    const [creditsRequirement, setCreditsRequirement] = useState(undefined);
 
     useEffect(() => {
         const handleDashboardUpdate = (event) => {
@@ -60,11 +61,17 @@ export const DataProvider = ({ children }) => {
             setTimelineData(transformDataToSeries(detail));
         }
 
+        const handleCreditsRequirementUpdate = (event) => {
+            const { detail } = event;
+            setCreditsRequirement(detail);
+        }
+
         addListener('sidebar', handleSidebarUpdate);
         addListener('dashboard', handleDashboardUpdate);
         addListener('roadblocks', handleRoadblockUpdate);
         addListener('hub', handleHubUpdate);
         addListener('timeline', handleTimelineUpdate);
+        addListener('credits_requirement', handleCreditsRequirementUpdate);
 
         return () => {
             removeListener('sidebar', handleSidebarUpdate);
@@ -72,11 +79,12 @@ export const DataProvider = ({ children }) => {
             removeListener('roadblocks', handleRoadblockUpdate);
             removeListener('hub', handleHubUpdate);
             removeListener('timeline', handleTimelineUpdate);
+            removeListener('credits_requirement', handleCreditsRequirementUpdate);
         };
     }, []);
 
     return (
-        <DataContext.Provider value={{ dashboardData, sidebarData, roadblockData, hubData, timelineData }}>
+        <DataContext.Provider value={{ dashboardData, sidebarData, roadblockData, hubData, timelineData, creditsRequirement }}>
             {children}
         </DataContext.Provider>
     );

@@ -3,7 +3,6 @@ import { Box, IconButton, Modal, Skeleton, Slide } from '@mui/material';
 import ChartComponent from "../components/ChartComponent";
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { COLORS, BOX_SHADOW } from '../styles.js';
 
 const TimelineBox = ({ timelineData }) => {

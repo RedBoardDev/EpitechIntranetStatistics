@@ -34,28 +34,27 @@ async function updateDashboardInformation(epitechData, apiData) {
     updateFrontend('dashboard', data);
 }
 
-async function updateCreditsInformation(epitechData, apiData, roadBlocksData) {
+async function updateCreditsInformation(epitechData, apiData) {
     const studentYear = apiData.getStudentYear();
 
-    const availableCredits = roadBlocksData.reduce((sum, roadblock) => { // a voir si l'on peut pas optimiser ça et le faire dans roadblock directement. Pareil pour tout les reduce dans roadblockInformation() on peut surement le faire quand on traite le module pour optimiser
-        return sum + roadblock.modules.reduce((moduleSum, module) => {
-            const userCredits = parseInt(module.user_credits || 0);
-            if (module.student_registered === 1 && module.student_grade === "N/A" && module.student_credits !== userCredits) {
-                return moduleSum + userCredits;
-            } else if (/B-INN-[0-9]00/.test(module.codeInstance) && module.student_grade !== "Acquis") {
-                return moduleSum + epitechData.getHubMaxCredits(studentYear);
-            } else {
-                return moduleSum;
-            }
-        }, 0);
-    }, 0);
+    const credits = apiData.getGeneralUserData()?.['credits'] ?? 0;
+    const creditsRequirement = epitechData.getCreditsRequirements(studentYear) ?? 0;
+    const current = await apiData.getCurrent();
+
+    if (!current || current.length < 1) return;
+    const availableCredits = current.reduce((sum, module) => {
+        if (module.grade === '-')
+            return sum + (parseInt(module.credits) || 0);
+        return sum;
+    }, 0) + epitechData.getHubMaxCredits(studentYear);
 
     const data = {
-        credits: apiData.getGeneralUserData()?.['credits'] ?? 0,
-        neededCredits: epitechData.getCreditsRequirements(studentYear),
+        credits: credits,
+        neededCredits: creditsRequirement,
         availableCredits: availableCredits,
+        status: ((credits >= creditsRequirement) ? 'requirement_met' : ((credits + availableCredits >= creditsRequirement) ? 'requirement_attainable' : 'credits_below_requirement')),
     };
-    updateFrontend('credits', data);
+    updateFrontend('credits_requirement', data);
 }
 
 export async function retrieveData(epitechData, XPHubData, apiData) {
@@ -63,6 +62,6 @@ export async function retrieveData(epitechData, XPHubData, apiData) {
     updateDashboardInformation(epitechData, apiData);
     await getXPHubData(epitechData, apiData, XPHubData);
     updateTimelineChart(apiData);
-    const roadBlocksData = await updateRoadBlockInformation(epitechData, apiData, XPHubData);
-    updateCreditsInformation(epitechData, apiData, roadBlocksData);
+    updateRoadBlockInformation(epitechData, apiData, XPHubData);
+    updateCreditsInformation(epitechData, apiData);
 }

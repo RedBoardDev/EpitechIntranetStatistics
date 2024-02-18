@@ -4,8 +4,6 @@ import { useData } from '../contexts/DataContext';
 import SummaryCard from '../components/SummaryCard';
 import RowGenerator from '../components/RowGenerator';
 import HubCard from '../components/HubCard';
-import LoadingSpinner from '../components/LoadingSpinner';
-
 
 const Hub = () => {
     const { hubData } = useData();
@@ -51,7 +49,7 @@ const Hub = () => {
             <SummaryCard cardsData={[
                 { title: "Currently", text: `${hubData && hubData['xp_completed'] !== undefined ? hubData['xp_completed'] : '-'} XP` },
                 { title: "In progress", text: `${hubData && hubData['xp_in_progress'] !== undefined ? hubData['xp_in_progress'] : '-'} XP` },
-                { title: "Lost", text: `${hubData && hubData['xp_lost'] !== undefined ? (hubData['xp_lost'] ? hubData['xp_lost'] * (-1) : '-') : '-'} XP` },
+                { title: "Lost", text: `${hubData && hubData['xp_lost'] !== undefined ? ((hubData['xp_lost'] ? hubData['xp_lost'] * (-1) : '0')) : '-'} XP` },
             ]} />
 
             {!hubData ? renderSkeletons() : (
