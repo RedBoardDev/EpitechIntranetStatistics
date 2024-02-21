@@ -87,7 +87,7 @@ const TimelineBox = ({ timelineData }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 999999,
+                    zIndex: 2,
                 }}
             >
                 <Slide direction="up" in={isModalOpen} mountOnEnter unmountOnExit>
@@ -103,7 +103,7 @@ const TimelineBox = ({ timelineData }) => {
                         <IconButton
                             style={{
                                 position: 'absolute',
-                                zIndex: 999,
+                                zIndex: 1,
                                 margin: '-18px',
                             }}
                             onClick={closeModal}

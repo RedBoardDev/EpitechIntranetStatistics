@@ -12,7 +12,6 @@ const SettingsModal = ({ isOpen, handleClose }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: '999999'
         }}>
             <Box sx={{
                 maxWidth: 400,

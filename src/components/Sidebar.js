@@ -99,7 +99,7 @@ const Sidebar = () => {
                     flex: '1',
                     paddingLeft: '10%',
                     justifyContent: 'flex-start',
-                    marginTop: '20px',
+                    marginTop: '40px',
                     marginBottom: '20px',
                 }}
             >
@@ -110,7 +110,7 @@ const Sidebar = () => {
                 <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> semester {semester} </Typography>
                 <Typography variant="h6" sx={{ fontSize: '16px', color: '#030f1a', opacity: 0.8 }}> {promo} </Typography>
             </Box>
-            <Box sx={{ textAlign: 'center', marginBottom: '20px' }}>
+            <Box sx={{ textAlign: 'center', marginBottom: '30px' }}>
                 <Typography variant="body1" sx={{ color: 'black', opacity: 0.8 }}>
                     {creditPhrase}
                 </Typography>
