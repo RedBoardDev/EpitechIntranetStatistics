@@ -57,7 +57,23 @@ async function updateCreditsInformation(epitechData, apiData) {
     updateFrontend('credits_requirement', data);
 }
 
+async function fetchManifestJson() {
+    const response = await fetch('/manifest.json');
+    if (!response.ok) return 'null';
+    return await response.json();
+}
+
+async function updateDevelopperInformation(epitechData) {
+    const manifestJson = await fetchManifestJson();
+    const data = {
+        currentVersion: manifestJson.version,
+        dataLastUpdate: epitechData.getUpdateDate(),
+    };
+    updateFrontend('developper', data);
+}
+
 export async function retrieveData(epitechData, XPHubData, apiData) {
+    updateDevelopperInformation(epitechData);
     updateSideBarInformation(apiData);
     updateDashboardInformation(epitechData, apiData);
     await getXPHubData(epitechData, apiData, XPHubData);
