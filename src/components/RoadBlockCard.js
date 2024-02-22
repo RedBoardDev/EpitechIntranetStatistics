@@ -79,7 +79,7 @@ const RoadBlockCard = ({ roadblockData }) => {
         available_credits,
         modules,
     } = roadblockData;
-    console.log(roadblockData)
+
     return (
         <Box
             sx={{

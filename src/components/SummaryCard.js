@@ -1,34 +1,47 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import { COLORS, BOX_SHADOW } from '../styles.js';
 
-const CustomCard = ({ title = '-', text = '-' }) => {
+const CustomCard = ({ title = '-', text = '-', tooltipTitle = null }) => {
     return (
-        <Box
-            sx={{
-                flex: '1',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '18px',
-                fontWeight: 'bold',
-                backgroundColor: COLORS.box2,
-                borderRadius: '14px',
-                boxShadow: BOX_SHADOW.box2,
-            }}
-        >
-            <Typography variant="h4" sx={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '4px' }}>
-                {text}
-            </Typography>
-            <Typography variant="h6" sx={{ fontSize: '16px', color: '#1F364D', opacity: 0.7 }}>
-                {title}
-            </Typography>
-        </Box>
+        <Tooltip title={tooltipTitle} placement="bottom" slotProps={{
+            popper: {
+                modifiers: [
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [0, -10],
+                        },
+                    },
+                ],
+            },
+        }}>
+            <Box
+                sx={{
+                    flex: '1',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    backgroundColor: COLORS.box2,
+                    borderRadius: '14px',
+                    boxShadow: BOX_SHADOW.box2,
+                }}
+            >
+                <Typography variant="h4" sx={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '4px' }}>
+                    {text}
+                </Typography>
+                <Typography variant="h6" sx={{ fontSize: '16px', color: '#1F364D', opacity: 0.7 }}>
+                    {title}
+                </Typography>
+            </Box>
+        </Tooltip>
     );
 };
 
-const SummaryCard = ({ cardsData }) => {
+const SummaryCard = ({ cardsData, tooltipTitle = null }) => {
     if (!cardsData) return null;
 
     return (
@@ -43,7 +56,7 @@ const SummaryCard = ({ cardsData }) => {
             }}
         >
             {cardsData.map((card, index) => (
-                <CustomCard key={index} title={card.title} text={card.text} />
+                <CustomCard key={index} title={card.title} text={card.text} tooltipTitle={card.tooltipTitle} />
             ))}
         </Box>
     );

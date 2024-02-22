@@ -21,7 +21,7 @@ const Dashboard = () => {
             <SummaryCard cardsData={[
                 { title: "Credits", text: dashboardData['credits'] },
                 { title: "G.P.A", text: dashboardData['GPA'] },
-                { title: "Best TEPitech", text: dashboardData['highestTEpitech'] },
+                { title: "Best TEPitech", text: dashboardData['highestTEpitech'], tooltipTitle: `You must have ${dashboardData?.goalTEpitech | 0} for this year` },
             ]} />
             <TimelineBox timelineData={timelineData} />
         </Box>
