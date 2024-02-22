@@ -2,25 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { COLORS, BOX_SHADOW } from '../styles.js';
-
-const extractModuleInfo = (moduleName, grade = undefined) => {
-    const regex = /(\[[A-Z]-[A-Z]+-\d+\])\s*(\w+)\s*-\s*(.+)/;
-    const matches = moduleName.match(regex);
-
-    if (matches) {
-        const code = matches[2];
-        const restOfString = matches[3];
-
-        if (!grade)
-            return `${code} - ${restOfString}`;
-        if (grade === 'Acquis')
-            return `${code} - ${restOfString} - ${grade}`;
-
-        return `${code} - ${restOfString} - grade ${grade}`;
-    } else {
-        return moduleName;
-    }
-};
+import CustomToolTip from './CustomToolTip.js';
 
 const CardInfo = ({ module }) => {
     const [moduleColor, setModuleColor] = useState('#bf6c1b');
@@ -52,7 +34,9 @@ const CardInfo = ({ module }) => {
 
     return (
         <Typography key={module.title} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: moduleColor }}>{module.title.replace(/\[(.*?)\]/g, '')}</span>
+            <CustomToolTip title={module.status} placement="left">
+                <span style={{ color: moduleColor }}>{module.title.replace(/\[(.*?)\]/g, '')}</span>
+            </CustomToolTip>
         </Typography>
     );
 };

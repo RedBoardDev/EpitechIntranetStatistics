@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { COLORS, BOX_SHADOW } from '../styles.js';
+import CustomToolTip from './CustomToolTip.js';
 
 const extractModuleInfo = (moduleName) => {
     const regex = /(\[[A-Z]-[A-Z]+-\d+\])\s*(\w+)\s*-\s*(.+)/;
@@ -23,6 +24,16 @@ const extractStudentNotes = (user_credits = 0, credits = 0, grade = undefined) =
     if (!grade || grade === 'N/A')
         return `${creditsString}`;
     return `${grade.toString()} - ${creditsString}`;
+}
+
+const determineTooltip = (data) => {
+    if (data === 'N/A')
+        return 'Not rated';
+    if (!data)
+        return "Not registered";
+    if (data === 'ECHEC')
+        return 'Failed';
+    return 'Passed';
 }
 
 const ModuleInfo = ({ module }) => {
@@ -52,7 +63,9 @@ const ModuleInfo = ({ module }) => {
 
     return (
         <Typography key={module.name} sx={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: moduleColor }}>{extractModuleInfo(module.name)}</span>
+            <CustomToolTip title={determineTooltip(module.student_grade)} placement="left">
+                <span style={{ color: moduleColor }}>{extractModuleInfo(module.name)}</span>
+            </CustomToolTip>
             <span style={{ whiteSpace: 'nowrap', fontSize: '15px', color: `${!module.color ? '#8d9396' : ''}` }}>{extractStudentNotes(module.student_credits, module.credits, module.student_grade)}</span>
         </Typography>
     );
@@ -63,9 +76,10 @@ const RoadBlockCard = ({ roadblockData }) => {
         name: type,
         actual_student_credits,
         credit_needed,
+        available_credits,
         modules,
     } = roadblockData;
-
+    console.log(roadblockData)
     return (
         <Box
             sx={{
@@ -95,15 +109,25 @@ const RoadBlockCard = ({ roadblockData }) => {
                 }}>
                     {type}
                 </Typography>
-                <Typography sx={{
-                    fontSize: 'clamp(12px, 0.9vw, 20px)',
-                    marginRight: '4px',
-                    marginLeft: '4px',
-                    textShadow: '1px 1px 1px rgba(0, 0, 0, 0.2)',
-                    color: actual_student_credits < credit_needed ? '#f25050' : '#2d962d'
-                }}>
-                    {actual_student_credits} / {credit_needed}
-                </Typography>
+                <CustomToolTip
+                    title={actual_student_credits < credit_needed ?
+                        <>
+                            Not enough credits<br />
+                            You can have {available_credits} credits
+                        </>
+                        : 'Enough credits'}
+                    placement="left"
+                >
+                    <Typography sx={{
+                        fontSize: 'clamp(12px, 0.9vw, 20px)',
+                        marginRight: '4px',
+                        marginLeft: '4px',
+                        textShadow: '1px 1px 1px rgba(0, 0, 0, 0.2)',
+                        color: actual_student_credits < credit_needed ? '#f25050' : '#2d962d'
+                    }}>
+                        {actual_student_credits} / {credit_needed}
+                    </Typography>
+                </CustomToolTip>
             </Box>
             <Box
                 sx={{
