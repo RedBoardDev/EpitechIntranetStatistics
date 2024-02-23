@@ -1,53 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useData } from '../contexts/DataContext';
 import { COLORS, BOX_SHADOW, BORDER_RADIUS } from '../styles.js';
+import { ArrowForward } from '@mui/icons-material';
 
-const Sidebar = () => {
-    const { sidebarData, creditsRequirement } = useData();
-
-    const [city, setCity] = useState('-');
-    const [cursus, setCursus] = useState('-');
-    const [email, setEmail] = useState('-');
-    const [name, setName] = useState('-');
-    const [profilPicture, setProfilPicture] = useState('-');
-    const [promo, setPromo] = useState('-');
-    const [semester, setSemester] = useState('-');
-    const [creditPhrase, setCreditPhrase] = useState('Credit information is currently unavailable.');
-
-    useEffect(() => {
-        setCity(sidebarData.city ?? '-');
-        setCursus(sidebarData.cursus ?? '-');
-        setEmail(sidebarData.email ?? '-');
-        setName(sidebarData.name ?? '-');
-        setProfilPicture(sidebarData.profilPicture ?? '-');
-        setPromo(sidebarData.promo ?? '-');
-        setSemester(sidebarData.semester ?? '-');
-    }, [sidebarData]);
-
-
-    const generateCreditPhrase = (credits, neededCredits, availableCredits, status) => {
-
-        switch (status) {
-            case 'requirement_met':
-                return `You have reached the required ${neededCredits} credits for this year. You currently have ${credits} credits and you can obtain ${availableCredits} credits.`;
-            case 'requirement_attainable':
-                return `You currently have ${credits} credits, ${neededCredits - credits} credits below the required ${neededCredits}. However, you can obtain ${availableCredits} more credits to meet the requirement.`;
-            case 'credits_below_requirement':
-                return `You currently have ${credits} credits, ${neededCredits - credits} credits below the required ${neededCredits}. Unfortunately, you can't meet the requirement with ${availableCredits} more available credits.`;
-            default:
-                return 'Credit information is currently unavailable.';
-        }
-    };
-
-    useEffect(() => {
-        if (creditsRequirement) {
-            const { credits, neededCredits, availableCredits, status } = creditsRequirement;
-            const phrase = generateCreditPhrase(credits, neededCredits, availableCredits, status);
-            setCreditPhrase(phrase);
-        }
-    }, [creditsRequirement]);
-
+const SidebarRender = ({ city, cursus, email, name, profilPicture, promo, semester, creditPhrase }) => {
     return (
         <Box
             sx={{
@@ -56,10 +13,12 @@ const Sidebar = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '22%',
+                minWidth: '280px',
+                maxWidth: '300px',
                 height: '100%',
                 borderRadius: BORDER_RADIUS.box2,
                 marginRight: 2,
-                boxShadow: BOX_SHADOW.sidebar,
+                // boxShadow: BOX_SHADOW.sidebar,
                 backgroundColor: COLORS.sidebar,
             }}
         >
@@ -116,8 +75,123 @@ const Sidebar = () => {
                 </Typography>
             </Box>
         </Box>
-
     );
+}
+
+const Sidebar = () => {
+    const { sidebarData, creditsRequirement } = useData();
+
+    const [city, setCity] = useState('-');
+    const [cursus, setCursus] = useState('-');
+    const [email, setEmail] = useState('-');
+    const [name, setName] = useState('-');
+    const [profilPicture, setProfilPicture] = useState('-');
+    const [promo, setPromo] = useState('-');
+    const [semester, setSemester] = useState('-');
+    const [creditPhrase, setCreditPhrase] = useState('Credit information is currently unavailable.');
+    const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 1540);
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+
+    useEffect(() => {
+        const handleResize = () => {
+            setShowSidebar(window.innerWidth >= 1540);
+            setSidebarOpen(window.innerWidth >= 1540);
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        setCity(sidebarData.city ?? '-');
+        setCursus(sidebarData.cursus ?? '-');
+        setEmail(sidebarData.email ?? '-');
+        setName(sidebarData.name ?? '-');
+        setProfilPicture(sidebarData.profilPicture ?? '-');
+        setPromo(sidebarData.promo ?? '-');
+        setSemester(sidebarData.semester ?? '-');
+    }, [sidebarData]);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
+
+    const generateCreditPhrase = (credits, neededCredits, availableCredits, status) => {
+
+        switch (status) {
+            case 'requirement_met':
+                return `You have reached the required ${neededCredits} credits for this year. You currently have ${credits} credits and you can obtain ${availableCredits} credits.`;
+            case 'requirement_attainable':
+                return `You currently have ${credits} credits, ${neededCredits - credits} credits below the required ${neededCredits}. However, you can obtain ${availableCredits} more credits to meet the requirement.`;
+            case 'credits_below_requirement':
+                return `You currently have ${credits} credits, ${neededCredits - credits} credits below the required ${neededCredits}. Unfortunately, you can't meet the requirement with ${availableCredits} more available credits.`;
+            default:
+                return 'Credit information is currently unavailable.';
+        }
+    };
+
+    useEffect(() => {
+        if (creditsRequirement) {
+            const { credits, neededCredits, availableCredits, status } = creditsRequirement;
+            const phrase = generateCreditPhrase(credits, neededCredits, availableCredits, status);
+            setCreditPhrase(phrase);
+        }
+    }, [creditsRequirement]);
+
+    if (!showSidebar) {
+        return (
+            <>
+                <IconButton
+                    sx={{
+                        position: 'fixed',
+                        left: '0px',
+                        bottom: '50%',
+                        transform: 'translateY(50%)',
+                        backgroundColor: '#d0d5db',
+                        padding: '6 5 6 5',
+                        borderRadius: '0 10px 10px 0',
+                        boxShadow: '2px 4px 4px rgba(0, 0, 0, 0.2)',
+                        zIndex: 100,
+                        '&:hover': {
+                            backgroundColor: '#c4c8cc',
+                        },
+                    }}
+                    onClick={toggleSidebar}
+                >
+                    {sidebarOpen ? "<" : ">"}
+                </IconButton>
+                {sidebarOpen && (
+                    <SidebarRender
+                        city={city}
+                        cursus={cursus}
+                        email={email}
+                        name={name}
+                        profilPicture={profilPicture}
+                        promo={promo}
+                        semester={semester}
+                        creditPhrase={creditPhrase}
+                    />
+                )}
+            </>
+        );
+    }
+
+    return (
+        <SidebarRender
+            city={city}
+            cursus={cursus}
+            email={email}
+            name={name}
+            profilPicture={profilPicture}
+            promo={promo}
+            semester={semester}
+            creditPhrase={creditPhrase}
+        />
+    )
 };
 
 export default Sidebar;
