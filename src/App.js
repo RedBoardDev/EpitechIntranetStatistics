@@ -75,7 +75,7 @@ const App = () => {
                         <p>
                             Vous pouvez aussi contribuer à maintenir les données de l'extension à jour.<br />
                             Certaines informations ne sont pas récupérables depuis l'intranet d'Epitech et doivent être actualisées dans le fichier
-                            <a href="https://github.com/RedBoardDev/EpitechIntranetStatistics/blob/refonte/public/scripts/data/epitech_data.js" target="_blank" rel="noopener noreferrer"> epitech_data.js</a>.<br />
+                            <a href="https://github.com/RedBoardDev/EpitechIntranetStatistics/blob/main/public/scripts/data/epitech_data.js" target="_blank" rel="noopener noreferrer"> epitech_data.js</a>.<br />
                             Signalez toute erreur via les <a href="https://github.com/RedBoardDev/EpitechIntranetStatistics/issues" target="_blank" rel="noopener noreferrer"> issues GitHub</a> pour garantir la précision des données fournies.
                         </p>
                     ]}

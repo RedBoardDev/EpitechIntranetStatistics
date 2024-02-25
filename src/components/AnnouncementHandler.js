@@ -8,7 +8,6 @@ const Announcement = ({ id, titles, messages }) => {
 
     useEffect(() => {
         const seenAnnouncement = localStorage.getItem(id);
-
         if (!seenAnnouncement) {
             setShowAnnouncement(true);
         }
