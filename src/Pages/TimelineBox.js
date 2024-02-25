@@ -59,7 +59,7 @@ const TimelineBox = ({ timelineData }) => {
                 height: '100%',
                 position: 'relative',
                 backgroundColor: COLORS.box2,
-                boxShadow: BOX_SHADOW.box2,
+                // boxShadow: BOX_SHADOW.box2,
             }}
         >
 

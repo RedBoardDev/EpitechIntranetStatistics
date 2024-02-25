@@ -65,7 +65,7 @@ const Layout = () => {
                         borderRadius: BORDER_RADIUS.box2,
                         overflowY: 'auto',
                         backgroundColor: COLORS.backgroundBox,
-                        boxShadow: BOX_SHADOW.backgroundBox,
+                        // boxShadow: BOX_SHADOW.backgroundBox,
                     }}
                 >
                     {renderSelectedPage()}
@@ -113,7 +113,7 @@ const Layout = () => {
                 style={{
                     position: 'absolute',
                     bottom: '10px',
-                    right: '20px',
+                    right: '40px',
                     width: '36px',
                     height: 'auto',
                     cursor: 'pointer',
