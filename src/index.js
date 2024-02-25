@@ -7,7 +7,7 @@ import { DataProvider } from './contexts/DataContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div style={{
+    {/* <div style={{
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -18,11 +18,11 @@ root.render(
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
-    }}>
+    }}> */}
       <DataProvider>
         <App />
       </DataProvider>
-    </div>
+    {/* </div> */}
   </React.StrictMode>
 );
 

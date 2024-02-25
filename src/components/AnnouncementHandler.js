@@ -1,44 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Checkbox, Typography } from '@mui/material';
 
-function writeCookie(key, value, days) {
-    var date = new Date();
-    days = days || 365;
-    date.setTime(+ date + (days * 86400000));
-    window.document.cookie = key + "=" + value + "; expires=" + date.toGMTString() + "; path=/";
-    return value;
-};
-
-function getCookie(name) {
-    const cookieName = `${name}=`;
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookieArray = decodedCookie.split(';');
-    for (let i = 0; i < cookieArray.length; i++) {
-        let cookie = cookieArray[i];
-        while (cookie.charAt(0) === ' ') {
-            cookie = cookie.substring(1);
-        }
-        if (cookie.indexOf(cookieName) === 0) {
-            return cookie.substring(cookieName.length, cookie.length);
-        }
-    }
-    return null;
-}
-
-const Announcement = ({ id, titles, messages, endDate }) => {
+const Announcement = ({ id, titles, messages }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [showAnnouncement, setShowAnnouncement] = useState(false);
     const [showAgain, setShowAgain] = useState(false);
 
     useEffect(() => {
-        const seenAnnouncement = getCookie(id);
-        const now = new Date();
-        const endDateTime = new Date(endDate);
+        const seenAnnouncement = localStorage.getItem(id);
 
-        if (!seenAnnouncement && now < endDateTime) {
+        if (!seenAnnouncement) {
             setShowAnnouncement(true);
         }
-    }, [currentPage, endDate, titles, id]);
+    }, [currentPage, titles, id]);
 
     const handleClose = () => {
         if (currentPage < titles.length - 1) {
@@ -46,11 +20,7 @@ const Announcement = ({ id, titles, messages, endDate }) => {
         } else {
             setShowAnnouncement(false);
             if (showAgain) {
-                const now = new Date();
-                const endDateTime = new Date(endDate);
-                const diffTime = Math.abs(endDateTime - now);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                writeCookie(id, 'true', diffDays);
+                localStorage.setItem(id, 'seen');
             }
         }
     };

@@ -79,7 +79,6 @@ const App = () => {
                             Signalez toute erreur via les <a href="https://github.com/RedBoardDev/EpitechIntranetStatistics/issues" target="_blank" rel="noopener noreferrer"> issues GitHub</a> pour garantir la précision des données fournies.
                         </p>
                     ]}
-                    endDate="2024-04-01"
                 />
             </div>
         </div>

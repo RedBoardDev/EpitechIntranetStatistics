@@ -38,6 +38,6 @@ window.addEventListener('load', async () => {
     const apiData = await initApiData();
 
     if (!epitechData || !XPHubData || !apiData) return;
-    // dataApi.sendTracking();
+    apiData.sendTracking();
     await retrieveData(epitechData, XPHubData, apiData);
 });
