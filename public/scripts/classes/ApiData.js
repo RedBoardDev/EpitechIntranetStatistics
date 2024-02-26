@@ -166,7 +166,7 @@ class ApiData {
                 Cookies: this.#getUserToken()
             }
         };
-        const apiBase = (true ? 'http://127.0.0.1:3900/proxy/' : 'https://intra.epitech.eu/');
+        const apiBase = (false ? 'http://127.0.0.1:3900/proxy/' : 'https://intra.epitech.eu/');
         var request = new Request(apiBase + endpoint, config);
 
         try {
