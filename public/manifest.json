@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Epitech Intranet Statistics",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Graphical interface for Epitech intranet with more statistics",
   "icons": {
     "16": "icons/logo_16x16.png",
@@ -9,24 +9,41 @@
     "128": "icons/logo_128x128.png"
   },
   "permissions": [
-      "tabs",
-      "cookies",
-      "activeTab",
-      "storage"
+    "tabs",
+    "cookies",
+    "activeTab",
+    "storage"
   ],
   "host_permissions": [
-      "https://intra.epitech.eu/*",
-      "https://*.microsoftonline.com/*",
-      "https://*.live.com/*"
+    "https://intra.epitech.eu/*",
+    "https://*.microsoftonline.com/*",
+    "https://*.live.com/*"
   ],
   "background": {
-      "service_worker": "scripts/background.js"
+    "service_worker": "scripts/background.js"
   },
-  "content_scripts": [{
-      "js": [
-          "scripts/button/button.js"
+  "content_scripts": [
+    {
+      "matches": [
+        "https://intra.epitech.eu/*"
       ],
-      "css": [ "scripts/button/button.css" ],
-      "matches": ["https://intra.epitech.eu/*"]
-  }]
+      "js": [
+        "inject.js"
+      ],
+      "css": [
+        "inject.css"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js",
+        "index.html"
+      ],
+      "matches": [
+        "https://intra.epitech.eu/*"
+      ]
+    }
+  ]
 }
