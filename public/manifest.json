@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Epitech Intranet Statistics",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Graphical interface for Epitech intranet with more statistics",
   "icons": {
     "16": "icons/logo_16x16.png",
