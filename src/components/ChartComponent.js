@@ -21,6 +21,9 @@ const defaultOptions = {
     plotOptions: {
         bar: {
             horizontal: true,
+            borderRadius: 1,
+            barHeight: '16%',
+            rangeBarGroupRows: true,
         }
     },
     xaxis: {
