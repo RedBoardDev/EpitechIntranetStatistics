@@ -47,6 +47,24 @@ const defaultOptions = {
             }
         }
     },
+    annotations: {
+        xaxis: [
+            {
+                x: new Date().getTime(),
+                strokeDashArray: 0,
+                borderColor: "#1c325c",
+                opacity: 0.6,
+                label: {
+                    borderColor: "#1c325c",
+                    style: {
+                        color: "#fff",
+                        background: "#1c325c"
+                    },
+                    text: "Today"
+                }
+            },
+        ],
+    },
 };
 
 const fullscreenOptions = {
