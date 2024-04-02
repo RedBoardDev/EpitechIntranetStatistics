@@ -21,10 +21,19 @@ const defaultOptions = {
     plotOptions: {
         bar: {
             horizontal: true,
+            borderRadius: 1,
+            barHeight: '16%',
+            rangeBarGroupRows: true,
         }
     },
+    yaxis: {
+        type: 'category'
+    },
     xaxis: {
-        type: 'datetime'
+        type: 'datetime',
+        labels: {
+            format: 'dd/MM',
+        }
     },
     fill: {
         type: 'solid',
@@ -46,6 +55,24 @@ const defaultOptions = {
                 show: true
             }
         }
+    },
+    annotations: {
+        xaxis: [
+            {
+                x: new Date().getTime(),
+                strokeDashArray: 0,
+                borderColor: "#1c325c",
+                opacity: 0.6,
+                label: {
+                    borderColor: "#1c325c",
+                    style: {
+                        color: "#fff",
+                        background: "#1c325c"
+                    },
+                    text: "Today"
+                }
+            },
+        ],
     },
 };
 
