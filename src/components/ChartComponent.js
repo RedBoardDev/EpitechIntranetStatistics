@@ -26,8 +26,14 @@ const defaultOptions = {
             rangeBarGroupRows: true,
         }
     },
+    yaxis: {
+        type: 'category'
+    },
     xaxis: {
-        type: 'datetime'
+        type: 'datetime',
+        labels: {
+            format: 'dd/MM',
+        }
     },
     fill: {
         type: 'solid',
