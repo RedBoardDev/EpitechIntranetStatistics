@@ -20,10 +20,11 @@ export async function updateTimelineChart(apiData) {
         }
         for (let activite of nodeCompleteData.activites) {
             if (activite.is_projet === true && activite.type_code === "proj" && (activite.type_title === "Mini-project" || activite.type_title === "Project")) {
-                if (!timeLineData[node.title]) {
-                    timeLineData[node.title] = [];
+                let nodeTitle = node.title.replace(/^[A-Za-z]\d+\s*-\s*/, '');
+                if (!timeLineData[nodeTitle]) {
+                    timeLineData[nodeTitle] = [];
                 }
-                timeLineData[node.title].push({
+                timeLineData[nodeTitle].push({
                     title: activite.title,
                     begin: activite.begin,
                     end: activite.end,
