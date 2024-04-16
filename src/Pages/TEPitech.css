@@ -1,0 +1,14 @@
+.apexcharts-tooltip-container {
+  background: #f9f9f9;
+}
+
+.apexcharts-tooltip-content {
+  padding: 10px;
+  padding-top: 4px;
+}
+
+.apexcharts-tooltip {
+  transform: translateX(0px) translateY(-20px);
+  overflow: visible !important;
+  white-space: normal !important;
+}

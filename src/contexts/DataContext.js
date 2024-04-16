@@ -35,6 +35,7 @@ export const DataProvider = ({ children }) => {
     const [timelineData, setTimelineData] = useState(undefined);
     const [creditsRequirement, setCreditsRequirement] = useState(undefined);
     const [developperData, setDevelopperData] = useState({});
+    const [tepitechs, setTepitechs] = useState(undefined);
 
     useEffect(() => {
         const handleDashboardUpdate = (event) => {
@@ -72,6 +73,11 @@ export const DataProvider = ({ children }) => {
             setDevelopperData(detail);
         }
 
+        const handleTepitechsUpdate = (event) => {
+            const { detail } = event;
+            setTepitechs(detail);
+        }
+
         addListener('sidebar', handleSidebarUpdate);
         addListener('dashboard', handleDashboardUpdate);
         addListener('roadblocks', handleRoadblockUpdate);
@@ -79,6 +85,7 @@ export const DataProvider = ({ children }) => {
         addListener('timeline', handleTimelineUpdate);
         addListener('credits_requirement', handleCreditsRequirementUpdate);
         addListener('developper', handleDevelopperUpdate);
+        addListener('tepitechs', handleTepitechsUpdate);
 
         return () => {
             removeListener('sidebar', handleSidebarUpdate);
@@ -88,11 +95,21 @@ export const DataProvider = ({ children }) => {
             removeListener('timeline', handleTimelineUpdate);
             removeListener('credits_requirement', handleCreditsRequirementUpdate);
             removeListener('developper', handleDevelopperUpdate);
+            removeListener('tepitechs', handleTepitechsUpdate);
         };
     }, []);
 
     return (
-        <DataContext.Provider value={{ dashboardData, sidebarData, roadblockData, hubData, timelineData, creditsRequirement, developperData }}>
+        <DataContext.Provider value={{
+            dashboardData,
+            sidebarData,
+            roadblockData,
+            hubData,
+            timelineData,
+            creditsRequirement,
+            developperData,
+            tepitechs
+        }}>
             {children}
         </DataContext.Provider>
     );

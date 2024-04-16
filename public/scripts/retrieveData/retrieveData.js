@@ -1,4 +1,4 @@
-import { getHighestTEpitech } from "./TEpitech.js";
+import { getHighestTEpitech, getTEpitechStatistics } from "./TEpitech.js";
 import { updateFrontend } from "../utils/updateFrontend.js";
 import { updateRoadBlockInformation } from "./roadBlock.js";
 import { getXPHubData } from "./XPHub.js";
@@ -32,6 +32,13 @@ async function updateDashboardInformation(epitechData, apiData) {
         goalTEpitech: epitechData.getRoadblocksRequirementsByType(apiData.getStudentYear(), 'tepitech'),
     };
     updateFrontend('dashboard', data);
+}
+
+async function updateTepitechInformation(apiData) {
+    const generalUserData = apiData.getGeneralUserData();
+    if (!generalUserData) return;
+
+    updateFrontend('tepitechs', getTEpitechStatistics(apiData));
 }
 
 async function updateCreditsInformation(epitechData, apiData) {
@@ -76,6 +83,7 @@ export async function retrieveData(epitechData, XPHubData, apiData) {
     updateDevelopperInformation(epitechData);
     updateSideBarInformation(apiData);
     updateDashboardInformation(epitechData, apiData);
+    updateTepitechInformation(apiData);
     await getXPHubData(epitechData, apiData, XPHubData);
     updateTimelineChart(apiData);
     updateRoadBlockInformation(epitechData, apiData, XPHubData);
