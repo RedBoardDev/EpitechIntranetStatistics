@@ -1,7 +1,6 @@
 function getFilteredTEPitech(dataApi, regex, notes) {
     return notes.filter(element => {
-        // return element.codemodule === 'B-ANG-058' && regex.test(element.title) && (element.scolaryear).toString() === dataApi.getScolarYear()
-        return element.codemodule === 'B-ANG-058' && regex.test(element.title) && (element.scolaryear).toString() === '2021'
+        return element.codemodule === 'B-ANG-058' && regex.test(element.title) && (element.scolaryear).toString() === dataApi.getScolarYear()
     });
 }
 
