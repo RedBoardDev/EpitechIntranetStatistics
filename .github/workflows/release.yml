@@ -1,9 +1,13 @@
 name: Release
+# on:
+# pull_request:
+#   branches:
+#     - 'ci/cd'
 
 on:
-  pull_request:
+  push:
     branches:
-      - 'ci/cd'
+      - "ci/cd"
 
 jobs:
   release:
@@ -16,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install
@@ -28,9 +32,9 @@ jobs:
         id: bump_version
         uses: mathieudutour/github-tag-action@v5
         with:
-          tag-prefix: 'v'
-          custom-tag: 'prod'
-          prefix: 'v'
+          tag-prefix: "v"
+          custom-tag: "prod"
+          prefix: "v"
 
       - name: Build project
         run: npm run build
