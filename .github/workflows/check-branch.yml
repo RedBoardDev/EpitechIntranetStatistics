@@ -1,0 +1,22 @@
+# name: Validate Pull Request Source
+
+# on:
+#   pull_request:
+#     branches:
+#       - release
+
+# jobs:
+#   validate:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v4
+
+#       - name: Verify source branch
+#         run: |
+#           SOURCE_BRANCH=$(jq -r '.pull_request.head.ref' $GITHUB_EVENT_PATH)
+#           if [ "$SOURCE_BRANCH" != "main" ]; then
+#             echo "Pull requests to 'release' must come from 'main'."
+#             exit 1
+#           fi

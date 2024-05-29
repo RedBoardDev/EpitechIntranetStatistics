@@ -1,0 +1,26 @@
+# name: Run tests & lint
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#     build:
+#         runs-on: ubuntu-latest
+
+#         steps:
+#             - name: Checkout code
+#             - uses: actions/checkout@v4
+
+#             - name: Use Node.js
+#               uses: actions/setup-node@v4
+#               with:
+#                   node-version: 18.x
+
+#             # - run: yarn
+#             # - run: yarn run lint
+#             # - run: yarn run test
+#             # - run: yarn run build
+#             # - run: npm link
+#             # - run: bash .github/workflows/scripts/test-build.sh
