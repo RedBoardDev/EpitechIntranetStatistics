@@ -32,9 +32,7 @@ jobs:
         id: bump_version
         uses: mathieudutour/github-tag-action@v5
         with:
-          tag-prefix: "v"
-          custom-tag: "prod"
-          prefix: "v"
+          github_token: ${{ secrets.TOKEN }}
 
       - name: Build project
         run: npm run build
