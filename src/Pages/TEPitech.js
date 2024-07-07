@@ -25,7 +25,7 @@ const ShowChart = ({ tepitechs }) => {
 
     if (!tepitechs) return renderSkeletons();
     const chartData = tepitechs.map((tepitech) => ({
-        x: new Date(tepitech.date).toLocaleDateString(),
+        x: new Date(tepitech.date),
         y: tepitech.final_note,
     }));
 
