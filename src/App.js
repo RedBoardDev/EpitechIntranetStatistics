@@ -54,7 +54,7 @@ const App = () => {
                     <Layout />
                 </Box>
 
-                <Announcement
+                {/* <Announcement
                     id="announce-001"
                     titles={[
                         "Découvrez la toute nouvelle version !",
@@ -79,7 +79,7 @@ const App = () => {
                             Signalez toute erreur via les <a href="https://github.com/RedBoardDev/EpitechIntranetStatistics/issues" target="_blank" rel="noopener noreferrer"> issues GitHub</a> pour garantir la précision des données fournies.
                         </p>
                     ]}
-                />
+                /> */}
             </div>
         </div>
 
