@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/RedBoardDev/EpitechIntranetStatistics/main/public/icons/logo_128x128.png" width="100" />
+  <img src="https://raw.githubusercontent.com/RedBoardDev/EpitechIntranetStatistics/main/public/icons/logo_128x128.png" width="100" />
   <h1>EpitechIntranetStatistics</h1>
   <h4>Enhance your Epitech Intranet experience with advanced statistics and visualization.</h4>
 
@@ -7,6 +7,12 @@
   <img src="https://img.shields.io/chrome-web-store/users/fhelhbblcnpdfkiefkanbjjpkpejgodj?color=brightgreen&label=Chrome%20Downloads&style=for-the-badge">
   <img src="https://img.shields.io/chrome-web-store/v/fhelhbblcnpdfkiefkanbjjpkpejgodj?color=brightgreen&label=Chrome%20version&style=for-the-badge">
 </div>
+
+---
+
+## ⚠️ Disclaimer
+
+The extension is currently out of date, as there is no reliable way to retrieve the information contained in [this file](https://github.com/RedBoardDev/EpitechIntranetStatistics/blob/main/public/scripts/data/epitech_data.js). I remain highly motivated to revive the project once a viable solution is found. If you have any leads or suggestions, please open an issue.
 
 ---
 
